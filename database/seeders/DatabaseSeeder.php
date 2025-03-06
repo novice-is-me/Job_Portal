@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\User;
+use App\Models\UserType;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
@@ -19,6 +20,18 @@ class DatabaseSeeder extends Seeder
         //     'name' => 'Test User',
         //     'email' => 'test@example.com',
         // ]);
+
+        $user_type = [
+            'user',
+            'admin',
+            'recruiter',
+        ];
+
+        foreach($user_type as $type){
+            UserType::create([
+                'name' => $type,
+            ]);
+        }
 
         $this->call([
             CategorySeeder::class,
