@@ -21,6 +21,11 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'age',
+        'address',
+        'phone',
+        'resume',
+        'user_type',
     ];
 
     /**
@@ -44,5 +49,25 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+
+    // User to user_application relationship
+    public function applications()
+    {
+        // hasMany because user can have many applications
+        return $this->hasMany(UserApplication::class);
+    } 
+    
+    // This is for recruiter
+    public function jobs()
+    {
+        // hasMany because user can have many jobs
+        // recuiter_id because thats the fk name in Job table
+        return $this->hasMany(Job::class, 'recruiter_id');
+    }
+
+    public function userType(){
+        // user_type refers to the foreign key in the user table
+        return $this->belongsTo(UserType::class, 'user_type');
     }
 }
