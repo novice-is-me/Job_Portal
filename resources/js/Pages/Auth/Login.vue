@@ -1,11 +1,12 @@
 <script setup>
-import Checkbox from '@/Components/Checkbox.vue';
-import GuestLayout from '@/Layouts/GuestLayout.vue';
-import InputError from '@/Components/InputError.vue';
-import InputLabel from '@/Components/InputLabel.vue';
-import PrimaryButton from '@/Components/PrimaryButton.vue';
-import TextInput from '@/Components/TextInput.vue';
-import { Head, Link, useForm } from '@inertiajs/vue3';
+import Checkbox from "@/Components/Checkbox.vue";
+import GuestLayout from "@/Layouts/GuestLayout.vue";
+import InputError from "@/Components/InputError.vue";
+import InputLabel from "@/Components/InputLabel.vue";
+import PrimaryButton from "@/Components/PrimaryButton.vue";
+import TextInput from "@/Components/TextInput.vue";
+import { Head, Link, useForm } from "@inertiajs/vue3";
+import { Tabs, TabList, Tab, TabPanel, TabPanels } from "primevue";
 
 defineProps({
     canResetPassword: {
@@ -17,84 +18,84 @@ defineProps({
 });
 
 const form = useForm({
-    email: '',
-    password: '',
+    email: "",
+    password: "",
     remember: false,
 });
 
 const submit = () => {
-    form.post(route('login'), {
-        onFinish: () => form.reset('password'),
+    form.post(route("login"), {
+        onFinish: () => form.reset("password"),
     });
 };
+
+import { ref } from "vue";
+
+const tabs = ref([
+    { title: "Tab 1", content: "Tab 1 Content", value: "0" },
+    { title: "Tab 2", content: "Tab 2 Content", value: "1" },
+    { title: "Tab 3", content: "Tab 3 Content", value: "2" },
+]);
 </script>
 
 <template>
     <GuestLayout>
         <Head title="Log in" />
+        <div class="grid grid-cols-1 h-screen md:grid-cols-2">
+            <!-- Left Side (Image & Text) -->
+            <div
+                class="flex flex-col items-center justify-center p-20 bg-gray-100"
+            >
+                <img
+                    src="/images/background.jpg"
+                    class="w-full h-full object-cover"
+                    alt="Background Image"
+                />
+                <div class="text-center flex flex-col mt-4 gap-y-3">
+                    <h1 class="text-3xl font-bold text-header">
+                        JobConnect Portal
+                    </h1>
+                    <p class="text-lg">
+                        Find your dream job or the perfect candidate
+                    </p>
+                </div>
+            </div>
 
-        <div v-if="status" class="mb-4 text-sm font-medium text-green-600">
-            {{ status }}
+            <!-- Right Side (Login Form) -->
+            <div class="flex flex-col bg-white shadow-lg p-6">
+                <!-- Fix: Ensure icon and text are in a row -->
+                <div class="flex items-center gap-2">
+                    <i
+                        class="pi pi-briefcase text-header"
+                        style="font-size: 1.5rem"
+                    ></i>
+                    <h2 class="text-2xl font-bold">JobConnect</h2>
+                </div>
+                <div>
+                    <div class="card">
+                        <Tabs value="0">
+                            <TabList>
+                                <Tab
+                                    v-for="tab in tabs"
+                                    :key="tab.title"
+                                    :value="tab.value"
+                                    >{{ tab.title }}</Tab
+                                >
+                            </TabList>
+                            <TabPanels>
+                                <TabPanel
+                                    v-for="tab in tabs"
+                                    :key="tab.content"
+                                    :value="tab.value"
+                                >
+                                    <p class="m-0">{{ tab.content }}</p>
+                                </TabPanel>
+                            </TabPanels>
+                        </Tabs>
+                    </div>
+                    <!-- Your login form goes here -->
+                </div>
+            </div>
         </div>
-
-        <form @submit.prevent="submit">
-            <div>
-                <InputLabel for="email" value="Email" />
-
-                <TextInput
-                    id="email"
-                    type="email"
-                    class="mt-1 block w-full"
-                    v-model="form.email"
-                    required
-                    autofocus
-                    autocomplete="username"
-                />
-
-                <InputError class="mt-2" :message="form.errors.email" />
-            </div>
-
-            <div class="mt-4">
-                <InputLabel for="password" value="Password" />
-
-                <TextInput
-                    id="password"
-                    type="password"
-                    class="mt-1 block w-full"
-                    v-model="form.password"
-                    required
-                    autocomplete="current-password"
-                />
-
-                <InputError class="mt-2" :message="form.errors.password" />
-            </div>
-
-            <div class="mt-4 block">
-                <label class="flex items-center">
-                    <Checkbox name="remember" v-model:checked="form.remember" />
-                    <span class="ms-2 text-sm text-gray-600"
-                        >Remember me</span
-                    >
-                </label>
-            </div>
-
-            <div class="mt-4 flex items-center justify-end">
-                <Link
-                    v-if="canResetPassword"
-                    :href="route('password.request')"
-                    class="rounded-md text-sm text-gray-600 underline hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
-                >
-                    Forgot your password?
-                </Link>
-
-                <PrimaryButton
-                    class="ms-4"
-                    :class="{ 'opacity-25': form.processing }"
-                    :disabled="form.processing"
-                >
-                    Log in
-                </PrimaryButton>
-            </div>
-        </form>
     </GuestLayout>
 </template>
