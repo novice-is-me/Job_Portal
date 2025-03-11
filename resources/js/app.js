@@ -8,6 +8,7 @@ import { ZiggyVue } from "../../vendor/tightenco/ziggy";
 import PrimeVue from "primevue/config";
 import Aura from "@primeuix/themes/aura";
 import "primeicons/primeicons.css";
+import "@fortawesome/fontawesome-free/css/all.css";
 // If we want to use PrimeVue components
 // import { Toast, ConfirmDialog } from "primevue";
 
