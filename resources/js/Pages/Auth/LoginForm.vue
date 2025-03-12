@@ -21,6 +21,8 @@ defineProps({
 const isLogin = ref(true);
 const isRegister = ref(false);
 
+const errorMessage = ref("");
+
 const form = useForm({
     email: "",
     password: "",
@@ -29,7 +31,12 @@ const form = useForm({
 
 const submit = () => {
     form.post(route("login"), {
-        onFinish: () => form.reset("password"),
+        onSuccess: () => {
+            console.log("Success");
+        },
+        onError: (e) => {
+            errorMessage.value = e.email;
+        },
     });
 };
 
@@ -59,13 +66,13 @@ const facebookLogin = () => {
             <div class="flex flex-col gap-1">
                 <div class="flex justify-between">
                     <label class="font-semibold" for="password">Password</label>
-                    <a
+                    <Link
                         id="forgot-password"
-                        href="#"
+                        :href="route('password.request')"
                         class="font-semibold text-blue-500"
                     >
                         Forgot Password
-                    </a>
+                    </Link>
                 </div>
                 <TextInput
                     id="password"
@@ -74,6 +81,7 @@ const facebookLogin = () => {
                     label="Password"
                     required
                 />
+                <InputError :message="errorMessage" />
             </div>
             <div class="flex items-center gap-2">
                 <Checkbox

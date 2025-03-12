@@ -4,7 +4,7 @@ import InputError from "@/Components/InputError.vue";
 import TextInput from "@/Components/TextInput.vue";
 import { Head, Link, useForm } from "@inertiajs/vue3";
 import { Button, RadioButton } from "primevue";
-import { ref } from "vue";
+import { ref, watch } from "vue";
 
 defineProps({
     canResetPassword: {
@@ -24,17 +24,24 @@ const form = useForm({
 });
 
 const acceptTerms = ref(false);
+const acceptTermsError = ref("");
 
 const register = () => {
-    form.post(route("register"), {
-        preserveScroll: true,
-        onSuccess: () => {
-            form.reset();
-        },
-        onError: (errors) => {
-            console.log(errors); // Logs validation errors if any
-        },
-    });
+    if (!acceptTerms.value) {
+        acceptTermsError.value = true; // Show error only if unchecked
+    } else {
+        acceptTermsError.value = false; // Remove error if checked
+        form.post(route("register"), {
+            preserveScroll: true,
+            onSuccess: () => {
+                form.reset();
+                acceptTerms.value = false; // Reset checkbox
+            },
+            onError: (errors) => {
+                console.log(errors);
+            },
+        });
+    }
 };
 
 const googleLogin = () => {
@@ -120,7 +127,9 @@ const facebookLogin = () => {
                     v-model:checked="acceptTerms"
                     label="Terms and Policy"
                 />
-                <label for="terms_policy"
+                <label
+                    for="terms_policy"
+                    :class="[acceptTermsError ? 'text-red-500' : 'text-black']"
                     >I agree to the terms of service and privacy policy</label
                 >
             </div>

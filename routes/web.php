@@ -6,17 +6,14 @@ use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
-Route::get('/', function () {
-    return Inertia::render('Welcome', [
+Route::get('/login', function () {
+    return Inertia::render('Auth/Login', [
         'canLogin' => Route::has('login'),
         'canRegister' => Route::has('register'),
         'laravelVersion' => Application::VERSION,
         'phpVersion' => PHP_VERSION,
     ]);
 });
-
-// Route::get('/login', [SocialAuthController::class, 'index'])->name('login');
-// Route::post('/login', [SocialAuthController::class, 'login'])->name('login');
 
 Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');

@@ -59,7 +59,7 @@ const toggleRegisterView = () => {
         <Head title="Log in" />
         <div class="grid grid-cols-1 h-screen md:grid-cols-2">
             <!-- Left Side (Image & Text) -->
-            <div class="flex flex-col p-20 bg-gray-100">
+            <div class="flex flex-col justify-center p-20 bg-gray-100">
                 <img
                     src="/images/background.jpg"
                     class="w-full object-cover"
@@ -76,7 +76,7 @@ const toggleRegisterView = () => {
             </div>
 
             <!-- Right Side (Login Form) -->
-            <div class="flex flex-col bg-white shadow-lg p-6">
+            <div class="flex flex-col bg-white shadow-lg p-6 overflow-auto">
                 <!-- Fix: Ensure icon and text are in a row -->
                 <div class="flex items-center gap-2">
                     <i

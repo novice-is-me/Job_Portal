@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\Auth\LoginRequest;
 use App\Http\Requests\RegisterService;
 use App\Models\User;
+use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Illuminate\Support\Facades\Auth;
 
@@ -37,7 +39,11 @@ class SocialAuthController extends Controller
         }
     }
 
-    public function login(){
-        dd('login');
+    public function login(LoginRequest $request){
+        $request->authenticate();
+
+        $request->session()->regenerate();
+
+        return redirect()->intended(route('dashboard', absolute: false));
     }
 }
