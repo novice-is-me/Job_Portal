@@ -1,9 +1,6 @@
 <script setup>
 import Checkbox from "@/Components/Checkbox.vue";
-import GuestLayout from "@/Layouts/GuestLayout.vue";
 import InputError from "@/Components/InputError.vue";
-import InputLabel from "@/Components/InputLabel.vue";
-import PrimaryButton from "@/Components/PrimaryButton.vue";
 import TextInput from "@/Components/TextInput.vue";
 import { Head, Link, useForm } from "@inertiajs/vue3";
 import { Button, RadioButton } from "primevue";
@@ -18,18 +15,25 @@ defineProps({
     },
 });
 
-const isLogin = ref(true);
-const isRegister = ref(false);
-
 const form = useForm({
+    name: "",
     email: "",
     password: "",
-    remember: false,
+    user_type: "",
+    // remember: false,
 });
 
-const submit = () => {
-    form.post(route("login"), {
-        onFinish: () => form.reset("password"),
+const acceptTerms = ref(false);
+
+const register = () => {
+    form.post(route("register"), {
+        preserveScroll: true,
+        onSuccess: () => {
+            form.reset();
+        },
+        onError: (errors) => {
+            console.log(errors); // Logs validation errors if any
+        },
     });
 };
 
@@ -44,31 +48,19 @@ const facebookLogin = () => {
 
 <template>
     <div>
-        <form @submit.prevent="submit" class="flex flex-col gap-4">
+        <form @submit.prevent="register" class="flex flex-col gap-4">
             <p class="pt-4">
                 Create an account to start your job search journey
             </p>
-            <div class="flex flex-wrap gap-4">
-                <div class="flex-1 flex flex-col gap-1">
-                    <label class="font-semibold" for="email">First Name</label>
-                    <TextInput
-                        id="email"
-                        v-model="form.email"
-                        type="email"
-                        label="Email"
-                        required
-                    />
-                </div>
-                <div class="flex-1 flex flex-col gap-1">
-                    <label class="font-semibold" for="email">Last Name</label>
-                    <TextInput
-                        id="email"
-                        v-model="form.email"
-                        type="email"
-                        label="Email"
-                        required
-                    />
-                </div>
+            <div class="flex flex-col gap-1">
+                <label class="font-semibold" for="email">Name</label>
+                <TextInput
+                    id="name"
+                    v-model="form.name"
+                    type="text"
+                    label="name"
+                />
+                <InputError :message="form.errors.name" />
             </div>
             <div class="flex flex-col gap-1">
                 <label class="font-semibold" for="email">Email</label>
@@ -77,19 +69,18 @@ const facebookLogin = () => {
                     v-model="form.email"
                     type="email"
                     label="Email"
-                    required
                 />
+                <InputError :message="form.errors.email" />
             </div>
             <div class="flex flex-col gap-1">
                 <label class="font-semibold" for="password">Password</label>
-
                 <TextInput
                     id="password"
                     v-model="form.password"
                     type="password"
                     label="Password"
-                    required
                 />
+                <InputError :message="form.errors.password" />
             </div>
             <div class="">
                 <p>I am a</p>
@@ -98,10 +89,10 @@ const facebookLogin = () => {
                         class="flex gap-x-2 w-full border border-blue-500 p-2 rounded-md"
                     >
                         <RadioButton
-                            id="job_seeker"
-                            v-model="form.remember"
+                            id="user_type"
+                            v-model="form.user_type"
                             label="Job Seeker"
-                            value="job_seeker"
+                            value="1"
                         />
                         <label for="job_seeker" class="font-semibold"
                             >Job Seeker</label
@@ -111,27 +102,27 @@ const facebookLogin = () => {
                         class="flex gap-x-2 w-full border border-blue-500 p-2 rounded-md"
                     >
                         <RadioButton
-                            id="recruiter"
-                            v-model="form.remember"
+                            id="user_type"
+                            v-model="form.user_type"
                             label="Remember me"
-                            value="recruiter"
+                            value="2"
                         />
                         <label for="recruiter" class="font-semibold"
                             >Recruiter</label
                         >
                     </div>
                 </div>
-                <div class="flex items-center gap-x-2 mt-4">
-                    <Checkbox
-                        id="terms_policy"
-                        v-model:checked="form.remember"
-                        label="Terms and Policy"
-                    />
-                    <label for="terms_policy"
-                        >I agree to the terms of service and privacy
-                        policy</label
-                    >
-                </div>
+                <InputError :message="form.errors.user_type" />
+            </div>
+            <div class="flex items-center gap-x-2">
+                <Checkbox
+                    id="terms_policy"
+                    v-model:checked="acceptTerms"
+                    label="Terms and Policy"
+                />
+                <label for="terms_policy"
+                    >I agree to the terms of service and privacy policy</label
+                >
             </div>
             <Button
                 class="w-full bg-primary rounded-md text-white py-2"

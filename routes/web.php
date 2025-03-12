@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\SocialAuthController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -13,6 +14,9 @@ Route::get('/', function () {
         'phpVersion' => PHP_VERSION,
     ]);
 });
+
+// Route::get('/login', [SocialAuthController::class, 'index'])->name('login');
+// Route::post('/login', [SocialAuthController::class, 'login'])->name('login');
 
 Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');
