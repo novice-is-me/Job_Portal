@@ -9,10 +9,27 @@ import PrimeVue from "primevue/config";
 import Aura from "@primeuix/themes/aura";
 import "primeicons/primeicons.css";
 import "@fortawesome/fontawesome-free/css/all.css";
+import { definePreset } from "@primeuix/themes";
 // If we want to use PrimeVue components
 // import { Toast, ConfirmDialog } from "primevue";
 
 const appName = import.meta.env.VITE_APP_NAME || "Laravel";
+
+const MyPreset = definePreset(Aura, {
+    semantic: {
+        primary: {
+            100: "#cfe2ff", // Lightest Blue
+            200: "#9ec5fe",
+            300: "#6ea8fe",
+            400: "#3d8bfd",
+            500: "#0d6efd", // Base Color
+            600: "#0b5ed7",
+            700: "#0a58ca",
+            800: "#094bba",
+            900: "#083d9b", // Darkest Blue
+        },
+    },
+});
 
 createInertiaApp({
     title: (title) => `${title} - ${appName}`,
@@ -27,7 +44,7 @@ createInertiaApp({
             .use(ZiggyVue)
             .use(PrimeVue, {
                 theme: {
-                    preset: Aura,
+                    preset: MyPreset,
                     options: {
                         darkModeSelector: false || "none",
                     },

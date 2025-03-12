@@ -2,6 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-::root {
-    --p-primary-color: #0d6efd !important;
+:root {
+    overflow-x: hidden;
 }
