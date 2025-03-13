@@ -24,7 +24,7 @@ export default {
                 primary: "#0d6efd",
             },
             backgroundImage: {
-                base: "linear-gradient(0deg, rgba(2,0,36,1) 0%, rgba(250,250,250,1) 0%, rgba(196,220,255,1) 100%)",
+                base: "linear-gradient(0deg, rgba(2,0,36,1) 0%, rgba(250,250,250,1) 0%, rgba(255,255,255,1) 46%, rgba(218,233,255,1) 100%)",
             },
         },
     },

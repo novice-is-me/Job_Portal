@@ -1,5 +1,11 @@
 <script setup>
-import { InputGroup, InputGroupAddon, InputText, Button } from "primevue";
+import {
+    InputGroup,
+    InputGroupAddon,
+    InputText,
+    Button,
+    Select,
+} from "primevue";
 import { ref } from "vue";
 
 const isAdvanced = ref(false);
@@ -23,7 +29,6 @@ const isAdvanced = ref(false);
             </InputGroup>
             <Button label="Search Jobs" class="whitespace-nowrap px-6 py-2" />
         </div>
-        <!-- Advanced Filters -->
         <div
             class="flex justify-between items-center hover:cursor-pointer"
             @click="isAdvanced = !isAdvanced"
@@ -40,6 +45,35 @@ const isAdvanced = ref(false);
                 ></i>
             </div>
             <p><span class="font-semibold">2,345</span> jobs found</p>
+        </div>
+        <!-- Advanced Filters -->
+        <div v-if="isAdvanced" class="border-t border-gray-200">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-x-4 gap-y-4 p-4">
+                <div class="flex gap-y-1 flex-col">
+                    <p>Job Status</p>
+                    <Select />
+                </div>
+                <div class="flex gap-y-1 flex-col">
+                    <p>Date Status</p>
+                    <Select />
+                </div>
+                <div class="flex gap-y-1 flex-col">
+                    <p>Job Type</p>
+                    <Select />
+                </div>
+                <div class="flex gap-y-1 flex-col">
+                    <p>Categories</p>
+                    <Select />
+                </div>
+                <div class="flex gap-y-1 flex-col">
+                    <p>Company</p>
+                    <Select />
+                </div>
+                <div class="flex gap-y-1 flex-col">
+                    <p>Salary Range</p>
+                    <Select />
+                </div>
+            </div>
         </div>
     </div>
 </template>

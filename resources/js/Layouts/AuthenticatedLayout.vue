@@ -6,6 +6,7 @@ import DropdownLink from "@/Components/DropdownLink.vue";
 import NavLink from "@/Components/NavLink.vue";
 import ResponsiveNavLink from "@/Components/ResponsiveNavLink.vue";
 import { Link } from "@inertiajs/vue3";
+import { Avatar } from "primevue";
 
 const showingNavigationDropdown = ref(false);
 </script>
@@ -13,10 +14,12 @@ const showingNavigationDropdown = ref(false);
 <template>
     <div>
         <div class="min-h-screen bg-gray-100">
-            <nav class="border-b border-gray-100 bg-white">
+            <nav
+                class="fixed top-0 left-0 w-full z-50 border-b border-gray-100 bg-white"
+            >
                 <!-- Primary Navigation Menu -->
                 <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-                    <div class="flex h-16 justify-between">
+                    <div class="flex h-16 justify-between items-center">
                         <div class="flex">
                             <!-- Logo -->
                             <div class="flex shrink-0 items-center">
@@ -55,7 +58,17 @@ const showingNavigationDropdown = ref(false);
                             </NavLink>
                         </div>
 
+                        <!-- Profile Dropdown -->
                         <div class="hidden sm:ms-6 sm:flex sm:items-center">
+                            <!-- Applying as Recruiter -->
+                            <div class="">
+                                <Link
+                                    href="#"
+                                    class="bg-primary text-white px-4 py-2 rounded-md"
+                                >
+                                    Apply as Recruiter
+                                </Link>
+                            </div>
                             <!-- Settings Dropdown -->
                             <div class="relative ms-3">
                                 <Dropdown align="right" width="48">
@@ -65,25 +78,19 @@ const showingNavigationDropdown = ref(false);
                                                 type="button"
                                                 class="inline-flex items-center rounded-md border border-transparent bg-white px-3 py-2 text-sm font-medium leading-4 text-gray-500 transition duration-150 ease-in-out hover:text-gray-700 focus:outline-none"
                                             >
-                                                {{ $page.props.auth.user.name }}
-
-                                                <svg
-                                                    class="-me-0.5 ms-2 h-4 w-4"
-                                                    xmlns="http://www.w3.org/2000/svg"
-                                                    viewBox="0 0 20 20"
-                                                    fill="currentColor"
-                                                >
-                                                    <path
-                                                        fill-rule="evenodd"
-                                                        d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
-                                                        clip-rule="evenodd"
-                                                    />
-                                                </svg>
+                                                <Avatar
+                                                    :label="
+                                                        $page.props.auth.user.name.charAt(
+                                                            0
+                                                        )
+                                                    "
+                                                    shape="circle"
+                                                />
                                             </button>
                                         </span>
                                     </template>
 
-                                    <template #content>
+                                    <template #content class="z-50">
                                         <DropdownLink
                                             :href="route('profile.edit')"
                                         >
@@ -189,14 +196,19 @@ const showingNavigationDropdown = ref(false);
             </nav>
 
             <!-- Page Heading -->
-            <header class="bg-white shadow" v-if="$slots.header">
-                <div class="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
+            <header
+                class="bg-white shadow pt-16 min-h-screen"
+                v-if="$slots.header"
+            >
+                <div
+                    class="mx-auto max-w-7xl pt-16 min-h-screen px-4 py-6 sm:px-6 lg:px-8"
+                >
                     <slot name="header" />
                 </div>
             </header>
 
             <!-- Page Content -->
-            <main>
+            <main class="pt-16 min-h-screen">
                 <slot />
             </main>
         </div>
