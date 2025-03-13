@@ -22,7 +22,7 @@ return new class extends Migration
             $table->string('content')->after('name');
             $table->string('status')->default('1')->after('content');
             $table->string('address')->after('status');
-            $table->string('company')->after('address');
+            $table->unsignedBigInteger('company')->after('address');
             $table->unsignedInteger('salary')->after('company');
             $table->string('type')->after('salary');
         });

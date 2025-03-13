@@ -12,7 +12,7 @@ class Job extends Model
         'content',
         'status',
         'address',
-        'company',
+        'company_id',
         'salary',
         'type',
         'category_id',
