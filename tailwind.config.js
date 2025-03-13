@@ -14,12 +14,17 @@ export default {
         extend: {
             fontFamily: {
                 sans: ["Figtree", ...defaultTheme.fontFamily.sans],
+                primary: ["Poppins, sans-serif"],
             },
             textColor: {
                 header: "#0d6efd",
+                secondary: "#4b5563",
             },
             backgroundColor: {
                 primary: "#0d6efd",
+            },
+            backgroundImage: {
+                base: "linear-gradient(0deg, rgba(2,0,36,1) 0%, rgba(250,250,250,1) 0%, rgba(196,220,255,1) 100%)",
             },
         },
     },

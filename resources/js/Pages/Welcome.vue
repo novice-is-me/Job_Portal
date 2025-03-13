@@ -46,7 +46,7 @@ const toggleRegisterView = () => {
                     alt="Background Image"
                 />
                 <div class="text-center flex flex-col mt-4 gap-y-3">
-                    <h1 class="text-3xl font-bold text-header">
+                    <h1 class="text-3xl font-bold text-header font-[Poppins]">
                         JobConnect Portal
                     </h1>
                     <p class="text-lg">
@@ -63,7 +63,9 @@ const toggleRegisterView = () => {
                         class="pi pi-briefcase text-header"
                         style="font-size: 1.5rem"
                     ></i>
-                    <h2 class="text-2xl font-bold">JobConnect</h2>
+                    <h2 class="text-2xl font-bold font-[Poppins]">
+                        JobConnect
+                    </h2>
                 </div>
                 <div class="mt-10">
                     <!-- The tab options -->
