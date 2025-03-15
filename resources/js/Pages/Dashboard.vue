@@ -6,6 +6,18 @@ import JobComponent from "@/Components/Dashboard/JobComponent.vue";
 import SearchComponent from "@/Components/Dashboard/SearchComponent.vue";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
 
+const props = defineProps({
+    jobs: Object,
+    categories: Object,
+    companies: Object,
+    experiences: Object,
+});
+
+console.log(props.jobs);
+console.log(props.categories);
+console.log(props.companies);
+console.log(props.experiences);
+
 const isGrid = ref(true);
 const isRow = ref(false);
 </script>
@@ -43,13 +55,11 @@ const isRow = ref(false);
                             <div
                                 class="rounded-md shadow-md bg-white h-[fit-content]"
                             >
-                                <FilterSidebar />
+                                <FilterSidebar :experiences="experiences" />
                             </div>
                             <!-- Results -->
                             <div class="space-y-6">
-                                <div
-                                    class="border flex justify-between items-center"
-                                >
+                                <div class="flex justify-between items-center">
                                     <p
                                         class="text-xl font-semibold font-[Poppins]"
                                     >
@@ -89,12 +99,9 @@ const isRow = ref(false);
                                         isGrid ? 'grid-cols-2' : 'grid-cols-1',
                                     ]"
                                 >
-                                    <JobComponent />
-                                    <JobComponent />
-                                    <JobComponent />
-                                    <JobComponent />
-                                    <JobComponent />
-                                    <JobComponent />
+                                    <div v-for="job in jobs" :key="job.id">
+                                        <JobComponent :job="job" />
+                                    </div>
                                 </div>
                                 <!-- Pagination -->
                                 <div class="flex justify-between items-center">

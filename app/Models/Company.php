@@ -9,7 +9,7 @@ class Company extends Model
 {
     //
     use HasFactory;
-    
+
     protected $fillable = [
         'name',
         'description',
@@ -18,4 +18,9 @@ class Company extends Model
         'address',
         'no_employees'
     ];
+
+    public function jobs(){
+        // hasMany because company can have many jobs
+        return $this->hasMany(Job::class);
+    }
 }

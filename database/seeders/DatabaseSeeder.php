@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\ExperienceLevel;
 use App\Models\User;
 use App\Models\UserType;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
@@ -37,6 +38,7 @@ class DatabaseSeeder extends Seeder
             CategorySeeder::class,
             UserTypeSeeder::class,
             RecruiterSeeder::class,
+            ExprienceLevelSeeder::class,
             CompanySeeder::class,
             JobSeeder::class,
         ]);

@@ -1,5 +1,28 @@
 <script setup>
 import { Checkbox } from "primevue";
+import { defineProps, ref } from "vue";
+
+const props = defineProps({
+    experiences: Object,
+});
+
+const data = ref({
+    job_type: [],
+    experience: [],
+    location_type: [],
+});
+
+const job_types = [
+    { name: "Full Time", value: "full_time" },
+    { name: "Part Time", value: "part_time" },
+    { name: "Contract", value: "contract" },
+];
+
+const locations = [
+    { name: "Remote", value: "remote" },
+    { name: "Hybrid", value: "hybrid" },
+    { name: "On-site", value: "on_site" },
+];
 </script>
 
 <template>
@@ -8,94 +31,52 @@ import { Checkbox } from "primevue";
         <div class="divide-y divide-gray-200">
             <div class="flex flex-col py-3 gap-y-2">
                 <p class="font-medium">Job Type</p>
-                <div class="flex items-center gap-x-2">
+                <div
+                    v-for="job_type in job_types"
+                    :key="job_type.name"
+                    class="flex items-center gap-x-2"
+                >
                     <Checkbox
-                        v-model="job_type"
+                        v-model="data.job_type"
                         inputId="full_time"
                         name="job_type"
-                        value="full_time"
+                        :value="job_type.name"
                     />
-                    <label for="full_time">Full Time</label>
-                </div>
-                <div class="flex items-center gap-x-2">
-                    <Checkbox
-                        v-model="job_type"
-                        inputId="part_time"
-                        name="job_type"
-                        value="part_time"
-                    />
-                    <label for="part_time">Part Time</label>
+                    <label for="full_time">{{ job_type.name }}</label>
                 </div>
             </div>
             <!-- Experience Level -->
             <div class="flex flex-col py-2 gap-y-2">
                 <p class="font-medium">Experience Level</p>
-                <div class="flex items-center gap-x-2">
+                <div
+                    class="flex items-center gap-x-2"
+                    v-for="experience in experiences"
+                    :key="experience.id"
+                >
                     <Checkbox
-                        v-model="job_type"
+                        v-model="data.experience"
                         inputId="full_time"
                         name="job_type"
-                        value="full_time"
+                        :value="experience.id"
                     />
-                    <label for="full_time">Entry Level</label>
-                </div>
-                <div class="flex items-center gap-x-2">
-                    <Checkbox
-                        v-model="job_type"
-                        inputId="part_time"
-                        name="job_type"
-                        value="part_time"
-                    />
-                    <label for="part_time">Mid Level</label>
-                </div>
-                <div class="flex items-center gap-x-2">
-                    <Checkbox
-                        v-model="job_type"
-                        inputId="part_time"
-                        name="job_type"
-                        value="part_time"
-                    />
-                    <label for="part_time">Senior Level</label>
-                </div>
-                <div class="flex items-center gap-x-2">
-                    <Checkbox
-                        v-model="job_type"
-                        inputId="part_time"
-                        name="job_type"
-                        value="part_time"
-                    />
-                    <label for="part_time">Executive</label>
+                    <label for="full_time">{{ experience.name }}</label>
                 </div>
             </div>
             <!--Location Type -->
             <div class="flex flex-col py-2 gap-y-2">
                 <p class="font-medium">Location Type</p>
-                <div class="flex items-center gap-x-2">
+                <div
+                    v-for="location in locations"
+                    :key="location.name"
+                    class="flex items-center gap-x-2"
+                >
                     <Checkbox
-                        v-model="job_type"
+                        v-model="data.location_type"
                         inputId="full_time"
                         name="job_type"
-                        value="full_time"
+                        :value="locations.name"
                     />
-                    <label for="full_time">Remote</label>
-                </div>
-                <div class="flex items-center gap-x-2">
-                    <Checkbox
-                        v-model="job_type"
-                        inputId="part_time"
-                        name="job_type"
-                        value="part_time"
-                    />
-                    <label for="part_time">Hybrid</label>
-                </div>
-                <div class="flex items-center gap-x-2">
-                    <Checkbox
-                        v-model="job_type"
-                        inputId="part_time"
-                        name="job_type"
-                        value="part_time"
-                    />
-                    <label for="part_time">On-site</label>
+                    <label for="full_time">{{ location.name }}</label>
                 </div>
             </div>
         </div>

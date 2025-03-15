@@ -14,12 +14,14 @@ class Job extends Model
         'name',
         'content',
         'status',
+        'work_setup',
         'address',
         'company_id',
         'salary',
         'type',
         'category_id',
         'recruiter_id',
+        'experience_id'
     ];
 
     public function category(){
@@ -35,5 +37,10 @@ class Job extends Model
     public function applications(){
         // hasMany because job can have many applications
         return $this->hasMany(UserApplication::class);
+    }
+
+    public function company(){
+        // belongs to because job belongs to a company
+        return $this->belongsTo(Company::class);
     }
 }

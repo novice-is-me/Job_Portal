@@ -3,6 +3,10 @@ import { Avatar } from "primevue";
 import StatusComponent from "./Partials/StatusComponent.vue";
 import CategoriesComponent from "./Partials/CategoriesComponent.vue";
 import { Link } from "@inertiajs/vue3";
+
+const props = defineProps({
+    job: Object,
+});
 </script>
 
 <template>
@@ -19,29 +23,27 @@ import { Link } from "@inertiajs/vue3";
                 />
                 <div>
                     <p class="text-lg font-semibold">
-                        Senior Front End Developer
+                        {{ job.name }}
                     </p>
-                    <p class="text-secondary text-sm">TechCorp Inc.</p>
+                    <p class="text-secondary text-sm">{{ job.company.name }}</p>
                 </div>
             </div>
             <div class="">
-                <StatusComponent :status="'urgent'" />
+                <StatusComponent :status="job.status" />
             </div>
         </div>
         <!-- Categories Component -->
         <div>
             <CategoriesComponent
-                :job_type="'Full-time'"
-                :location_type="'remote'"
-                :salary="'90k'"
+                :job_type="job.type"
+                :location_type="job.type"
+                :salary="job.salary"
             />
         </div>
         <!-- Content -->
         <div class="">
             <p class="text-sm">
-                We're looking for an experienced Frontend Developer to join our
-                team. You'll be responsible for building responsive web
-                applications using
+                {{ job.content }}
             </p>
         </div>
         <!-- Other Details -->
@@ -51,6 +53,7 @@ import { Link } from "@inertiajs/vue3";
                 <p>Posted 2 days ago</p>
             </div>
             <Link
+                href="#"
                 class="flex items-center gap-x-2 p-2 rounded-md hover:bg-gray-200"
                 >View Details <i class="pi pi-angle-right"></i
             ></Link>

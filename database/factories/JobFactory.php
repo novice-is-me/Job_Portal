@@ -25,12 +25,14 @@ class JobFactory extends Factory
             'name' => $this->faker->jobTitle,
             'content' => $this->faker->text,
             'status' => $this->faker->randomElement(['Active', 'Urgent']),
+            'work_setup' => $this->faker->randomElement(['Remote', 'Onsite', 'Hybrid']),
             'address' => $this->faker->address,
             'company_id' => $this->faker->numberBetween(1, 5),
             'salary' => $this->faker->numberBetween(1000, 10000),
-            'type' => $this->faker->randomElement(['Fulltime', 'Parttime', 'Remote']),
+            'type' => $this->faker->randomElement(['Full time', 'Part time', 'Contract']),
             'category_id' => $this->faker->numberBetween(1, 22),
             'recruiter_id' => $this->faker->numberBetween(1, 5),
+            'experience_id' => $this->faker->numberBetween(1, 6),
         ];
     }
 }

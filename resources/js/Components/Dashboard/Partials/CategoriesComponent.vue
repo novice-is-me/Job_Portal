@@ -9,7 +9,7 @@ const props = defineProps({
         required: true,
     },
     salary: {
-        type: String,
+        type: Number,
         required: true,
     },
 });
