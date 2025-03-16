@@ -46,7 +46,10 @@ const isRow = ref(false);
                             <div
                                 class="bg-white rounded-md shadow-lg mx-auto md:mx-20 p-4"
                             >
-                                <SearchComponent />
+                                <SearchComponent
+                                    :categories="categories"
+                                    :companies="companies"
+                                />
                             </div>
                         </div>
                         <!-- Result Section -->
