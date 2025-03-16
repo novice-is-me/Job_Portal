@@ -1,6 +1,6 @@
 <script setup>
 import { Head } from "@inertiajs/vue3";
-import { ref } from "vue";
+import { onMounted, ref, watch } from "vue";
 import FilterSidebar from "@/Components/Dashboard/FilterSidebar.vue";
 import JobComponent from "@/Components/Dashboard/JobComponent.vue";
 import SearchComponent from "@/Components/Dashboard/SearchComponent.vue";
@@ -11,15 +11,26 @@ const props = defineProps({
     categories: Object,
     companies: Object,
     experiences: Object,
+    results: Object,
 });
 
 console.log(props.jobs);
 console.log(props.categories);
 console.log(props.companies);
 console.log(props.experiences);
+console.log(props.results);
 
 const isGrid = ref(true);
 const isRow = ref(false);
+
+const jobs = ref(props.jobs);
+const results = ref(props.results);
+
+// updatResults is the event that came from the SearchComponent
+// It will update the results with the new data
+const updateResults = (newResults) => {
+    results.value = newResults;
+};
 </script>
 
 <template>
@@ -49,6 +60,7 @@ const isRow = ref(false);
                                 <SearchComponent
                                     :categories="categories"
                                     :companies="companies"
+                                    @updateResults="updateResults"
                                 />
                             </div>
                         </div>
@@ -102,8 +114,19 @@ const isRow = ref(false);
                                         isGrid ? 'grid-cols-2' : 'grid-cols-1',
                                     ]"
                                 >
-                                    <div v-for="job in jobs" :key="job.id">
+                                    <div
+                                        v-if="!results"
+                                        v-for="job in jobs"
+                                        :key="job.id"
+                                    >
                                         <JobComponent :job="job" />
+                                    </div>
+                                    <div
+                                        v-else
+                                        v-for="result in results"
+                                        :key="result.id"
+                                    >
+                                        <JobComponent :job="result" />
                                     </div>
                                 </div>
                                 <!-- Pagination -->

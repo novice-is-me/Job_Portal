@@ -6,7 +6,8 @@ import {
     Button,
     Select,
 } from "primevue";
-import { ref } from "vue";
+import { ref, watchEffect } from "vue";
+import { router, useForm } from "@inertiajs/vue3";
 
 const props = defineProps({
     categories: Object,
@@ -14,6 +15,39 @@ const props = defineProps({
 });
 
 const isAdvanced = ref(false);
+
+// For search
+const data = useForm({
+    job: "",
+    city: "",
+});
+
+// Define the emit function to emit the event named updateResults
+// This event will be used to update the results in the parent component
+const emit = defineEmits(["updateResults"]);
+
+const submitSearch = () => {
+    let url = new URL(route("dashboard.search"));
+
+    if (data.job.length > 0) {
+        url.searchParams.set("job", data.job);
+    }
+
+    if (data.city.length > 0) {
+        url.searchParams.set("city", data.city);
+    }
+
+    console.log("Final URL:", url.toString()); // Debugging output
+
+    router.visit(url.toString(), {
+        preserveState: true,
+        replace: true,
+        onSuccess: (data) => {
+            // Pass the data to the updateResults event to update the results in the parent component
+            emit("updateResults", data);
+        },
+    });
+};
 
 const job_status = ref([
     { label: "Active", value: "active" },
@@ -47,6 +81,7 @@ const salary_range = ref([
             <InputGroup class="flex-1">
                 <InputGroupAddon> <i class="pi pi-search"></i></InputGroupAddon>
                 <InputText
+                    v-model="data.job"
                     placeholder="Job title, keywords, or company"
                     class="w-full"
                 />
@@ -55,9 +90,18 @@ const salary_range = ref([
                 <InputGroupAddon>
                     <i class="pi pi-map-marker"></i
                 ></InputGroupAddon>
-                <InputText placeholder="City, state or remote" class="w-full" />
+                <InputText
+                    v-model="data.city"
+                    placeholder="City, state or remote"
+                    class="w-full"
+                />
             </InputGroup>
-            <Button label="Search Jobs" class="whitespace-nowrap px-6 py-2" />
+            <Button
+                @click="submitSearch"
+                label="Search Jobs"
+                class="whitespace-nowrap px-6 py-2"
+                :disabled="data.job.length === 0 && data.city.length === 0"
+            />
         </div>
         <div
             class="flex justify-between items-center hover:cursor-pointer"
@@ -132,6 +176,14 @@ const salary_range = ref([
                         optionLabel="label"
                         placeholder="Select salary range"
                     />
+                </div>
+            </div>
+            <div class="flex justify-end gap-x-4 mt-2">
+                <div>
+                    <Button label="Clear Filters" class="w-full" />
+                </div>
+                <div>
+                    <Button label="Apply Filters" class="w-full" />
                 </div>
             </div>
         </div>
