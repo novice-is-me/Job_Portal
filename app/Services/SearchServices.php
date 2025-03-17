@@ -14,7 +14,7 @@ class SearchServices {
         ]);
     }
 
-    public function search ($request){
+    public function search ($request, $paginate = 5){
 
         $job = $request->input('job');
         $city = $request->input('city');
@@ -24,10 +24,11 @@ class SearchServices {
                 $q->where('name', 'like', '%'.$job.'%');
             })->when($city, function($q, $city){
                 $q->where('address', 'like', '%'.$city.'%');
-            })->get();
+            })->paginate($paginate)
+            ->appends($request->only('job', 'city'));
     }
 
-    public function advancedSearch($request) {
+    public function advancedSearch($request, $paginate = 5) {
 
         $filters = $request->all();
       
@@ -50,12 +51,12 @@ class SearchServices {
             [$minSalary, $maxSalary] = explode('-', $filters['salary']);
 
             $q->whereBetween('salary', [$minSalary, $maxSalary]);
-        })->get();
+        })->paginate($paginate)
+        ->appends($filters);
     }
 
-    public function sideFilter($request){
+    public function sideFilter($request, $paginate = 5){
 
-        // dd($request->all());
         $filters = $request->all();
 
         return $this->jobQuery()
@@ -65,6 +66,7 @@ class SearchServices {
             $q->whereIn('experience_id', $filters['experience']);
         })->when(!empty($filters['location_type']), function($q) use ($filters){
             $q->whereIn('work_setup', $filters['location_type']);
-        })->get();
+        })->paginate($paginate)
+        ->appends($filters);
     }
 }

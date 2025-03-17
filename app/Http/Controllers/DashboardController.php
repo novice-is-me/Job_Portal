@@ -18,7 +18,7 @@ class DashboardController extends Controller
             'company',
             'category',
             'recruiter',
-        ])->get();
+        ])->paginate(5);
 
         return Inertia::render('Dashboard', [
             'jobs' => $job,

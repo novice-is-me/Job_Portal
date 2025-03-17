@@ -5,6 +5,7 @@ import FilterSidebar from "@/Components/Dashboard/FilterSidebar.vue";
 import JobComponent from "@/Components/Dashboard/JobComponent.vue";
 import SearchComponent from "@/Components/Dashboard/SearchComponent.vue";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
+import Pagination from "@/Components/Pagination.vue";
 
 const props = defineProps({
     jobs: Object,
@@ -13,6 +14,9 @@ const props = defineProps({
     experiences: Object,
     results: Object,
 });
+
+console.log(props.jobs);
+console.log(props.results);
 
 const isGrid = ref(true);
 const isRow = ref(false);
@@ -108,7 +112,11 @@ const updateResults = (newResults) => {
                                 </div>
                                 <!-- Each Job -->
                                 <div
-                                    v-if="!results || results.length > 0"
+                                    v-if="
+                                        !results ||
+                                        !results.data ||
+                                        results.data.length > 0
+                                    "
                                     :class="[
                                         'grid grid-cols-1 gap-4',
                                         isGrid ? 'grid-cols-2' : 'grid-cols-1',
@@ -116,16 +124,17 @@ const updateResults = (newResults) => {
                                 >
                                     <div
                                         v-if="!results"
-                                        v-for="job in jobs"
+                                        v-for="job in jobs.data"
                                         :key="job.id"
                                     >
                                         <JobComponent :job="job" />
                                     </div>
                                     <div
-                                        v-else-if="results"
-                                        v-for="result in results"
+                                        v-else-if="results.data"
+                                        v-for="result in results.data"
                                         :key="result.id"
                                     >
+                                        {{ console.log(results.data) }}
                                         <JobComponent :job="result" />
                                     </div>
                                 </div>
@@ -138,21 +147,16 @@ const updateResults = (newResults) => {
                                     </p>
                                 </div>
                                 <!-- Pagination -->
-                                <div
-                                    v-if="!results || results.length > 0"
-                                    class="flex justify-between items-center"
-                                >
-                                    <div class="text-secondary text-sm">
-                                        <p>Showing 1 to 6 of 24 results</p>
-                                    </div>
-                                    <div>
-                                        <button
-                                            class="px-4 py-2 bg-primary text-white rounded-md"
-                                        >
-                                            Next
-                                        </button>
-                                    </div>
-                                </div>
+                                <Pagination
+                                    v-if="!results || !results.data"
+                                    :data="jobs"
+                                    :links="jobs.links"
+                                />
+                                <Pagination
+                                    v-else
+                                    :data="results"
+                                    :links="results.links"
+                                />
                             </div>
                         </div>
                     </div>
