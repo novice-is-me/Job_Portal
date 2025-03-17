@@ -1,12 +1,13 @@
 <script setup>
+import { router, useForm } from "@inertiajs/vue3";
 import { Checkbox } from "primevue";
-import { defineProps, ref } from "vue";
+import { defineProps, ref, watch } from "vue";
 
 const props = defineProps({
     experiences: Object,
 });
 
-const data = ref({
+const data = useForm({
     job_type: [],
     experience: [],
     location_type: [],
@@ -21,8 +22,46 @@ const job_types = [
 const locations = [
     { name: "Remote", value: "remote" },
     { name: "Hybrid", value: "hybrid" },
-    { name: "On-site", value: "on_site" },
+    { name: "Onsite", value: "on_site" },
 ];
+
+const emit = defineEmits(["updateResults"]);
+
+const filterData = () => {
+    const url = new URL(route("dashboard.filter"));
+
+    if (data.job_type.length > 0) {
+        // This makes the job_type an array
+        data.job_type.forEach((job) => {
+            url.searchParams.append("job_type[]", job);
+        });
+    }
+
+    if (data.experience.length > 0) {
+        data.experience.forEach((exp) => {
+            url.searchParams.append("experience[]", exp);
+        });
+    }
+
+    if (data.location_type.length > 0) {
+        data.location_type.forEach((location) => {
+            url.searchParams.append("location_type[]", location);
+        });
+    }
+
+    router.visit(url.toString(), {
+        preserveState: true,
+        replace: true,
+        preserveScroll: true,
+        onSuccess: (data) => {
+            // Pass the data to the updateResults event to update the results in the parent component
+            emit("updateResults", data.props.results);
+        },
+    });
+};
+
+// Watch the changes from data, then run the filterData function and deep is for deep watching all the values inside the data
+watch(data, filterData, { deep: true });
 </script>
 
 <template>
@@ -38,7 +77,7 @@ const locations = [
                 >
                     <Checkbox
                         v-model="data.job_type"
-                        inputId="full_time"
+                        :inputId="job_type.value"
                         name="job_type"
                         :value="job_type.name"
                     />
@@ -55,7 +94,7 @@ const locations = [
                 >
                     <Checkbox
                         v-model="data.experience"
-                        inputId="full_time"
+                        :inputId="experience.name"
                         name="job_type"
                         :value="experience.id"
                     />
@@ -72,9 +111,9 @@ const locations = [
                 >
                     <Checkbox
                         v-model="data.location_type"
-                        inputId="full_time"
+                        :inputId="location.value"
                         name="job_type"
-                        :value="locations.name"
+                        :value="location.name"
                     />
                     <label for="full_time">{{ location.name }}</label>
                 </div>

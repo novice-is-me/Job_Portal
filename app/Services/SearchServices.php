@@ -4,33 +4,35 @@ namespace App\Services;
 use App\Models\Job;
 
 class SearchServices {
+
+    // This is the base query for the job with the relationships
+    private function jobQuery(){
+        return Job::query()->with([
+            'company',
+            'category',
+            'recruiter',
+        ]);
+    }
+
     public function search ($request){
-        // dd($request->all());
 
         $job = $request->input('job');
         $city = $request->input('city');
-        // dd($request->all());
 
-        // Get the relationhsip first
-        return Job::query()->with([
-            'company',
-            'category',
-            'recruiter',
-        ])->when($job, function($q, $job){
-            $q->where('name', 'like', '%'.$job.'%');
-        })->when($city, function($q, $city){
-            $q->where('address', 'like', '%'.$city.'%');
-        })->get();
+        return $this->jobQuery()
+            ->when($job, function($q, $job){
+                $q->where('name', 'like', '%'.$job.'%');
+            })->when($city, function($q, $city){
+                $q->where('address', 'like', '%'.$city.'%');
+            })->get();
     }
 
     public function advancedSearch($request) {
+
         $filters = $request->all();
-        // dd($filters);
-        return Job::query()->with([
-            'company',
-            'category',
-            'recruiter',
-        ])->when(!empty($filters['category']), function ($q) use ($filters) {
+      
+        return $this->jobQuery()
+        ->when(!empty($filters['category']), function ($q) use ($filters) {
             $q->where('category_id', $filters['category']);
         })->when(!empty($filters['company']), function ($q) use ($filters) {
             $q->where('company_id', $filters['company']);
@@ -52,6 +54,17 @@ class SearchServices {
     }
 
     public function sideFilter($request){
-        dd($request->all());
+
+        // dd($request->all());
+        $filters = $request->all();
+
+        return $this->jobQuery()
+        ->when(!empty($filters['job_type']), function($q) use ($filters){
+            $q->whereIn('type', $filters['job_type']);
+        })->when(!empty($filters['experience']), function($q) use ($filters){
+            $q->whereIn('experience_id', $filters['experience']);
+        })->when(!empty($filters['location_type']), function($q) use ($filters){
+            $q->whereIn('work_setup', $filters['location_type']);
+        })->get();
     }
 }

@@ -8,7 +8,7 @@ const props = defineProps({
     job: Object,
 });
 
-// console.log("jobs in job component", props.job);
+console.log("jobs in job component", props.job);
 </script>
 
 <template>
@@ -38,7 +38,7 @@ const props = defineProps({
         <div>
             <CategoriesComponent
                 :job_type="job.type"
-                :location_type="job.type"
+                :location_type="job.work_setup"
                 :salary="job.salary"
             />
         </div>

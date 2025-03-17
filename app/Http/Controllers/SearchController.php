@@ -61,9 +61,10 @@ class SearchController extends Controller
     }
 
     public function filter(Request $request){
-        
-        $result = $this->searchService->advancedSearch($request);
+        // dd($request->all());
+        $result = $this->searchService->sideFilter($request);
 
+        // dd($result);
         $job = Job::with([
             'company',
             'category',

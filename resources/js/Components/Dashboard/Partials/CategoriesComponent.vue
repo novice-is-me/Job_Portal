@@ -13,6 +13,12 @@ const props = defineProps({
         required: true,
     },
 });
+
+const formatSalary = (salary) => {
+    if (salary >= 1000) {
+        return `$${salary / 1000}k`;
+    }
+};
 </script>
 
 <template>
@@ -30,7 +36,7 @@ const props = defineProps({
         <p
             class="border px-4 py-[0.1rem] font-semibold border-gray-300 rounded-full"
         >
-            {{ salary }}
+            {{ formatSalary(salary) }}
         </p>
     </div>
 </template>

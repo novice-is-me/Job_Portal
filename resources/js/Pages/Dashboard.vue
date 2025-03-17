@@ -66,7 +66,10 @@ const updateResults = (newResults) => {
                             <div
                                 class="rounded-md shadow-md bg-white h-[fit-content]"
                             >
-                                <FilterSidebar :experiences="experiences" />
+                                <FilterSidebar
+                                    :experiences="experiences"
+                                    @updateResults="updateResults"
+                                />
                             </div>
                             <!-- Results -->
                             <div class="space-y-6">
