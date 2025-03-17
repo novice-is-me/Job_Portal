@@ -12,6 +12,9 @@ const props = defineProps({
         type: Number,
         required: true,
     },
+    location: {
+        type: String,
+    },
 });
 
 const formatSalary = (salary) => {
@@ -24,10 +27,17 @@ const formatSalary = (salary) => {
 <template>
     <div class="flex gap-x-4 text-xs">
         <p
+            v-if="location"
+            class="border px-4 py-[0.1rem] font-semibold border-gray-300 rounded-full"
+        >
+            {{ location }}
+        </p>
+        <p
             class="border px-4 py-[0.1rem] font-semibold border-gray-300 rounded-full"
         >
             {{ job_type }}
         </p>
+
         <p
             class="border px-4 py-[0.1rem] font-semibold border-gray-300 rounded-full"
         >

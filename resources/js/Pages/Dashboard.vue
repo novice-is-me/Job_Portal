@@ -1,5 +1,5 @@
 <script setup>
-import { Head } from "@inertiajs/vue3";
+import { Head, Link } from "@inertiajs/vue3";
 import { onMounted, ref, watch } from "vue";
 import FilterSidebar from "@/Components/Dashboard/FilterSidebar.vue";
 import JobComponent from "@/Components/Dashboard/JobComponent.vue";
@@ -15,16 +15,11 @@ const props = defineProps({
     results: Object,
 });
 
-console.log(props.jobs);
-console.log(props.results);
-
 const isGrid = ref(true);
 const isRow = ref(false);
 
 const jobs = ref(props.jobs);
 const results = ref(props.results);
-
-console.log(results.value);
 
 // updatResults is the event that came from the SearchComponent
 // It will update the results with the new data
@@ -127,14 +122,17 @@ const updateResults = (newResults) => {
                                         v-for="job in jobs.data"
                                         :key="job.id"
                                     >
-                                        <JobComponent :job="job" />
+                                        <Link
+                                            :href="route('job.index', job.id)"
+                                        >
+                                            <JobComponent :job="job" />
+                                        </Link>
                                     </div>
                                     <div
                                         v-else-if="results.data"
                                         v-for="result in results.data"
                                         :key="result.id"
                                     >
-                                        {{ console.log(results.data) }}
                                         <JobComponent :job="result" />
                                     </div>
                                 </div>
