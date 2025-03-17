@@ -27,6 +27,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     Route::get('/dashboard/search', [SearchController::class, 'index'])->name('dashboard.search');
     Route::get('/dashboard/advanced-search', [SearchController::class, 'advancedSearch'])->name('dashboard.advanced-search');
+    route::get('/dashboard/filter', [SearchController::class, 'filter'])->name('dashboard.filter');
 });
 
 require __DIR__.'/auth.php';

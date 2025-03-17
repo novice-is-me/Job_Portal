@@ -14,12 +14,6 @@ const props = defineProps({
     results: Object,
 });
 
-console.log(props.jobs);
-console.log(props.categories);
-console.log(props.companies);
-console.log(props.experiences);
-console.log(props.results);
-
 const isGrid = ref(true);
 const isRow = ref(false);
 

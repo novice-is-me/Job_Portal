@@ -63,11 +63,11 @@ const applyFilters = () => {
     console.log("Data from the search", data);
 
     if (data.selectedCategories && data.selectedCategories !== "") {
-        url.searchParams.set("category", data.selectedCategories.name);
+        url.searchParams.set("category", data.selectedCategories.id);
     }
 
     if (data.selectedCompanies && data.selectedCompanies !== "") {
-        url.searchParams.set("company", data.selectedCompanies.name);
+        url.searchParams.set("company", data.selectedCompanies.id);
     }
 
     if (data.selectedJobStatus && data.selectedJobStatus !== "") {
@@ -122,10 +122,10 @@ const job_type = ref([
 ]);
 
 const salary_range = ref([
-    { name: "$20k - $40k", value: "20000-40000" },
-    { name: "$40k - $60k", value: "40000-60000" },
-    { name: "$60k - $80k", value: "60000-80000" },
-    { name: "$80k - $100k", value: "80000-100000" },
+    { name: "$1k - $3k", value: "1000-3000" },
+    { name: "$3k - $6k", value: "3000-6000" },
+    { name: "$6k - $8k", value: "6000-8000" },
+    { name: "$8k - $10k", value: "8000-10000" },
 ]);
 </script>
 

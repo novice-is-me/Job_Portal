@@ -42,9 +42,27 @@ class SearchController extends Controller
     }
 
     public function advancedSearch( Request $request) {
-        // dd($request->all());
 
-        $result = $this->searchService->search($request);
+        $result = $this->searchService->advancedSearch($request);
+
+        $job = Job::with([
+            'company',
+            'category',
+            'recruiter',
+        ])->get();
+
+        return Inertia::render('Dashboard', [
+            'jobs' => $job,
+            'categories' => Category::all(),
+            'companies' => Company::all(),
+            'experiences' => ExperienceLevel::all(),
+            'results' => $result,
+        ]);
+    }
+
+    public function filter(Request $request){
+        
+        $result = $this->searchService->advancedSearch($request);
 
         $job = Job::with([
             'company',
