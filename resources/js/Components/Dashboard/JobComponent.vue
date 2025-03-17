@@ -7,6 +7,8 @@ import { Link } from "@inertiajs/vue3";
 const props = defineProps({
     job: Object,
 });
+
+// console.log("jobs in job component", props.job);
 </script>
 
 <template>

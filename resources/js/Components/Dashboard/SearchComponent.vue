@@ -20,6 +20,12 @@ const isAdvanced = ref(false);
 const data = useForm({
     job: "",
     city: "",
+    selectedCategories: "",
+    selectedCompanies: "",
+    selectedJobStatus: "",
+    selectedDate: "",
+    selectedJobType: "",
+    selectedSalary: "",
 });
 
 // Define the emit function to emit the event named updateResults
@@ -43,35 +49,83 @@ const submitSearch = () => {
         preserveState: true,
         replace: true,
         onSuccess: (data) => {
+            console.log("Data from the search", data);
             // Pass the data to the updateResults event to update the results in the parent component
-            emit("updateResults", data);
+            emit("updateResults", data.props.results);
         },
     });
 };
 
+// For advanced filters
+const applyFilters = () => {
+    let url = new URL(route("dashboard.advanced-search"));
+
+    console.log("Data from the search", data);
+
+    if (data.selectedCategories && data.selectedCategories !== "") {
+        url.searchParams.set("category", data.selectedCategories.name);
+    }
+
+    if (data.selectedCompanies && data.selectedCompanies !== "") {
+        url.searchParams.set("company", data.selectedCompanies.name);
+    }
+
+    if (data.selectedJobStatus && data.selectedJobStatus !== "") {
+        url.searchParams.set("status", data.selectedJobStatus.value);
+    }
+
+    if (data.selectedDate && data.selectedDate !== "") {
+        url.searchParams.set("date", data.selectedDate.value);
+    }
+
+    if (data.selectedJobType && data.selectedJobType !== "") {
+        url.searchParams.set("type", data.selectedJobType.value);
+    }
+
+    if (data.selectedSalary && data.selectedSalary !== "") {
+        url.searchParams.set("salary", data.selectedSalary.value);
+    }
+
+    console.log("Final URL:", url.toString()); // Debugging output
+
+    router.visit(url.toString(), {
+        preserveState: true,
+        replace: true,
+        onSuccess: (data) => {
+            console.log("Data from the advanced", data);
+            // Pass the data to the updateResults event to update the results in the parent component
+            emit("updateResults", data.props.results);
+        },
+    });
+};
+
+const clearFilters = () => {
+    data.reset();
+};
+
 const job_status = ref([
-    { label: "Active", value: "active" },
-    { label: "Urgent", value: "urgent" },
+    { name: "Active", value: "active" },
+    { name: "Urgent", value: "urgent" },
 ]);
 
 const date = ref([
-    { label: "Anytime", value: "all" },
-    { label: "Today", value: "today" },
-    { label: "Past Week", value: "week" },
-    { label: "Past Month", value: "month" },
+    { name: "Anytime", value: "all" },
+    { name: "Today", value: "today" },
+    { name: "Past Week", value: "week" },
+    { name: "Past Month", value: "month" },
 ]);
 
 const job_type = ref([
-    { label: "Full-time", value: "full-time" },
-    { label: "Part-time", value: "part-time" },
-    { label: "Contract", value: "contract" },
+    { name: "Full-time", value: "full-time" },
+    { name: "Part-time", value: "part-time" },
+    { name: "Contract", value: "contract" },
 ]);
 
 const salary_range = ref([
-    { label: "$20k - $40k", value: "20000-40000" },
-    { label: "$40k - $60k", value: "40000-60000" },
-    { label: "$60k - $80k", value: "60000-80000" },
-    { label: "$80k - $100k", value: "80000-100000" },
+    { name: "$20k - $40k", value: "20000-40000" },
+    { name: "$40k - $60k", value: "40000-60000" },
+    { name: "$60k - $80k", value: "60000-80000" },
+    { name: "$80k - $100k", value: "80000-100000" },
 ]);
 </script>
 
@@ -100,7 +154,6 @@ const salary_range = ref([
                 @click="submitSearch"
                 label="Search Jobs"
                 class="whitespace-nowrap px-6 py-2"
-                :disabled="data.job.length === 0 && data.city.length === 0"
             />
         </div>
         <div
@@ -126,34 +179,34 @@ const salary_range = ref([
                 <div class="flex gap-y-1 flex-col">
                     <p>Job Status</p>
                     <Select
-                        v-model="selectedJobStatus"
+                        v-model="data.selectedJobStatus"
                         :options="job_status"
-                        optionLabel="label"
+                        optionLabel="name"
                         placeholder="Select a job status"
                     />
                 </div>
                 <div class="flex gap-y-1 flex-col">
                     <p>Date Status</p>
                     <Select
-                        v-model="selectedDate"
+                        v-model="data.selectedDate"
                         :options="date"
-                        optionLabel="label"
+                        optionLabel="name"
                         placeholder="Select timeframe"
                     />
                 </div>
                 <div class="flex gap-y-1 flex-col">
                     <p>Job Type</p>
                     <Select
-                        v-model="selectedJobType"
+                        v-model="data.selectedJobType"
                         :options="job_type"
-                        optionLabel="label"
+                        optionLabel="name"
                         placeholder="Select Job Type"
                     />
                 </div>
                 <div class="flex gap-y-1 flex-col">
                     <p>Categories</p>
                     <Select
-                        v-model="selectedCategories"
+                        v-model="data.selectedCategories"
                         :options="categories"
                         optionLabel="name"
                         placeholder="Select category"
@@ -162,7 +215,7 @@ const salary_range = ref([
                 <div class="flex gap-y-1 flex-col">
                     <p>Company</p>
                     <Select
-                        v-model="selectedCompanies"
+                        v-model="data.selectedCompanies"
                         :options="companies"
                         optionLabel="name"
                         placeholder="Select company"
@@ -171,19 +224,27 @@ const salary_range = ref([
                 <div class="flex gap-y-1 flex-col">
                     <p>Salary Range</p>
                     <Select
-                        v-model="selectedSalary"
+                        v-model="data.selectedSalary"
                         :options="salary_range"
-                        optionLabel="label"
+                        optionLabel="name"
                         placeholder="Select salary range"
                     />
                 </div>
             </div>
             <div class="flex justify-end gap-x-4 mt-2">
                 <div>
-                    <Button label="Clear Filters" class="w-full" />
+                    <Button
+                        @click="clearFilters"
+                        label="Clear Filters"
+                        class="w-full"
+                    />
                 </div>
                 <div>
-                    <Button label="Apply Filters" class="w-full" />
+                    <Button
+                        @click="applyFilters"
+                        label="Apply Filters"
+                        class="w-full"
+                    />
                 </div>
             </div>
         </div>

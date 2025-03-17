@@ -26,6 +26,8 @@ const isRow = ref(false);
 const jobs = ref(props.jobs);
 const results = ref(props.results);
 
+console.log(results.value);
+
 // updatResults is the event that came from the SearchComponent
 // It will update the results with the new data
 const updateResults = (newResults) => {
@@ -109,6 +111,7 @@ const updateResults = (newResults) => {
                                 </div>
                                 <!-- Each Job -->
                                 <div
+                                    v-if="!results || results.length > 0"
                                     :class="[
                                         'grid grid-cols-1 gap-4',
                                         isGrid ? 'grid-cols-2' : 'grid-cols-1',
@@ -122,15 +125,26 @@ const updateResults = (newResults) => {
                                         <JobComponent :job="job" />
                                     </div>
                                     <div
-                                        v-else
+                                        v-else-if="results"
                                         v-for="result in results"
                                         :key="result.id"
                                     >
                                         <JobComponent :job="result" />
                                     </div>
                                 </div>
+                                <div
+                                    v-else
+                                    class="flex items-center text-center justify-center"
+                                >
+                                    <p class="text-black font-semibold">
+                                        No Jobs Found
+                                    </p>
+                                </div>
                                 <!-- Pagination -->
-                                <div class="flex justify-between items-center">
+                                <div
+                                    v-if="!results || results.length > 0"
+                                    class="flex justify-between items-center"
+                                >
                                     <div class="text-secondary text-sm">
                                         <p>Showing 1 to 6 of 24 results</p>
                                     </div>

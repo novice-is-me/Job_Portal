@@ -9,6 +9,7 @@ class SearchServices {
 
         $job = $request->input('job');
         $city = $request->input('city');
+        // dd($request->all());
 
         // Get the relationhsip first
         return Job::query()->with([
@@ -20,15 +21,9 @@ class SearchServices {
         })->when($city, function($q, $city){
             $q->where('address', 'like', '%'.$city.'%');
         })->get();
+    }
 
-        // Apply the filters
-
-        // $query->when($job, function($q, $job){
-        //     $q->where('name', 'like', '%'.$job.'%');
-        // });
-
-        // $query->when($city, function($q, $city){
-        //     $q->where('address', 'like', '%'.$city.'%');
-        // });
+    public function advancedSearch($request) {
+        dd($request->all());
     }
 }
