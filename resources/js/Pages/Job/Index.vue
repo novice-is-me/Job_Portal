@@ -1,7 +1,11 @@
 <script setup>
+import JobComponent from "@/Components/Dashboard/JobComponent.vue";
 import CategoriesComponent from "@/Components/Dashboard/Partials/CategoriesComponent.vue";
 import StatusComponent from "@/Components/Dashboard/Partials/StatusComponent.vue";
 import JobDetails from "@/Components/Job/JobDetails.vue";
+import JobSummaryDetails from "@/Components/Job/JobSummaryDetails.vue";
+import RecruiterDetails from "@/Components/Job/RecruiterDetails.vue";
+import SkillDetails from "@/Components/Job/SkillDetails.vue";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
 import { Head, Link } from "@inertiajs/vue3";
 import { Avatar, Button } from "primevue";
@@ -22,7 +26,7 @@ import { Avatar, Button } from "primevue";
         </div>
         <div class="py-12">
             <div class="mx-auto max-w-7xl sm:px-6 lg:px-8">
-                <div class="flex flex-col overflow-auto">
+                <div class="flex flex-col overflow-auto space-y-10">
                     <!-- Upper section (job, job summary) -->
                     <div
                         class="grid grid-cols-1 md:grid-cols-[2fr,1fr] gap-x-6"
@@ -57,7 +61,7 @@ import { Avatar, Button } from "primevue";
                                                 :salary="100000"
                                             />
                                             <div
-                                                class="border border-red-300 mt-3 flex items-center gap-x-4"
+                                                class="mt-3 flex items-center gap-x-4"
                                             >
                                                 <Button class="">
                                                     <i
@@ -111,10 +115,29 @@ import { Avatar, Button } from "primevue";
                                 <JobDetails />
                             </div>
                         </div>
-                        <div class="border border-blue-500"></div>
+                        <div class="space-y-6">
+                            <JobSummaryDetails />
+                            <RecruiterDetails />
+                            <SkillDetails />
+                        </div>
                     </div>
                     <!-- More like this -->
-                    <div></div>
+                    <div>
+                        <div class="flex justify-between items-center">
+                            <h1 class="font-bold font-[Poppins] text-xl">
+                                More Jobs at TechCorp Inc.
+                            </h1>
+                            <div
+                                class="flex items-center gap-x-2 border border-gray-200 rounded-md p-2"
+                            >
+                                <a href="#">View all</a>
+                                <i class="pi pi-angle-right"></i>
+                            </div>
+                        </div>
+                        <div>
+                            <!-- <JobComponent /> -->
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

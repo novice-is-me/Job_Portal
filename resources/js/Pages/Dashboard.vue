@@ -133,7 +133,13 @@ const updateResults = (newResults) => {
                                         v-for="result in results.data"
                                         :key="result.id"
                                     >
-                                        <JobComponent :job="result" />
+                                        <Link
+                                            :href="
+                                                route('job.index', result.id)
+                                            "
+                                        >
+                                            <JobComponent :job="result" />
+                                        </Link>
                                     </div>
                                 </div>
                                 <div
