@@ -18,9 +18,11 @@ class CompanySeeder extends Seeder
         Company::factory()->count(5)->create();
 
         // Company Recuiter Seeder
-        CompanyRecruiter::create([
-            'company_id' => rand(1, 5),
-            'recruiter_id' => rand(1, 5),
-        ]);
+        for ($i = 0; $i < 5; $i++) {
+            CompanyRecruiter::create([
+                'company_id' => rand(1, 5),
+                'recruiter_id' => rand(1, 5),
+            ]);
+        }
     }
 }

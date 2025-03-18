@@ -17,6 +17,7 @@ class CompanyFactory extends Factory
      */
 
     protected $model = Company::class;
+    
     public function definition(): array
     {
         return [
@@ -27,6 +28,9 @@ class CompanyFactory extends Factory
             'image' => $this->faker->imageUrl(),
             'address' => $this->faker->address,
             'no_employees' => $this->faker->numberBetween(10, 1000),
+            'benefits' => $this->faker->text,
+            'founded_at' => $this->faker->date(),
+            'industry' => $this->faker->randomElement(['Technology', 'Finance', 'Healthcare', 'Education', 'Retail', 'Manufacturing', 'Construction', 'Hospitality', 'Transportation', 'Other']),
         ];
     }
 }

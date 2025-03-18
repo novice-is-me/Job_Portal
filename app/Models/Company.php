@@ -16,7 +16,10 @@ class Company extends Model
         'email',
         'image',
         'address',
-        'no_employees'
+        'no_employees',
+        'benefits',
+        'founded_at',
+        'industry',
     ];
 
     public function jobs(){

@@ -21,7 +21,10 @@ class Job extends Model
         'type',
         'category_id',
         'recruiter_id',
-        'experience_id'
+        'experience_id',
+        'about_role',
+        'responsibilities',
+        'requirements',
     ];
 
     public function category(){
@@ -42,5 +45,9 @@ class Job extends Model
     public function company(){
         // belongs to because job belongs to a company
         return $this->belongsTo(Company::class);
+    }
+
+    public function skills(){
+        return $this->belongsToMany(Skill::class);
     }
 }

@@ -41,6 +41,7 @@ class DatabaseSeeder extends Seeder
             ExprienceLevelSeeder::class,
             CompanySeeder::class,
             JobSeeder::class,
+            SkillSeeder::class
         ]);
     }
 }
