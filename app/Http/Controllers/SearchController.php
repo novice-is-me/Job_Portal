@@ -26,9 +26,11 @@ class SearchController extends Controller
         $result = $this->searchService->search($request);
 
         $job = Job::with([
-            'company',
+            'company.jobs.company',
             'category',
             'recruiter',
+            'experience',
+            'skills',
         ])->get();
 
         return Inertia::render('Dashboard', [
@@ -46,9 +48,11 @@ class SearchController extends Controller
         $result = $this->searchService->advancedSearch($request);
 
         $job = Job::with([
-            'company',
+            'company.jobs.company',
             'category',
             'recruiter',
+            'experience',
+            'skills',
         ])->get();
 
         return Inertia::render('Dashboard', [
@@ -66,9 +70,11 @@ class SearchController extends Controller
 
         // dd($result);
         $job = Job::with([
-            'company',
+            'company.jobs.company',
             'category',
             'recruiter',
+            'experience',
+            'skills',
         ])->get();
 
         return Inertia::render('Dashboard', [

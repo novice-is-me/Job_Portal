@@ -15,9 +15,11 @@ class DashboardController extends Controller
     public function index(){
 
         $job = Job::with([
-            'company',
+            'company.jobs.company',
             'category',
             'recruiter',
+            'experience',
+            'skills',
         ])->paginate(5);
 
         return Inertia::render('Dashboard', [

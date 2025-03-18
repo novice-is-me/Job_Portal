@@ -5,6 +5,10 @@ import CompanyDetails from "./Tabs/CompanyDetails.vue";
 import Reviews from "./Tabs/Reviews.vue";
 import { ref } from "vue";
 
+const props = defineProps({
+    job: Object,
+});
+
 const activeTabIndex = ref(0);
 
 const tabs = [
@@ -28,7 +32,7 @@ const tabs = [
                     :key="tab.title"
                     :value="tab.value"
                 >
-                    <component :is="tab.component" />
+                    <component :is="tab.component" :job="job" />
                 </TabPanel>
             </TabPanels>
         </Tabs>

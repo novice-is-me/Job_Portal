@@ -1,5 +1,9 @@
 <script setup>
 import { Avatar } from "primevue";
+
+const props = defineProps({
+    job: Object,
+});
 </script>
 
 <template>
@@ -8,7 +12,7 @@ import { Avatar } from "primevue";
         <div class="flex items-center gap-x-4">
             <Avatar size="large" shape="circle" icon="pi pi-user" />
             <div>
-                <p class="font-semibold">Sarah Johnson</p>
+                <p class="font-semibold">{{ job.recruiter.name }}</p>
                 <p class="text-secondary">Talent Acquisition Manager</p>
             </div>
         </div>

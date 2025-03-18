@@ -1,5 +1,15 @@
 <script setup>
 import { Button } from "primevue";
+
+const props = defineProps({
+    job: Object,
+});
+
+const formatSalary = (salary) => {
+    if (salary >= 1000) {
+        return `$${salary / 1000}k`;
+    }
+};
 </script>
 
 <template>
@@ -11,28 +21,28 @@ import { Button } from "primevue";
                     <i class="pi pi-dollar"></i>
                     <p>Salary</p>
                 </div>
-                <p class="font-semibold">$90,000 - $120,000</p>
+                <p class="font-semibold">{{ formatSalary(job.salary) }}</p>
             </div>
             <div class="flex justify-between items-center gap-x-4">
                 <div class="flex items-center gap-x-2">
                     <i class="pi pi-briefcase"></i>
                     <p>Job Type</p>
                 </div>
-                <p class="font-semibold">Full Time</p>
+                <p class="font-semibold">{{ job.type }}</p>
             </div>
             <div class="flex justify-between items-center gap-x-4">
                 <div class="flex items-center gap-x-2">
                     <i class="pi pi-map-marker"></i>
                     <p>Location</p>
                 </div>
-                <p class="font-semibold">Remote</p>
+                <p class="font-semibold">{{ job.work_setup }}</p>
             </div>
             <div class="flex justify-between items-center gap-x-4">
                 <div class="flex items-center gap-x-2">
                     <i class="pi pi-graduation-cap"></i>
                     <p>Experience</p>
                 </div>
-                <p class="font-semibold">5+ years</p>
+                <p class="font-semibold">{{ job.experience.name }}</p>
             </div>
         </div>
         <Button>Apply Now</Button>

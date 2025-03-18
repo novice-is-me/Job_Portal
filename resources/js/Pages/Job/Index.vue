@@ -9,6 +9,36 @@ import SkillDetails from "@/Components/Job/SkillDetails.vue";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
 import { Head, Link } from "@inertiajs/vue3";
 import { Avatar, Button } from "primevue";
+
+const props = defineProps({
+    job: Object,
+    related_jobs: Object,
+});
+
+console.log(props.job);
+
+const formatDate = (date) => {
+    const today = new Date();
+    const datePosted = new Date(date);
+
+    const diffInMs = today - datePosted;
+    const diffInDays = Math.floor(diffInMs / (1000 * 60 * 60 * 24));
+    const diffInMonths =
+        today.getMonth() -
+        datePosted.getMonth() +
+        12 * (today.getFullYear() - datePosted.getFullYear());
+    const diffInYears = today.getFullYear() - datePosted.getFullYear();
+
+    if (diffInDays === 0) {
+        return "Today";
+    } else if (diffInDays < 30) {
+        return `${diffInDays} day${diffInDays > 1 ? "s" : ""} ago`;
+    } else if (diffInMonths < 12) {
+        return `${diffInMonths} month${diffInMonths > 1 ? "s" : ""} ago`;
+    } else {
+        return `${diffInYears} year${diffInYears > 1 ? "s" : ""} ago`;
+    }
+};
 </script>
 
 <template>
@@ -49,16 +79,16 @@ import { Avatar, Button } from "primevue";
                                             <h1
                                                 class="text-2xl font-semibold font-[Poppins]"
                                             >
-                                                Senior Front End Developer
+                                                {{ job.name }}
                                             </h1>
                                             <p class="font-medium text-header">
-                                                Tech Corp Inc
+                                                {{ job.company.name }}
                                             </p>
                                             <CategoriesComponent
                                                 location="Lagos, Nigeria"
-                                                job_type="Full Time"
-                                                location_type="Remote"
-                                                :salary="100000"
+                                                :job_type="job.type"
+                                                :location_type="job.work_setup"
+                                                :salary="job.salary"
                                             />
                                             <div
                                                 class="mt-3 flex items-center gap-x-4"
@@ -94,7 +124,7 @@ import { Avatar, Button } from "primevue";
                                     <div
                                         class="flex items-center justify-center"
                                     >
-                                        <StatusComponent status="Active" />
+                                        <StatusComponent :status="job.status" />
                                     </div>
                                 </div>
                                 <div
@@ -102,7 +132,10 @@ import { Avatar, Button } from "primevue";
                                 >
                                     <div class="flex items-center gap-x-2">
                                         <i class="pi pi-calendar"></i>
-                                        <p>Posted 2 days ago</p>
+                                        <p>
+                                            Posted
+                                            {{ formatDate(job.created_at) }}
+                                        </p>
                                     </div>
                                     <div class="flex items-center gap-x-2">
                                         <i class="pi pi-users"></i>
@@ -112,20 +145,20 @@ import { Avatar, Button } from "primevue";
                             </div>
                             <!-- Job details -->
                             <div>
-                                <JobDetails />
+                                <JobDetails :job="job" />
                             </div>
                         </div>
                         <div class="space-y-6">
-                            <JobSummaryDetails />
-                            <RecruiterDetails />
-                            <SkillDetails />
+                            <JobSummaryDetails :job="job" />
+                            <RecruiterDetails :job="job" />
+                            <SkillDetails :job="job" />
                         </div>
                     </div>
                     <!-- More like this -->
-                    <div>
+                    <div v-if="Object.keys(related_jobs).length > 0">
                         <div class="flex justify-between items-center">
                             <h1 class="font-bold font-[Poppins] text-xl">
-                                More Jobs at TechCorp Inc.
+                                More Jobs at {{ job.company.name }}
                             </h1>
                             <div
                                 class="flex items-center gap-x-2 border border-gray-200 rounded-md p-2"
@@ -134,8 +167,16 @@ import { Avatar, Button } from "primevue";
                                 <i class="pi pi-angle-right"></i>
                             </div>
                         </div>
-                        <div>
-                            <!-- <JobComponent /> -->
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                            <div
+                                v-if="related_jobs"
+                                v-for="job in related_jobs"
+                                :key="job.id"
+                            >
+                                <Link :href="route('job.index', job.id)">
+                                    <JobComponent :job="job" />
+                                </Link>
+                            </div>
                         </div>
                     </div>
                 </div>
