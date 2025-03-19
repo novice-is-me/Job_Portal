@@ -5,6 +5,7 @@ use App\Http\Controllers\JobController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SearchController;
 use App\Http\Controllers\SocialAuthController;
+use App\Http\Controllers\UserController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -33,6 +34,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     // Job Details
     Route::get('/dashboard/job/{job}', [JobController::class, 'index'])->name('job.index');
+
+    // Profile
+    // Route::get(('/profile'), [UserController::class, 'index'])->name('profile.index');
+
 });
 
 require __DIR__.'/auth.php';
