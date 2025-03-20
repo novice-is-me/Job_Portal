@@ -18,7 +18,7 @@ const skills = ref([
 </script>
 
 <template>
-    <div class="bg-white p-4 rounded-lg space-y-4">
+    <div class="bg-white p-6 rounded-lg space-y-4">
         <div class="flex justify-between items-center">
             <h1 class="font-[Poppins] font-semibold text-xl">Skills</h1>
             <i class="pi pi-pen-to-square"></i>

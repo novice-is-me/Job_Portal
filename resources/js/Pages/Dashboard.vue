@@ -57,7 +57,7 @@ const updateResults = (newResults) => {
                     </div>
 
                     <!-- Main Content -->
-                    <div class="grid grid-cols-[1fr_4fr] gap-x-6">
+                    <div class="grid grid-cols-[1fr_4fr] gap-x-6 mt-6">
                         <!-- Sidebar Filter -->
                         <div class="rounded-md shadow-md bg-white h-fit p-4">
                             <FilterSidebar

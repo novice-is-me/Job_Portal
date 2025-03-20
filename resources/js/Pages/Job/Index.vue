@@ -64,7 +64,7 @@ const formatDate = (date) => {
                         <div class="flex flex-col gap-y-6">
                             <!-- Job -->
                             <div
-                                class="bg-white p-5 rounded-lg border border-gray-200"
+                                class="bg-white p-6 rounded-lg border border-gray-200"
                             >
                                 <div class="flex justify-between items-start">
                                     <div class="flex gap-x-4">
@@ -167,7 +167,7 @@ const formatDate = (date) => {
                                 <i class="pi pi-angle-right"></i>
                             </div>
                         </div>
-                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mt-4">
                             <div
                                 v-if="related_jobs"
                                 v-for="job in related_jobs"
