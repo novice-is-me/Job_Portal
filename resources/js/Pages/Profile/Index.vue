@@ -149,6 +149,12 @@ const toggleFullProfileView = () => {
                         <div v-if="isDocuments">
                             <DocumentsComponent />
                         </div>
+                        <div v-if="isApplications">
+                            <ApplicationsComponent />
+                        </div>
+                        <div v-if="isFullProfile">
+                            <FullProfileComponent />
+                        </div>
                     </div>
                 </div>
             </div>
