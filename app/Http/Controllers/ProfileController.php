@@ -16,7 +16,7 @@ class ProfileController extends Controller
     /**
      * Display the user's profile form.
      */
-    public function edit(Request $request): Response
+    public function index(Request $request): Response
     {
 
         return Inertia::render('Profile/Index', [
@@ -27,18 +27,13 @@ class ProfileController extends Controller
     /**
      * Update the user's profile information.
      */
-    public function update(ProfileUpdateRequest $request): RedirectResponse
+    public function edit(Request $request): Response
     {
-        $request->user()->fill($request->validated());
-
-        if ($request->user()->isDirty('email')) {
-            $request->user()->email_verified_at = null;
-        }
-
-        $request->user()->save();
-
-        return Redirect::route('profile.edit');
+        return Inertia::render('Profile/Edit', [
+            'user' => Auth::user(),
+        ]);
     }
+
 
     /**
      * Delete the user's account.
