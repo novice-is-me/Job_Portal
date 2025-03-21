@@ -4,9 +4,12 @@ import { Textarea, InputText, Button } from "primevue";
 
 const form = useForm({
     full_name: "",
-    proffesion: "",
+    profession: "",
     location: "",
     summary: "",
+    age: "",
+    phone: "",
+    email: "",
 });
 </script>
 
@@ -53,14 +56,26 @@ const form = useForm({
                     />
                 </div>
                 <div class="flex flex-col gap-y-2">
+                    <label for="email" class="font-medium">Email</label>
+                    <InputText id="email" type="text" v-model="form.email" />
+                </div>
+                <div class="flex flex-col gap-y-2">
                     <label for="profession" class="font-medium"
                         >Professional Headline</label
                     >
                     <InputText
                         id="profession"
                         type="text"
-                        v-model="form.proffesion"
+                        v-model="form.profession"
                     />
+                </div>
+                <div class="flex flex-col gap-y-2">
+                    <label for="age" class="font-medium">Age</label>
+                    <InputText id="age" type="text" v-model="form.age" />
+                </div>
+                <div class="flex flex-col gap-y-2">
+                    <label for="phone" class="font-medium">Phone Number</label>
+                    <InputText id="phone" type="number" v-model="form.phone" />
                 </div>
                 <div class="flex flex-col gap-y-2">
                     <label for="location" class="font-medium">Location</label>

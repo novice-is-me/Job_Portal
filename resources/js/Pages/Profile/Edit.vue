@@ -1,6 +1,5 @@
 <script setup>
 import BasicInformation from "@/Components/Profile/Edit/BasicInformation.vue";
-import ContactDetails from "@/Components/Profile/Edit/ContactDetails.vue";
 import Documents from "@/Components/Profile/Edit/Documents.vue";
 import Education from "@/Components/Profile/Edit/Education.vue";
 import Skills from "@/Components/Profile/Edit/Skills.vue";
@@ -12,7 +11,6 @@ import { ref } from "vue";
 
 const tabs = [
     { title: "Basic Information", icon: "pi-user", value: "basic_information" },
-    { title: "Contact Details", icon: "pi-envelope", value: "contact_details" },
     { title: "Work Experience", icon: "pi-building", value: "work_experience" },
     { title: "Education", icon: "pi-graduation-cap", value: "education" },
     { title: "Skills", icon: "pi-lightbulb", value: "skills" },
@@ -62,9 +60,6 @@ const defaultTab = ref("basic_information");
                     <div class="border border-blue-800">
                         <BasicInformation
                             v-if="defaultTab === 'basic_information'"
-                        />
-                        <ContactDetails
-                            v-if="defaultTab === 'contact_details'"
                         />
                         <WorkExperience
                             v-if="defaultTab === 'work_experience'"
