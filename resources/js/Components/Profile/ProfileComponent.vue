@@ -3,6 +3,10 @@ import { useForm } from "@inertiajs/vue3";
 import { Avatar, ProgressBar, InputText, Button } from "primevue";
 import { ref } from "vue";
 
+const props = defineProps({
+    user: Object,
+});
+
 const isEdit = ref(false);
 
 const toggleEditProfile = () => {
@@ -10,10 +14,14 @@ const toggleEditProfile = () => {
 };
 
 const form = useForm({
-    name: "",
+    name: props.user.name || "",
     title: "",
     location: "",
 });
+
+const updateProfile = () => {
+    console.log("Updating profile...");
+};
 </script>
 
 <template>
@@ -49,8 +57,8 @@ const form = useForm({
                     </div>
 
                     <div class="flex justify-end gap-x-4 w-full">
-                        <Button>Cancel</Button>
-                        <Button>Save</Button>
+                        <Button @click="toggleEditProfile">Cancel</Button>
+                        <Button @click="updateProfile">Save</Button>
                     </div>
                 </div>
             </div>
@@ -63,7 +71,7 @@ const form = useForm({
                 <Avatar size="xlarge" shape="circle" icon="pi pi-user" />
                 <div class="text-center space-y-2">
                     <p class="font-semibold text-xl font-[Poppins]">
-                        Emily JohnSon
+                        {{ user.name }}
                     </p>
                     <p class="text-sm">Senior Developer</p>
                     <div class="flex items-center gap-x-2 text-sm">

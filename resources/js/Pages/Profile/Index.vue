@@ -9,6 +9,11 @@ import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
 import { Link, Head } from "@inertiajs/vue3";
 import { ref } from "vue";
 
+const props = defineProps({
+    user: Object,
+});
+
+console.log(props.user);
 // For tracking active tabs
 const isDocuments = ref(true);
 const isApplications = ref(false);
@@ -54,7 +59,7 @@ const toggleFullProfileView = () => {
                     <div class="border space-y-6">
                         <!-- Profile Section -->
                         <div>
-                            <ProfileComponent />
+                            <ProfileComponent :user="user" />
                         </div>
                         <!-- Contact Information -->
                         <div>
