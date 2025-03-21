@@ -1,20 +1,12 @@
 <script setup>
 import ContactInfoComponent from "@/Components/Profile/ContactInfoComponent.vue";
+import ProfileComponent from "@/Components/Profile/ProfileComponent.vue";
 import SkillDetailComponent from "@/Components/Profile/SkillDetailComponent.vue";
 import ApplicationsComponent from "@/Components/Profile/Tabs/ApplicationsComponent.vue";
 import DocumentsComponent from "@/Components/Profile/Tabs/DocumentsComponent.vue";
 import FullProfileComponent from "@/Components/Profile/Tabs/FullProfileComponent.vue";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
 import { Link, Head } from "@inertiajs/vue3";
-import {
-    Avatar,
-    ProgressBar,
-    TabList,
-    TabPanels,
-    Tabs,
-    TabPanel,
-    Tab,
-} from "primevue";
 import { ref } from "vue";
 
 // For tracking active tabs
@@ -61,49 +53,8 @@ const toggleFullProfileView = () => {
                     <!-- Left side -->
                     <div class="border space-y-6">
                         <!-- Profile Section -->
-                        <div class="bg-white p-6 rounded-lg space-y-4">
-                            <div class="flex justify-between items-center">
-                                <h1
-                                    class="font-[Poppins] font-semibold text-2xl"
-                                >
-                                    Profile
-                                </h1>
-                                <i class="pi pi-pen-to-square"></i>
-                            </div>
-                            <div
-                                class="flex flex-col justify-center items-center gap-y-4 border-b border-gray-200 pb-4"
-                            >
-                                <Avatar
-                                    size="xlarge"
-                                    shape="circle"
-                                    icon="pi pi-user"
-                                />
-                                <div class="text-center space-y-2">
-                                    <p
-                                        class="font-semibold text-xl font-[Poppins]"
-                                    >
-                                        Emily JohnSon
-                                    </p>
-                                    <p class="text-sm">Senior Developer</p>
-                                    <div
-                                        class="flex items-center gap-x-2 text-sm"
-                                    >
-                                        <i class="pi pi-map-marker"></i>
-                                        <p>Batangas, City</p>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="flex flex-col gap-y-2 pb-2">
-                                <div class="flex justify-between items-center">
-                                    <p>Profile Completion</p>
-                                    <p class="font-semibold">85%</p>
-                                </div>
-                                <ProgressBar
-                                    class="text-sm"
-                                    style="height: 15px"
-                                    :value="85"
-                                />
-                            </div>
+                        <div>
+                            <ProfileComponent />
                         </div>
                         <!-- Contact Information -->
                         <div>
@@ -158,9 +109,6 @@ const toggleFullProfileView = () => {
                     </div>
                 </div>
             </div>
-            <!-- <div class="flex flex-col overflow-auto space-y-10">
-
-                </div> -->
         </div>
     </AuthenticatedLayout>
 </template>
