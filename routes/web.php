@@ -20,7 +20,7 @@ Route::get('/', function () {
 });
 
 Route::middleware(['auth', 'verified'])->group(function () {
-    Route::get('/profile', [ProfileController::class, 'index'])->name('profile.edit');
+    Route::get('/profile', [ProfileController::class, 'index'])->name('profile.index');
 
     Route::get('/profile/edit', [ProfileController::class, 'edit'])->name('profile.edit');
 

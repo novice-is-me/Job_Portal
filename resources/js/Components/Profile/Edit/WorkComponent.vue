@@ -33,7 +33,7 @@ watch(checked, (newValue) => {
 <template>
     <div class="space-y-4 pb-4 border-b border-gray-200">
         <div class="grid grid-cols-2 gap-y-3 gap-x-4">
-            <div class="flex flex-col space-y-2">
+            <div class="flex flex-col space-y-2 mt-2">
                 <label for="job_title">Job Title</label>
                 <InputText id="job_title" v-model="form.job_title" />
             </div>
