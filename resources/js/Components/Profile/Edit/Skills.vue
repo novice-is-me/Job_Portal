@@ -1,5 +1,5 @@
 <script setup>
-import { InputText } from "primevue";
+import { InputText, Button } from "primevue";
 import { ref } from "vue";
 
 const skills = ref(["HTML", "CSS"]);
@@ -36,6 +36,10 @@ const removeIndex = (index) => {
                 </div>
                 <InputText placeholder="Add a skill" />
             </div>
+        </div>
+        <div class="flex gap-x-4 justify-end">
+            <Button>Cancel</Button>
+            <Button>Save</Button>
         </div>
     </div>
 </template>

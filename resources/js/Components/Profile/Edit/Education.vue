@@ -38,5 +38,9 @@ const removeEducation = (index) => {
                 >
             </div>
         </div>
+        <div class="flex gap-x-4 justify-end">
+            <Button>Cancel</Button>
+            <Button>Save</Button>
+        </div>
     </div>
 </template>
