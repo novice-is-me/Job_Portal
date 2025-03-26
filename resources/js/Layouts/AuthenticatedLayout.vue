@@ -211,6 +211,9 @@ const showingNavigationDropdown = ref(false);
             <main class="pt-16 min-h-screen">
                 <slot />
             </main>
+
+            <!-- Components -->
+            <Toast />
         </div>
     </div>
 </template>

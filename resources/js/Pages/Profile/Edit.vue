@@ -9,6 +9,11 @@ import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
 import { Head, Link } from "@inertiajs/vue3";
 import { ref } from "vue";
 
+const prop = defineProps({
+    user: Object,
+});
+
+console.log(prop.user);
 const tabs = [
     { title: "Basic Information", icon: "pi-user", value: "basic_information" },
     { title: "Work Experience", icon: "pi-building", value: "work_experience" },
@@ -59,6 +64,7 @@ const defaultTab = ref("basic_information");
                     <!-- Right side -->
                     <div class="border border-blue-800">
                         <BasicInformation
+                            :user="user"
                             v-if="defaultTab === 'basic_information'"
                         />
                         <WorkExperience

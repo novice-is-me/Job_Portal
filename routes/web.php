@@ -20,10 +20,10 @@ Route::get('/', function () {
 });
 
 Route::middleware(['auth', 'verified'])->group(function () {
-    Route::get('/profile', [ProfileController::class, 'index'])->name('profile.index');
-
-    Route::get('/profile/edit', [ProfileController::class, 'edit'])->name('profile.edit');
-
+    // Profile
+    Route::get('/profile', [UserController::class, 'index'])->name('profile.index');
+    Route::get('/profile/edit', [UserController::class, 'edit'])->name('profile.edit');
+    Route::post('/profile/update', [UserController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
     // dashboard

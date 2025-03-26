@@ -26,6 +26,13 @@ class User extends Authenticatable
         'phone',
         'resume',
         'user_type',
+        'headline',
+        'introduction',
+        'website', 
+        'linkedin', 
+        'github',
+        'portfolio',
+        'resume'
     ];
 
     /**

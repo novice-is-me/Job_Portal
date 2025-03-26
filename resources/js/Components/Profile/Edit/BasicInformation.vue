@@ -1,16 +1,46 @@
 <script setup>
+import InputError from "@/Components/InputError.vue";
 import { useForm } from "@inertiajs/vue3";
-import { Textarea, InputText, Button } from "primevue";
+import { Textarea, InputText, Button, useToast } from "primevue";
+
+const prop = defineProps({
+    user: Object,
+});
+
+const user = prop.user;
+const toast = useToast();
 
 const form = useForm({
-    full_name: "",
-    profession: "",
-    location: "",
-    summary: "",
-    age: "",
-    phone: "",
-    email: "",
+    full_name: user.name || "",
+    profession: user.headline || "",
+    location: user.address || "",
+    summary: user.introduction || "",
+    age: user.age || "",
+    phone: user.phone || "",
+    email: user.email || "",
 });
+
+const cancel = () => {
+    form.reset();
+};
+
+const submit = () => {
+    form.post(route("profile.update"), {
+        preserveScroll: false,
+        onSuccess: (res) => {
+            console.log("Profile updated successfully");
+            toast.add({
+                severity: "success",
+                summary: "Success",
+                detail: "Profile Update Succesfully",
+                life: 3000,
+            });
+        },
+        onError: (errors) => {
+            console.error("Form submission failed", errors);
+        },
+    });
+};
 </script>
 
 <template>
@@ -54,10 +84,12 @@ const form = useForm({
                         type="text"
                         v-model="form.full_name"
                     />
+                    <InputError :message="form.errors.full_name" />
                 </div>
                 <div class="flex flex-col gap-y-2">
                     <label for="email" class="font-medium">Email</label>
                     <InputText id="email" type="text" v-model="form.email" />
+                    <InputError :message="form.errors.email" />
                 </div>
                 <div class="flex flex-col gap-y-2">
                     <label for="profession" class="font-medium"
@@ -68,14 +100,17 @@ const form = useForm({
                         type="text"
                         v-model="form.profession"
                     />
+                    <InputError :message="form.errors.profession" />
                 </div>
                 <div class="flex flex-col gap-y-2">
                     <label for="age" class="font-medium">Age</label>
                     <InputText id="age" type="text" v-model="form.age" />
+                    <InputError :message="form.errors.age" />
                 </div>
                 <div class="flex flex-col gap-y-2">
                     <label for="phone" class="font-medium">Phone Number</label>
                     <InputText id="phone" type="number" v-model="form.phone" />
+                    <InputError :message="form.errors.phone" />
                 </div>
                 <div class="flex flex-col gap-y-2">
                     <label for="location" class="font-medium">Location</label>
@@ -84,6 +119,7 @@ const form = useForm({
                         type="text"
                         v-model="form.location"
                     />
+                    <InputError :message="form.errors.location" />
                 </div>
             </div>
             <div class="flex flex-col gap-y-2 mt-4">
@@ -97,8 +133,8 @@ const form = useForm({
             </div>
         </div>
         <div class="mt-4 flex justify-end gap-x-4">
-            <Button>Cancel</Button>
-            <Button>Save All Changes</Button>
+            <Button @click="cancel">Cancel</Button>
+            <Button @click="submit">Save</Button>
         </div>
     </div>
 </template>

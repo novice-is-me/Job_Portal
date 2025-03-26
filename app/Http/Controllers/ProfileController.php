@@ -16,7 +16,7 @@ class ProfileController extends Controller
     /**
      * Display the user's profile form.
      */
-    public function index(Request $request): Response
+    public function index(): Response
     {
 
         return Inertia::render('Profile/Index', [
@@ -27,11 +27,15 @@ class ProfileController extends Controller
     /**
      * Update the user's profile information.
      */
-    public function edit(Request $request): Response
+    public function edit(): Response
     {
         return Inertia::render('Profile/Edit', [
             'user' => Auth::user(),
         ]);
+    }
+
+    public function update(ProfileUpdateRequest $request){
+        dd($request->all());
     }
 
 
