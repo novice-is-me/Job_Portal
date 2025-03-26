@@ -2,35 +2,40 @@
 import { ref } from "vue";
 import WorkComponent from "./WorkComponent.vue";
 import { Button } from "primevue";
+import { useForm } from "@inertiajs/vue3";
 
-// Store multiple work experiences
-const workExperiences = ref([]);
-
-// Add a new work experience
-const addWork = () => {
-    workExperiences.value.push({
-        id: Date.now(), // Unique ID
-        position: "",
-        company: "",
-        startDate: "",
-        endDate: "",
-    });
-};
-
-// Update the specific work experience data
-const updateWork = (index, updatedData) => {
-    workExperiences.value[index] = updatedData;
-};
-
-// Remove a work experience (optional)
-const removeWork = (index) => {
-    workExperiences.value.splice(index, 1);
-};
+// Store it as an array
+const workNumber = ref([{ id: 1 }]);
 
 // Save all work experiences (example)
 const saveWorkExperiences = () => {
-    console.log("Saved Work Experiences:", workExperiences.value);
+    console.log("Saved Work Experiences:", form);
+
+    form.post(route("profile.updateWorkExp"), {
+        preserveScroll: false,
+        onSucess: (res) => {
+            console.log("Success");
+            console.log(workExperiences.value);
+        },
+    });
 };
+
+const removeWork = (index) => {
+    return workNumber.value.splice(index, 1);
+};
+
+const addWork = () => {
+    return workNumber.value.push({ id: Date.now() });
+};
+
+const form = useForm({
+    id: "",
+    job_title: "",
+    company: "",
+    location: "",
+    start_date: "",
+    end_date: "",
+});
 </script>
 
 <template>
@@ -52,12 +57,16 @@ const saveWorkExperiences = () => {
                 </Button>
 
                 <!-- Render WorkComponent dynamically -->
-                <div v-for="(work, index) in workExperiences" :key="work.id">
-                    <WorkComponent
-                        :workData="work"
-                        @updateWork="updateWork(index, $event)"
-                        @removeWork="removeWork(index)"
-                    />
+                <div v-for="(work, index) in workNumber" :key="work.id">
+                    <WorkComponent :index="index" :form="form" />
+
+                    <!-- Remove Button -->
+                    <button
+                        @click="removeWork(index)"
+                        class="text-red-500 mt-2"
+                    >
+                        Remove Work
+                    </button>
                 </div>
 
                 <div class="flex justify-end gap-x-4 mt-4">

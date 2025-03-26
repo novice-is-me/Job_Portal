@@ -40,4 +40,8 @@ class UserServices {
             return response()->json(['error' => 'Something went wrong please try again']);
         }
     }
+
+    public function updateWorkExp ($request, $id) {
+        dd($request->all());
+    }
 }

@@ -41,13 +41,17 @@ class UserController extends Controller
         ]);
     }
 
-    public function update(ProfileUpdateRequest $request)
+    public function updateBasicInformation(ProfileUpdateRequest $request)
     {
         $validatedData = $request->all();
 
         $this->userService->updateUser($validatedData, Auth::user()->id);
     }
 
+    public function updateWorkExp(Request $request){
+
+        $this->userService->updateWorkExp($request, Auth::user()->id);
+    }
 
     /**
      * Delete the user's account.

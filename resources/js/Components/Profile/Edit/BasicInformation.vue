@@ -25,7 +25,7 @@ const cancel = () => {
 };
 
 const submit = () => {
-    form.post(route("profile.update"), {
+    form.post(route("profile.updateBasicInformation"), {
         preserveScroll: false,
         onSuccess: (res) => {
             console.log("Profile updated successfully");

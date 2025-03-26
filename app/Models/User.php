@@ -77,4 +77,16 @@ class User extends Authenticatable
         // user_type refers to the foreign key in the user table
         return $this->belongsTo(UserType::class, 'user_type');
     }
+
+    public function workExperiences() {
+        return $this->hasMany(UserWorkExperience::class, 'user_id');
+    }
+
+    public function educations(){
+        return $this->hasMany(UserEducation::class, 'user_id');
+    }
+
+    public function skills(){
+        return $this->hasMany(UserSkill::class);
+    }
 }

@@ -3,30 +3,22 @@ import { defineProps, defineEmits, ref, watch } from "vue";
 import { useForm } from "@inertiajs/vue3";
 import { DatePicker, InputText, ToggleSwitch } from "primevue";
 
-// Props & Emit
-const props = defineProps(["workData"]);
-const emit = defineEmits(["updateWork", "removeWork"]);
+// Define emits is for events
+const emit = defineEmits(["removeWork"]);
 
-// Form state
-const checked = ref(props.workData.end_date === "");
+const prop = defineProps({
+    index: Number,
+    form: Object,
+});
 
-// Initialize form with existing data
-const form = useForm({ ...props.workData });
+console.log(prop.form);
 
-// Watch for changes and emit updates
-watch(
-    form,
-    () => {
-        emit("updateWork", { ...form });
-    },
-    { deep: true }
-);
-
-// Watch checked toggle and clear end_date when "Currently working" is enabled
-watch(checked, (newValue) => {
-    if (newValue) {
-        form.end_date = "";
-    }
+const form = useForm({
+    job_title: "",
+    company: "",
+    location: "",
+    start_date: "",
+    end_date: "",
 });
 </script>
 
@@ -62,10 +54,5 @@ watch(checked, (newValue) => {
                 <DatePicker id="end_date" v-model="form.end_date" />
             </div>
         </div>
-
-        <!-- Remove Button -->
-        <button @click="$emit('removeWork')" class="text-red-500 mt-2">
-            Remove Work
-        </button>
     </div>
 </template>
