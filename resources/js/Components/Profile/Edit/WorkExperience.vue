@@ -20,22 +20,35 @@ const saveWorkExperiences = () => {
     });
 };
 
-const removeWork = (index) => {
-    return workNumber.value.splice(index, 1);
-};
+const form = useForm({
+    work_experiences: [
+        {
+            id: 1,
+            job_title: "",
+            company: "",
+            location: "",
+            start_date: "",
+            end_date: "",
+        },
+    ],
+});
 
 const addWork = () => {
-    return workNumber.value.push({ id: Date.now() });
+    form.work_experiences.push({
+        id: Date.now(),
+        job_title: "",
+        company: "",
+        location: "",
+        start_date: "",
+        end_date: "",
+    });
 };
 
-const form = useForm({
-    id: "",
-    job_title: "",
-    company: "",
-    location: "",
-    start_date: "",
-    end_date: "",
-});
+const removeWork = (index) => {
+    form.work_experiences = form.work_experiences.filter(
+        (work, i) => i !== index
+    );
+};
 </script>
 
 <template>
@@ -57,8 +70,11 @@ const form = useForm({
                 </Button>
 
                 <!-- Render WorkComponent dynamically -->
-                <div v-for="(work, index) in workNumber" :key="work.id">
-                    <WorkComponent :index="index" :form="form" />
+                <div
+                    v-for="(work, index) in form.work_experiences"
+                    :key="work.id"
+                >
+                    <WorkComponent :index="index" :form="work" />
 
                     <!-- Remove Button -->
                     <button

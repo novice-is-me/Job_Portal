@@ -6,20 +6,12 @@ import { DatePicker, InputText, ToggleSwitch } from "primevue";
 // Define emits is for events
 const emit = defineEmits(["removeWork"]);
 
-const prop = defineProps({
+const props = defineProps({
     index: Number,
     form: Object,
 });
 
-console.log(prop.form);
-
-const form = useForm({
-    job_title: "",
-    company: "",
-    location: "",
-    start_date: "",
-    end_date: "",
-});
+const checked = ref(true);
 </script>
 
 <template>
