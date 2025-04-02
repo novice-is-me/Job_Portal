@@ -60,9 +60,9 @@ const saveEducations = () => {
             </div>
         </div>
         <div class="space-y-6">
-            <div v-for="(educ, index) in form.educations" :key="index">
+            <div v-for="(form, index) in form.educations" :key="index">
                 <EducationComponent
-                    :form="educ"
+                    :form="form"
                     :index="index + 1"
                     @removeEducation="removeEducation(index)"
                 />

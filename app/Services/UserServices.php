@@ -65,6 +65,23 @@ class UserServices {
     }
 
     public function updateEducation ($request, $id){
-        dd($request->all());
+        // dd($request->all());
+
+        $user = User::find($id);
+
+        // Delete existing educations
+        $user->educations()->delete();
+
+        foreach($request['educations'] as $education){
+            // Create new data for user education
+            $user->educations()->create([
+                'user_id' => $id,
+                'school' => $education['school'],
+                'degree' => $education['degree'],
+                'address' => $education['address'],
+                'start_date' => $education['start_date'],
+                'end_date' => $education['end_date'],
+            ]);
+        }
     }
 }
