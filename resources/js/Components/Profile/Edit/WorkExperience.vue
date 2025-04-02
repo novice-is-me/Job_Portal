@@ -33,6 +33,7 @@ const form = useForm({
                   location: "",
                   start_date: "",
                   end_date: "",
+                  is_current_job: false,
               },
           ],
 });
@@ -47,6 +48,7 @@ const addWork = () => {
         location: "",
         start_date: "",
         end_date: "",
+        is_current_job: false,
     });
 };
 
@@ -116,6 +118,7 @@ watch(
                 <div
                     v-for="(work, index) in form.work_experiences"
                     :key="work.id"
+                    class="border-b border-gray-200 mb-4 pb-2"
                 >
                     <WorkComponent :index="index" :form="work" />
 
