@@ -1,5 +1,5 @@
 <script setup>
-import { defineProps, defineEmits, ref, watch } from "vue";
+import { defineProps, defineEmits, ref, watch, computed } from "vue";
 import { useForm } from "@inertiajs/vue3";
 import { DatePicker, InputText, ToggleSwitch } from "primevue";
 
@@ -19,7 +19,7 @@ const checked = ref(true);
         <div class="grid grid-cols-2 gap-y-3 gap-x-4">
             <div class="flex flex-col space-y-2 mt-2">
                 <label for="job_title">Job Title</label>
-                <InputText id="job_title" v-model="form.job_title" />
+                <InputText id="job_title" v-model="form.name" />
             </div>
             <div class="flex flex-col space-y-2">
                 <label for="company">Company</label>
@@ -27,7 +27,7 @@ const checked = ref(true);
             </div>
             <div class="flex flex-col space-y-2">
                 <label for="location">Location</label>
-                <InputText id="location" v-model="form.location" />
+                <InputText id="location" v-model="form.address" />
             </div>
         </div>
 

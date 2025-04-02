@@ -42,8 +42,24 @@ class UserServices {
     }
 
     public function updateWorkExp ($request, $id) {
-        dd($request->all());
+        // dd($request->all());
 
-        // if($request[''])
+        // Find the user
+        $user = User::find($id);
+
+        // Delete existing work experiences
+        $user->workExperiences()->delete();
+
+        foreach($request['work_experiences'] as $work){
+            // Create new data for user work exp
+            $user->workExperiences()->create([
+                'user_id' =>$id,
+                'name' => $work['name'],
+                'company' => $work['company'],
+                'address' => $work['address'],
+                'start_date' => $work['start_date'],
+                'end_date' => $work['end_date']
+            ]);
+        }
     }
 }

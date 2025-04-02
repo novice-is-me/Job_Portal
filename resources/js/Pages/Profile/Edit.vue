@@ -64,10 +64,11 @@ const defaultTab = ref("basic_information");
                     <!-- Right side -->
                     <div class="border border-blue-800">
                         <BasicInformation
-                            :user="user"
+                            :user="user[0]"
                             v-if="defaultTab === 'basic_information'"
                         />
                         <WorkExperience
+                            :user="user[0]"
                             v-if="defaultTab === 'work_experience'"
                         />
                         <Education v-if="defaultTab === 'education'" />

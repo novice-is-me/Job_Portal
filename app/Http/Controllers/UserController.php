@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 use App\Http\Requests\ProfileUpdateRequest;
+use App\Models\User;
 use App\Services\UserServices;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Http\RedirectResponse;
@@ -36,8 +37,15 @@ class UserController extends Controller
      */
     public function edit(): Response
     {
+
+        $user = User::with([
+            'workExperiences'
+        ])
+        ->where('id', Auth::id())
+        ->get();
+
         return Inertia::render('Profile/Edit', [
-            'user' => Auth::user(),
+            'user' => $user,
         ]);
     }
 

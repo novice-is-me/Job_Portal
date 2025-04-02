@@ -1,12 +1,14 @@
 <script setup>
-import { ref } from "vue";
+import { computed, ref, watch } from "vue";
 import WorkComponent from "./WorkComponent.vue";
 import { Button } from "primevue";
 import { useForm } from "@inertiajs/vue3";
 
-// Store it as an array
-const workNumber = ref([{ id: 1 }]);
+const props = defineProps({
+    user: Object,
+});
 
+console.log(props.user);
 // Save all work experiences (example)
 const saveWorkExperiences = () => {
     console.log("Saved Work Experiences:", form);
@@ -21,17 +23,21 @@ const saveWorkExperiences = () => {
 };
 
 const form = useForm({
-    work_experiences: [
-        {
-            id: 1,
-            job_title: "",
-            company: "",
-            location: "",
-            start_date: "",
-            end_date: "",
-        },
-    ],
+    work_experiences: props.user?.work_experiences?.length
+        ? [...props.user.work_experiences] // Get the two way bind data
+        : [
+              {
+                  id: Date.now(),
+                  job_title: "",
+                  company: "",
+                  location: "",
+                  start_date: "",
+                  end_date: "",
+              },
+          ],
 });
+
+console.log(form.work_experiences);
 
 const addWork = () => {
     form.work_experiences.push({
@@ -49,6 +55,43 @@ const removeWork = (index) => {
         (work, i) => i !== index
     );
 };
+
+watch(
+    () => props.user?.work_experiences,
+    (newWorkExperiences) => {
+        if (newWorkExperiences) {
+            form.work_experiences = [...newWorkExperiences]; // Clone to maintain reactivity
+        }
+    },
+    { deep: true, immediate: true }
+);
+
+const startDate = computed(() => form.work_experiences.start_date);
+
+const formatDate = (date) => {
+    if (!date) return null;
+    return new Date(date).toISOString().split("T")[0]; // Format to YYYY-MM-DD
+};
+
+// Ensure dates are always formatted before submitting
+watch(
+    () => form.work_experiences,
+    (newWorkExperiences) => {
+        newWorkExperiences.forEach((work, index) => {
+            if (work.start_date) {
+                form.work_experiences[index].start_date = formatDate(
+                    work.start_date
+                );
+            }
+            if (work.end_date) {
+                form.work_experiences[index].end_date = formatDate(
+                    work.end_date
+                );
+            }
+        });
+    },
+    { deep: true }
+);
 </script>
 
 <template>
