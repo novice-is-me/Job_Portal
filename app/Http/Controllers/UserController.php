@@ -39,11 +39,13 @@ class UserController extends Controller
     {
 
         $user = User::with([
-            'workExperiences'
+            'workExperiences',
+            'educations',
         ])
         ->where('id', Auth::id())
         ->get();
 
+        // dd($user);
         return Inertia::render('Profile/Edit', [
             'user' => $user,
         ]);
@@ -59,6 +61,10 @@ class UserController extends Controller
     public function updateWorkExp(Request $request){
 
         $this->userService->updateWorkExp($request, Auth::user()->id);
+    }
+
+    public function updateEducation(Request $request){
+        $this->userService->updateEducation($request, Auth::user()->id);
     }
 
     /**

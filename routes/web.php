@@ -25,7 +25,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/profile/edit', [UserController::class, 'edit'])->name('profile.edit');
     // Profile Update in diff fields
     Route::post('/profile/update', [UserController::class, 'updateBasicInformation'])->name('profile.updateBasicInformation');
-    Route::post('/profile/edit', [UserController::class, 'updateWorkExp'])->name('profile.updateWorkExp');
+    Route::post('/profile/edit/work', [UserController::class, 'updateWorkExp'])->name('profile.updateWorkExp');
+    Route::post('/profile/edit/education', [UserController::class, 'updateEducation'])->name('profile.updateEducation');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
     // dashboard

@@ -1,17 +1,51 @@
 <script setup>
+import { useForm } from "@inertiajs/vue3";
 import EducationComponent from "./EducationComponent.vue";
 import { Button } from "primevue";
 import { ref } from "vue";
 
-let education = ref([{ id: 1 }]); // Start with an array containing one object
-let educationCounter = ref(2); // Start from 2 since the first entry has id 1
+const props = defineProps({
+    user: Object,
+});
 
 const addEducation = () => {
-    education.value.push({ id: educationCounter.value });
-    educationCounter.value++; // Increment counter
+    form.educations.push({
+        id: Date.now(),
+        school: "",
+        degree: "",
+        address: "",
+        start_date: "",
+        end_date: "",
+    });
 };
 const removeEducation = (index) => {
-    education.value.splice(index, 1);
+    form.educations = form.educations.filter((educ, i) => i !== index);
+};
+
+// add a form
+const form = useForm({
+    // If the user has educations, bind them in fields, otherwise create a new one
+    educations: props.user?.educations?.length
+        ? [...props.user.educations] // This is for two way binding
+        : [
+              {
+                  id: Date.now(),
+                  school: "",
+                  degree: "",
+                  address: "",
+                  start_date: "",
+                  end_date: "",
+              },
+          ],
+});
+
+const saveEducations = () => {
+    form.post(route("profile.updateEducation"), {
+        preserveScroll: false,
+        onSuccess: (res) => {
+            console.log("Success");
+        },
+    });
 };
 </script>
 
@@ -26,8 +60,9 @@ const removeEducation = (index) => {
             </div>
         </div>
         <div class="space-y-6">
-            <div v-for="(educ, index) in education" :key="index">
+            <div v-for="(educ, index) in form.educations" :key="index">
                 <EducationComponent
+                    :form="educ"
                     :index="index + 1"
                     @removeEducation="removeEducation(index)"
                 />
@@ -40,7 +75,7 @@ const removeEducation = (index) => {
         </div>
         <div class="flex gap-x-4 justify-end">
             <Button>Cancel</Button>
-            <Button>Save</Button>
+            <Button @click="saveEducations">Save</Button>
         </div>
     </div>
 </template>

@@ -3,6 +3,7 @@ import { InputText } from "primevue";
 
 const props = defineProps({
     index: Number,
+    form: Object,
 });
 
 const emit = defineEmits(["removeEducation"]);
@@ -38,10 +39,6 @@ const emit = defineEmits(["removeEducation"]);
                 <label for="end_year">End Year (or expected)</label>
                 <InputText id="end_year" v-model="end_date" />
             </div>
-        </div>
-        <div class="flex flex-col space-y-2 my-2">
-            <label for="description">Description</label>
-            <InputText id="description" v-model="description" />
         </div>
     </div>
 </template>

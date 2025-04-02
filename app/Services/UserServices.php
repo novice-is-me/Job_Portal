@@ -62,4 +62,8 @@ class UserServices {
             ]);
         }
     }
+
+    public function updateEducation ($request, $id){
+        dd($request->all());
+    }
 }
