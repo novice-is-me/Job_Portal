@@ -11,7 +11,11 @@ const props = defineProps({
     form: Object,
 });
 
-const checked = ref(true);
+// Ensures that the form_is_current_job is a boolean as its a toggle switch
+const isCurrentJob = computed({
+    get: () => props.form.is_current_job === 1,
+    set: (value) => (props.form.is_current_job = value ? 1 : 0),
+});
 </script>
 
 <template>
@@ -30,9 +34,8 @@ const checked = ref(true);
                 <InputText id="location" v-model="form.address" />
             </div>
         </div>
-
         <div class="flex items-center gap-x-4">
-            <ToggleSwitch v-model="form.is_current_job" />
+            <ToggleSwitch v-model="isCurrentJob" />
             <p>I currently work here</p>
         </div>
 

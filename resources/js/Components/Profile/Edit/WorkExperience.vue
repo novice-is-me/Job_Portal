@@ -11,7 +11,7 @@ const props = defineProps({
 console.log(props.user);
 // Save all work experiences (example)
 const saveWorkExperiences = () => {
-    console.log("Saved Work Experiences:", form);
+    console.log("Saved Work Experiences:", form.work_experiences);
 
     form.post(route("profile.updateWorkExp"), {
         preserveScroll: false,

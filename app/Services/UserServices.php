@@ -58,7 +58,8 @@ class UserServices {
                 'company' => $work['company'],
                 'address' => $work['address'],
                 'start_date' => $work['start_date'],
-                'end_date' => $work['end_date']
+                'end_date' => $work['end_date'],
+                'is_current_job' => $work['is_current_job'] ? 1 : 0,
             ]);
         }
     }

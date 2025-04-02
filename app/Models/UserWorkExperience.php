@@ -14,7 +14,8 @@ class UserWorkExperience extends Model
         'company',
         'address',
         'start_date',
-        'end_date'
+        'end_date',
+        'is_current_job'
     ];
 
     public function user(){
