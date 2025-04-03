@@ -11,6 +11,7 @@ import { ref } from "vue";
 
 const prop = defineProps({
     user: Object,
+    skills: Object,
 });
 
 console.log(prop.user);
@@ -75,7 +76,11 @@ const defaultTab = ref("basic_information");
                             :user="user[0]"
                             v-if="defaultTab === 'education'"
                         />
-                        <Skills v-if="defaultTab === 'skills'" />
+                        <Skills
+                            :user="user[0]"
+                            :skills="skills"
+                            v-if="defaultTab === 'skills'"
+                        />
                         <Documents v-if="defaultTab === 'documents'" />
                         <SocialLinks v-if="defaultTab === 'social_links'" />
                     </div>

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 use App\Http\Requests\ProfileUpdateRequest;
+use App\Models\Skill;
 use App\Models\User;
 use App\Services\UserServices;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
@@ -41,13 +42,17 @@ class UserController extends Controller
         $user = User::with([
             'workExperiences',
             'educations',
+            'skills'
         ])
         ->where('id', Auth::id())
         ->get();
 
+        // $skills = Skill::all();
+        // dd($skills);
         // dd($user);
         return Inertia::render('Profile/Edit', [
             'user' => $user,
+            'skills' => Skill::all(),
         ]);
     }
 
