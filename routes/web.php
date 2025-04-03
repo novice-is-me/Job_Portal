@@ -27,6 +27,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::post('/profile/update', [UserController::class, 'updateBasicInformation'])->name('profile.updateBasicInformation');
     Route::post('/profile/edit/work', [UserController::class, 'updateWorkExp'])->name('profile.updateWorkExp');
     Route::post('/profile/edit/education', [UserController::class, 'updateEducation'])->name('profile.updateEducation');
+    Route::post('/profile/edit/skills/{id}', [UserController::class, 'updateSkills'])->name('profile.updateSkills');
+    Route::post('/profile/edit/add-skill', [UserController::class, 'addSkill'])->name('profile.addSkill');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
     // dashboard

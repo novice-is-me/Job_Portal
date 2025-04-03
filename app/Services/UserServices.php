@@ -2,7 +2,9 @@
 
 namespace App\Services;
 
+use App\Models\Skill;
 use App\Models\User;
+use App\Models\UserSkill;
 use Exception;
 use Illuminate\Support\Facades\Log;
 
@@ -84,4 +86,40 @@ class UserServices {
             ]);
         }
     }
+
+    public function updateSkills($skills, $id)
+    {
+        // Find the user
+        $user = User::find($id);
+        
+        if (!$user) {
+            return response()->json(['error' => 'User not found'], 404);
+        }
+
+        // Delete existing skills for the user
+        $user->skills()->delete();
+
+        // Add the new skills (IDs) to the user's skill relationship
+        foreach ($skills as $skillId) {
+            $user->skills()->create([
+                'user_id' => $id,
+                'skill_id' => $skillId, 
+            ]);
+        }
+
+        return response()->json(['message' => 'User skill updated successfully']);
+    }
+
+    public function addSkill($request){
+        
+        // Adding new skills
+        if($request){
+            Skill::create([
+                'name' => $request,
+            ]);
+        }
+
+        return response()->json(['message' => 'New Skills added successfully']);
+    }
+
 }

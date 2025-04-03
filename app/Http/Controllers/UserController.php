@@ -72,6 +72,46 @@ class UserController extends Controller
         $this->userService->updateEducation($request, Auth::user()->id);
     }
 
+    public function updateSkills(Request $request, $id){
+        \Log::info('updateSkills called', [
+            'user_id' => Auth::user()->id,
+            'data' => $request->all(),
+        ]);
+            
+        // Get the skills from the request, defaulting to an empty array if not present
+        $skills = $request->input('skills', []);
+
+        if (empty($skills)) {
+            return response()->json(['error' => 'No skills provided'], 400);
+        }
+
+        try {
+            // Pass the array of skill IDs to the service method
+            $this->userService->updateSkills($skills, Auth::user()->id);
+            return response()->json(['message' => 'Skills updated successfully!'], 200);
+        } catch (\Exception $e) {
+            \Log::error('Error updating skills', ['error' => $e->getMessage()]);
+            return response()->json(['error' => 'Failed to update skills'], 500);
+        }
+    }
+
+    public function addSkill(Request $request){
+        \Log::info('addSkill called', [
+            'data' => $request->all(),
+        ]);
+
+        $new_skills = $request->input('name', []);
+
+        try {
+            // Pass the array of skill IDs to the service method
+            $this->userService->addSkill($new_skills);
+            return response()->json(['message' => 'Skills added successfully!'], 200);
+        } catch (\Exception $e) {
+            \Log::error('Error adding skills', ['error' => $e->getMessage()]);
+            return response()->json(['error' => 'Failed to add skills'], 500);
+        }
+    }
+
     /**
      * Delete the user's account.
      */
