@@ -3,31 +3,61 @@ import { Button, FileUpload } from "primevue";
 import { ref } from "vue";
 
 // File name to display in the UI
-const fileName = ref("");
+const resume = ref("");
+const coverLetter = ref("");
 // File object to store the selected file
-const fileObject = ref(null);
+const fileObjectResume = ref(null);
+const fileObjectCoverLetter = ref(null);
 
-const onFileSelect = (e) => {
+const selectResume = (e) => {
     const file = e.files[0];
-    fileName.value = e.files[0].name;
-    fileObject.value = file;
+    resume.value = e.files[0].name;
+    fileObjectResume.value = file;
 };
 
-const deleteFile = () => {
-    fileName.value = "";
-    fileObject.value = null;
+const selectCoverLetter = (e) => {
+    const file = e.files[0];
+    coverLetter.value = e.files[0].name;
+    fileObjectCoverLetter.value = file;
 };
 
-const downloadFile = () => {
-    if (!fileObject.value) return; // Ensure a file is selected
+const deleteFile = (data) => {
+    if (data === "resume") {
+        resume.value = "";
+        fileObjectResume.value = null;
+    } else if (data === "coverLetter") {
+        coverLetter.value = "";
+        fileObjectCoverLetter.value = null;
+    }
+};
 
-    const blob = new Blob([fileObject.value], { type: fileObject.value.type });
+const downloadFile = (data) => {
+    let fileObject;
+    let fileName;
+
+    if (data === "resume") {
+        fileObject = fileObjectResume.value;
+        fileName = resume.value;
+    } else if (data === "coverLetter") {
+        fileObject = fileObjectCoverLetter.value; // Assuming you have a coverLetter file object
+        fileName = coverLetter.value; // Assuming you have a coverLetter name
+    }
+
+    if (!fileObject) return; // Ensure a file is selected
+
+    const blob = new Blob([fileObject], {
+        type: fileObject.type,
+    });
     const link = document.createElement("a");
     link.href = URL.createObjectURL(blob);
-    link.download = fileName.value;
+    link.download = fileName;
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
+};
+
+const save = () => {
+    console.log("Saving files...");
 };
 </script>
 
@@ -41,11 +71,9 @@ const downloadFile = () => {
                 </p>
             </div>
         </div>
-        <div>
-            <div
-                v-if="fileName"
-                class="border border-gray-200 rounded-md flex flex-wrap gap-x-2"
-            >
+        <div class="space-y-6">
+            <div v-if="resume" class="rounded-md flex flex-wrap gap-2">
+                <p class="font-[Poppins] text-xl font-medium">Resume</p>
                 <div
                     class="bg-gray-100 p-3 rounded-lg text-sm flex gap-x-2 items-center justify-between w-full"
                 >
@@ -56,7 +84,7 @@ const downloadFile = () => {
                         ></i>
                         <div>
                             <p class="font-[Poppins] font-semibold text-lg">
-                                {{ fileName }}
+                                {{ resume }}
                             </p>
                             <p class="text-secondary">
                                 Uploaded on May 15, 2023 • 2.4 MB
@@ -64,10 +92,13 @@ const downloadFile = () => {
                         </div>
                     </div>
                     <div class="flex gap-x-4 items-center">
-                        <i class="pi pi-upload" @click="downloadFile"></i>
+                        <i
+                            class="pi pi-upload"
+                            @click="downloadFile('resume')"
+                        ></i>
                         <i
                             class="pi pi-trash text-red-500"
-                            @click="deleteFile"
+                            @click="deleteFile('resume')"
                         ></i>
                     </div>
                 </div>
@@ -78,8 +109,57 @@ const downloadFile = () => {
                     mode="basic"
                     name="demo[]"
                     :maxFileSize="1000000"
-                    @select="onFileSelect"
+                    @select="selectResume"
                     :customUpload="true"
+                    chooseLabel="Resume"
+                >
+                    <template #filelabel>
+                        <span></span>
+                    </template>
+                </FileUpload>
+            </div>
+
+            <!-- For cover letter -->
+            <div v-if="coverLetter" class="rounded-md flex flex-wrap gap-2">
+                <p class="font-[Poppins] text-xl font-medium">Cover Letter</p>
+                <div
+                    class="bg-gray-100 p-3 rounded-lg text-sm flex gap-x-2 items-center justify-between w-full"
+                >
+                    <div class="flex gap-x-2 items-center">
+                        <i
+                            class="pi pi-file text-blue-400 bg-blue-100 rounded-md p-2"
+                            style="font-size: 1.5rem"
+                        ></i>
+                        <div>
+                            <p class="font-[Poppins] font-semibold text-lg">
+                                {{ coverLetter }}
+                            </p>
+                            <p class="text-secondary">
+                                Uploaded on May 15, 2023 • 2.4 MB
+                            </p>
+                        </div>
+                    </div>
+                    <div class="flex gap-x-4 items-center">
+                        <i
+                            class="pi pi-upload"
+                            @click="downloadFile('coverLetter')"
+                        ></i>
+                        <i
+                            class="pi pi-trash text-red-500"
+                            @click="deleteFile('coverLetter')"
+                        ></i>
+                    </div>
+                </div>
+            </div>
+            <div class="flex mt-4">
+                <FileUpload
+                    ref="fileupload"
+                    mode="basic"
+                    name="demo[]"
+                    :maxFileSize="1000000"
+                    @select="selectCoverLetter"
+                    :customUpload="true"
+                    chooseLabel="Cover Letter"
                 >
                     <template #filelabel>
                         <span></span>
@@ -89,7 +169,7 @@ const downloadFile = () => {
         </div>
         <div class="flex gap-x-4 justify-end">
             <Button>Cancel</Button>
-            <Button>Save</Button>
+            <Button @click="save">Save</Button>
         </div>
     </div>
 </template>
