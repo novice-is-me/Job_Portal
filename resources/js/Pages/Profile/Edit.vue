@@ -81,7 +81,10 @@ const defaultTab = ref("basic_information");
                             :skills="skills"
                             v-if="defaultTab === 'skills'"
                         />
-                        <Documents v-if="defaultTab === 'documents'" />
+                        <Documents
+                            :user="user[0]"
+                            v-if="defaultTab === 'documents'"
+                        />
                         <SocialLinks v-if="defaultTab === 'social_links'" />
                     </div>
                 </div>

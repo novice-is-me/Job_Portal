@@ -1,6 +1,19 @@
 <script setup>
+import axios from "axios";
 import { Button, FileUpload } from "primevue";
 import { ref } from "vue";
+
+const props = defineProps({
+    user: Object,
+});
+
+const resumeFile = ref(
+    props.user.resume ? props.user.resume.split("/").pop() : null
+); // Extract the file name from the URL if it exists
+
+const coverLetterFile = ref(
+    props.user.cover_letter ? props.user.cover_letter.split("/").pop() : null
+); // Extract the file name from the URL if it exists
 
 // File name to display in the UI
 const resume = ref("");
@@ -21,43 +34,102 @@ const selectCoverLetter = (e) => {
     fileObjectCoverLetter.value = file;
 };
 
-const deleteFile = (data) => {
+const deleteFile = async (data) => {
+    let file = null;
+
     if (data === "resume") {
-        resume.value = "";
-        fileObjectResume.value = null;
+        file = props.user.resume;
     } else if (data === "coverLetter") {
-        coverLetter.value = "";
-        fileObjectCoverLetter.value = null;
+        file = props.user.cover_letter;
+    }
+
+    try {
+        const response = await axios.delete(
+            `/profile/delete/documents/${props.user.id}`,
+            {
+                data: {
+                    type: data,
+                    file: file,
+                },
+            }
+        );
+
+        if (data === "resume") {
+            resumeFile.value = null;
+            resume.value = null;
+        } else if (data === "coverLetter") {
+            coverLetterFile.value = null;
+            coverLetter.value = null;
+        }
+
+        console.log("File deleted successfully:", response.data);
+    } catch (error) {
+        console.error("Error deleting file:", error);
     }
 };
 
-const downloadFile = (data) => {
-    let fileObject;
-    let fileName;
+const downloadFile = async (data) => {
+    let file = null;
 
     if (data === "resume") {
-        fileObject = fileObjectResume.value;
-        fileName = resume.value;
+        file = resumeFile.value;
     } else if (data === "coverLetter") {
-        fileObject = fileObjectCoverLetter.value; // Assuming you have a coverLetter file object
-        fileName = coverLetter.value; // Assuming you have a coverLetter name
+        file = coverLetterFile.value;
     }
 
-    if (!fileObject) return; // Ensure a file is selected
+    if (!file) {
+        alert("No file available to download.");
+        return;
+    }
 
-    const blob = new Blob([fileObject], {
-        type: fileObject.type,
-    });
-    const link = document.createElement("a");
-    link.href = URL.createObjectURL(blob);
-    link.download = fileName;
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
+    // Get the user ID
+    const userId = props.user.id;
+
+    try {
+        const response = await axios.get(
+            `/download/${userId}/${data}/${file}`,
+            {
+                responseType: "blob", // <-- Important for binary files
+            }
+        );
+
+        const blob = new Blob([response.data]);
+        const downloadUrl = window.URL.createObjectURL(blob);
+
+        const link = document.createElement("a");
+        link.href = downloadUrl;
+        link.download = file;
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+    } catch (error) {
+        console.error("Download failed:", error);
+        alert("Failed to download file.");
+    }
 };
 
-const save = () => {
-    console.log("Saving files...");
+const save = async () => {
+    try {
+        const formData = new FormData();
+
+        // Append actual files to FormData
+        if (fileObjectResume.value) {
+            formData.append("resume", fileObjectResume.value);
+        }
+        if (fileObjectCoverLetter.value) {
+            formData.append("coverLetter", fileObjectCoverLetter.value);
+        }
+
+        const response = await axios.post("/profile/edit/documents", formData, {
+            headers: {
+                "Content-Type": "multipart/form-data",
+            },
+        });
+
+        console.log("Files saved successfully:", response.data);
+    } catch (error) {
+        console.error("Error saving files:", error);
+    }
 };
 </script>
 
@@ -72,7 +144,10 @@ const save = () => {
             </div>
         </div>
         <div class="space-y-6">
-            <div v-if="resume" class="rounded-md flex flex-wrap gap-2">
+            <div
+                v-if="resume || resumeFile"
+                class="rounded-md flex flex-wrap gap-2"
+            >
                 <p class="font-[Poppins] text-xl font-medium">Resume</p>
                 <div
                     class="bg-gray-100 p-3 rounded-lg text-sm flex gap-x-2 items-center justify-between w-full"
@@ -84,15 +159,13 @@ const save = () => {
                         ></i>
                         <div>
                             <p class="font-[Poppins] font-semibold text-lg">
-                                {{ resume }}
-                            </p>
-                            <p class="text-secondary">
-                                Uploaded on May 15, 2023 • 2.4 MB
+                                {{ user.resume ? resumeFile : resume }}
                             </p>
                         </div>
                     </div>
                     <div class="flex gap-x-4 items-center">
                         <i
+                            v-if="user.resume"
                             class="pi pi-upload"
                             @click="downloadFile('resume')"
                         ></i>
@@ -120,7 +193,10 @@ const save = () => {
             </div>
 
             <!-- For cover letter -->
-            <div v-if="coverLetter" class="rounded-md flex flex-wrap gap-2">
+            <div
+                v-if="coverLetter || coverLetterFile"
+                class="rounded-md flex flex-wrap gap-2"
+            >
                 <p class="font-[Poppins] text-xl font-medium">Cover Letter</p>
                 <div
                     class="bg-gray-100 p-3 rounded-lg text-sm flex gap-x-2 items-center justify-between w-full"
@@ -132,15 +208,17 @@ const save = () => {
                         ></i>
                         <div>
                             <p class="font-[Poppins] font-semibold text-lg">
-                                {{ coverLetter }}
-                            </p>
-                            <p class="text-secondary">
-                                Uploaded on May 15, 2023 • 2.4 MB
+                                {{
+                                    user.cover_letter
+                                        ? coverLetterFile
+                                        : coverLetter
+                                }}
                             </p>
                         </div>
                     </div>
                     <div class="flex gap-x-4 items-center">
                         <i
+                            v-if="user.cover_letter"
                             class="pi pi-upload"
                             @click="downloadFile('coverLetter')"
                         ></i>

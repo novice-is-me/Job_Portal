@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\FileController;
 use App\Http\Controllers\JobController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SearchController;
@@ -29,6 +30,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::post('/profile/edit/education', [UserController::class, 'updateEducation'])->name('profile.updateEducation');
     Route::post('/profile/edit/skills/{id}', [UserController::class, 'updateSkills'])->name('profile.updateSkills');
     Route::post('/profile/edit/add-skill', [UserController::class, 'addSkill'])->name('profile.addSkill');
+    Route::post('/profile/edit/documents', [UserController::class, 'addDocuments'])->name('profile.addDocuments');
+    Route::get('/download/{id}/{type}/{filename}', [FileController::class, 'download'])->name('download');
+    Route::delete('/profile/delete/documents/{id}', [FileController::class, 'delete'])->name('profile.deleteDocuments');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
     // dashboard

@@ -122,4 +122,54 @@ class UserServices {
         return response()->json(['message' => 'New Skills added successfully']);
     }
 
+    public function addDocuments($request, $id)
+    {
+        // Destructure the request
+        $resume = $request->file('resume');
+        $cover_letter = $request->file('coverLetter');
+        
+        $resumePath = null;
+        $coverLetterPath = null;
+
+        // dd($resume, $cover_letter);
+        if ($resume) {
+            // Store the resume in the specified folder
+            $resumePath = $this->storeFile($resume, $id . '/resume');
+        }
+
+        if ($cover_letter) {
+            // Store the cover letter in the specified folder
+            $coverLetterPath = $this->storeFile($cover_letter, $id . '/cover_letter');
+        }
+
+        // Find the user
+        $user = User::find($id);
+
+        $user->update([
+            'resume' => $resumePath ?? $user->resume ,
+            'cover_letter' => $coverLetterPath ?? $user->cover_letter,
+        ]);
+
+        return response()->json(['message' => 'Documents added successfully']);
+    }
+
+
+    private function storeFile($file, $folder)
+    {
+        // Get the file's extension
+        $extension = $file->getClientOriginalExtension();
+        // dd($file);
+        
+        // Generate a unique file name using the userId, file type, and the current timestamp
+        $fileName = $file->getClientOriginalName();
+        
+        // Store the file in the specified folder within the 'public' disk
+        $filePath = $file->storeAs("public/{$folder}", $fileName);
+
+
+        // Return the file path
+        return $filePath;
+    }
+
+
 }

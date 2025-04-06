@@ -32,7 +32,9 @@ class User extends Authenticatable
         'linkedin', 
         'github',
         'portfolio',
-        'resume'
+        'resume',
+        'cover_letter',
+        'profile_picture',
     ];
 
     /**

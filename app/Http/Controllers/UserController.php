@@ -112,6 +112,20 @@ class UserController extends Controller
         }
     }
 
+    public function addDocuments(Request $request){
+        \Log::info('addDocuments called', [
+            'data' => $request->all(),
+        ]);
+        
+        try {
+            $this->userService->addDocuments($request, Auth::user()->id);
+            return response()->json(['message' => 'Documents added successfully!'], 200);
+        } catch (\Exception $e) {
+            \Log::error('Error adding documents', ['error' => $e->getMessage()]);
+            return response()->json(['error' => 'Failed to add documents'], 500);
+        }
+    }
+
     /**
      * Delete the user's account.
      */
