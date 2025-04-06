@@ -126,6 +126,18 @@ class UserController extends Controller
         }
     }
 
+    public function updateSocial(Request $request){
+        // dd($request->all());
+
+        try {
+            $this->userService->updateSocial($request, Auth::user()->id);
+            return redirect()->back()->with('message', 'Social links updated successfully!');
+        } catch (\Exception $e) {
+            \Log::error('Error updating social links', ['error' => $e->getMessage()]);
+            return redirect()->back()->with('error', 'Failed to update social links');
+        }
+    }
+
     /**
      * Delete the user's account.
      */

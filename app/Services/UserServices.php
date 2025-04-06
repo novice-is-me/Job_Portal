@@ -171,5 +171,26 @@ class UserServices {
         return $filePath;
     }
 
+    public function updateSocial($request, $id){
+
+        try {
+            $user = User::find($id);
+
+            if ($user){
+                $user->update([
+                    'website' => $request['personal_website'],
+                    'github' => $request['github'],
+                    'linkedin' => $request['linkedin'],
+                    'portfolio' => $request['portfolio'],
+                ]);
+            }
+
+            redirect()->back()->with('message', 'Social links updated w!');
+        } catch (Exception $e) {
+            Log::error('Error updating social links: ' . $e->getMessage());
+            redirect()->back()->with('error', 'Failed to update social links');
+        }
+    }
+
 
 }

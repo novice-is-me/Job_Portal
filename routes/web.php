@@ -33,6 +33,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::post('/profile/edit/documents', [UserController::class, 'addDocuments'])->name('profile.addDocuments');
     Route::get('/download/{id}/{type}/{filename}', [FileController::class, 'download'])->name('download');
     Route::delete('/profile/delete/documents/{id}', [FileController::class, 'delete'])->name('profile.deleteDocuments');
+    Route::post('profile/edit/social', [UserController::class, 'updateSocial'])->name('profile.updateSocial');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
     // dashboard
