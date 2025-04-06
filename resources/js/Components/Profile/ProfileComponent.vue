@@ -8,6 +8,8 @@ const props = defineProps({
 });
 
 const isEdit = ref(false);
+const user = ref(props.user);
+console.log(user.value);
 
 const toggleEditProfile = () => {
     isEdit.value = !isEdit.value;
@@ -15,8 +17,8 @@ const toggleEditProfile = () => {
 
 const form = useForm({
     name: props.user.name || "",
-    title: "",
-    location: "",
+    title: props.user.headline || "",
+    location: props.user.address || "",
 });
 
 const updateProfile = () => {
@@ -73,10 +75,10 @@ const updateProfile = () => {
                     <p class="font-semibold text-xl font-[Poppins]">
                         {{ user.name }}
                     </p>
-                    <p class="text-sm">Senior Developer</p>
+                    <p class="text-sm">{{ user.headline || "" }}</p>
                     <div class="flex items-center gap-x-2 text-sm">
                         <i class="pi pi-map-marker"></i>
-                        <p>Batangas, City</p>
+                        <p>{{ user.address || "" }}</p>
                     </div>
                 </div>
             </div>

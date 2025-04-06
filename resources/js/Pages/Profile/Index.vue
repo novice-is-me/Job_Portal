@@ -63,10 +63,10 @@ const toggleFullProfileView = () => {
                         </div>
                         <!-- Contact Information -->
                         <div>
-                            <ContactInfoComponent />
+                            <ContactInfoComponent :user="user" />
                         </div>
                         <div>
-                            <SkillDetailComponent />
+                            <SkillDetailComponent :user="user" />
                         </div>
                     </div>
                     <div class="space-y-6">
@@ -103,7 +103,7 @@ const toggleFullProfileView = () => {
                             >
                         </div>
                         <div v-if="isDocuments">
-                            <DocumentsComponent />
+                            <DocumentsComponent :user="user" />
                         </div>
                         <div v-if="isApplications">
                             <ApplicationsComponent />

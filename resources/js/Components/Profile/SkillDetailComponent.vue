@@ -2,19 +2,11 @@
 import SkillsComponent from "../Job/SkillsComponent.vue";
 import { ref } from "vue";
 
-const skills = ref([
-    { name: "HTML" },
-    { name: "CSS" },
-    { name: "JavaScript" },
-    { name: "Vue.js" },
-    { name: "React" },
-    { name: "Angular" },
-    { name: "Node.js" },
-    { name: "Express.js" },
-    { name: "Laravel" },
-    { name: "Django" },
-    { name: "Flask" },
-]);
+const props = defineProps({
+    user: Object,
+});
+
+const user = ref(props.user);
 </script>
 
 <template>
@@ -24,8 +16,8 @@ const skills = ref([
             <i class="pi pi-pen-to-square"></i>
         </div>
         <div class="flex gap-2 flex-wrap">
-            <div v-for="skill in skills" :key="skill">
-                <SkillsComponent :skill="skill" />
+            <div v-for="skill in user.skills" :key="skill">
+                <SkillsComponent :skill="skill.skill" />
             </div>
         </div>
     </div>

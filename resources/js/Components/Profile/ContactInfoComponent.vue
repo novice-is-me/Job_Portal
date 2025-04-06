@@ -1,4 +1,12 @@
-<script setup></script>
+<script setup>
+import { ref } from "vue";
+
+const props = defineProps({
+    user: Object,
+});
+
+const user = ref(props.user);
+</script>
 
 <template>
     <div class="bg-white p-6 rounded-lg space-y-4">
@@ -12,21 +20,21 @@
                 <i class="pi pi-envelope"></i>
                 <div>
                     <p>Email</p>
-                    <p>emily.johnson@example.com</p>
+                    <p>{{ user.email || "" }}</p>
                 </div>
             </div>
             <div class="flex gap-x-4 items-center">
                 <i class="pi pi-phone"></i>
                 <div>
                     <p>Phone</p>
-                    <p>(555) 123-4567</p>
+                    <p>{{ user.phone || "" }}</p>
                 </div>
             </div>
             <div class="flex gap-x-4 items-center">
                 <i class="pi pi-map-marker"></i>
                 <div>
                     <p>Address</p>
-                    <p>123 Design Street, San Francisco, CA 94107</p>
+                    <p>{{ user.address }}</p>
                 </div>
             </div>
         </div>

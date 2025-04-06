@@ -1,6 +1,19 @@
 <script setup>
-import { Button } from "primevue";
+import { ref } from "vue";
 import FileComponent from "../FileComponent.vue";
+
+const props = defineProps({
+    user: Object,
+});
+
+const user = ref(props.user);
+const resumeFile = ref(
+    props.user.resume ? props.user.resume.split("/").pop() : null
+); // Extract the file name from the URL if it exists
+
+const coverLetterFile = ref(
+    props.user.cover_letter ? props.user.cover_letter.split("/").pop() : null
+); // Extract the file name from the URL if it exists
 </script>
 
 <template>
@@ -17,7 +30,11 @@ import FileComponent from "../FileComponent.vue";
             </div>
             <div class="">
                 <!-- Component -->
-                <FileComponent />
+                <FileComponent
+                    :user="user"
+                    :file="resumeFile"
+                    :type="'resume'"
+                />
             </div>
         </div>
         <!-- Cover Letters -->
@@ -30,22 +47,11 @@ import FileComponent from "../FileComponent.vue";
             </div>
             <div class="">
                 <!-- Component -->
-                <FileComponent />
-            </div>
-        </div>
-        <!-- Portfolio & Additional Documents -->
-        <div class="bg-white p-5 rounded-lg space-y-4">
-            <div>
-                <h1 class="text-2xl font-[Poppins] font-semibold">
-                    Portfolio & Additional Documents
-                </h1>
-                <p class="text-secondary">
-                    Upload portfolio samples and other supporting documentss
-                </p>
-            </div>
-            <div class="">
-                <!-- Component -->
-                <FileComponent />
+                <FileComponent
+                    :file="coverLetterFile"
+                    :user="user"
+                    :type="'coverLetter'"
+                />
             </div>
         </div>
     </div>

@@ -28,6 +28,14 @@ class UserController extends Controller
     public function index(): Response
     {
 
+        $user = Auth::user();
+
+        $user->load([
+            'workExperiences',
+            'educations',
+            'skills.skill',
+        ]);
+
         return Inertia::render('Profile/Index', [
             'user' => Auth::user(),
         ]);

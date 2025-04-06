@@ -1,5 +1,35 @@
 <script setup>
+import { usePage } from "@inertiajs/vue3";
+import axios from "axios";
 import { Button } from "primevue";
+import { ref } from "vue";
+
+const props = defineProps({
+    file: String,
+    user: Object,
+    type: String,
+});
+
+const file = ref(props.file);
+
+const downloadFile = async () => {
+    try {
+        const response = await axios.get(
+            `/download/${props.user.id}/${props.type}/${file.value}`,
+            {
+                responseType: "blob",
+            }
+        );
+        const url = window.URL.createObjectURL(new Blob([response.data]));
+        const link = document.createElement("a");
+        link.href = url;
+        link.setAttribute("download", file.value); // Set the file name for download
+        document.body.appendChild(link);
+        link.click();
+    } catch (error) {
+        console.error("Error downloading file:", error);
+    }
+};
 </script>
 
 <template>
@@ -13,16 +43,15 @@ import { Button } from "primevue";
                     style="font-size: 1.7rem"
                 ></i>
                 <div>
-                    <p>Emily_Johnson_Resume.pdf</p>
-                    <p>Uploaded on May 15, 2023 • 2.4 MB</p>
+                    <p>{{ file || "No supported document" }}</p>
                 </div>
             </div>
             <div class="flex gap-x-6">
                 <a href="">
                     <i class="pi pi-eye"></i>
                 </a>
-                <a href="">
-                    <i class="pi pi-download"></i>
+                <a href="#">
+                    <i class="pi pi-download" @click="downloadFile"></i>
                 </a>
                 <a href="">
                     <i class="pi pi-trash"></i>
