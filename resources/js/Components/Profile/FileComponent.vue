@@ -1,7 +1,8 @@
 <script setup>
 import { usePage } from "@inertiajs/vue3";
+import { data } from "autoprefixer";
 import axios from "axios";
-import { Button } from "primevue";
+import { Button, FileUpload } from "primevue";
 import { ref } from "vue";
 
 const props = defineProps({
@@ -30,11 +31,58 @@ const downloadFile = async () => {
         console.error("Error downloading file:", error);
     }
 };
+
+const deleteFile = async () => {
+    try {
+        const response = await axios.delete(
+            `/profile/delete/documents/${props.user.id}`,
+            {
+                data: {
+                    type: props.type,
+                    file: file.value,
+                },
+            }
+        );
+
+        file.value = null; // Clear the file reference after deletion
+
+        console.log("File deleted successfully:", response.data);
+    } catch (error) {
+        console.error("Error deleting file:", error);
+    }
+};
+
+const selectFile = async (e, type) => {
+    file.value = e.files[0].name; // Update the file name in the UI
+
+    try {
+        const formData = new FormData();
+
+        // Append actual files to FormData
+        if (type === "resume") {
+            formData.append("resume", e.files[0]);
+        }
+        if (type === "cover_letter") {
+            formData.append("coverLetter", e.files[0]);
+        }
+
+        const response = await axios.post("/profile/edit/documents", formData, {
+            headers: {
+                "Content-Type": "multipart/form-data",
+            },
+        });
+
+        console.log("Files saved successfully:", response.data);
+    } catch (error) {
+        console.error("Error saving files:", error);
+    }
+};
 </script>
 
 <template>
     <div class="space-y-6">
         <div
+            v-if="file"
             class="bg-[#f8fafc] rounded-lg p-5 flex justify-between items-center"
         >
             <div class="flex gap-x-2 items-center">
@@ -43,26 +91,37 @@ const downloadFile = async () => {
                     style="font-size: 1.7rem"
                 ></i>
                 <div>
-                    <p>{{ file || "No supported document" }}</p>
+                    <p>{{ file }}</p>
                 </div>
             </div>
             <div class="flex gap-x-6">
-                <a href="">
+                <a href="#">
                     <i class="pi pi-eye"></i>
                 </a>
                 <a href="#">
                     <i class="pi pi-download" @click="downloadFile"></i>
                 </a>
-                <a href="">
-                    <i class="pi pi-trash"></i>
+                <a href="#">
+                    <i class="pi pi-trash" @click="deleteFile"></i>
                 </a>
             </div>
         </div>
         <div class="flex justify-end">
-            <Button>
-                <i class="pi pi-upload"></i>
-                Upload new resume
-            </Button>
+            <div class="flex mt-4">
+                <FileUpload
+                    ref="fileupload"
+                    mode="basic"
+                    name="demo[]"
+                    :maxFileSize="1000000"
+                    @select="(e) => selectFile(e, props.type)"
+                    :customUpload="true"
+                    chooseLabel="Upload"
+                >
+                    <template #filelabel>
+                        <span></span>
+                    </template>
+                </FileUpload>
+            </div>
         </div>
     </div>
 </template>

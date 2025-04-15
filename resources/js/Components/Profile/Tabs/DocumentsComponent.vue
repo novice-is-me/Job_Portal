@@ -50,7 +50,7 @@ const coverLetterFile = ref(
                 <FileComponent
                     :file="coverLetterFile"
                     :user="user"
-                    :type="'coverLetter'"
+                    :type="'cover_letter'"
                 />
             </div>
         </div>

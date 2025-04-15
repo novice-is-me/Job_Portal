@@ -134,12 +134,12 @@ class UserServices {
         // dd($resume, $cover_letter);
         if ($resume) {
             // Store the resume in the specified folder
-            $resumePath = $this->storeFile($resume, $id . '/resume');
+            $resumePath = $this->storeFile( $resume, $id, 'resume' );
         }
 
         if ($cover_letter) {
             // Store the cover letter in the specified folder
-            $coverLetterPath = $this->storeFile($cover_letter, $id . '/cover_letter');
+            $coverLetterPath = $this->storeFile($cover_letter, $id, 'cover_letter' );
         }
 
         // Find the user
@@ -154,20 +154,18 @@ class UserServices {
     }
 
 
-    private function storeFile($file, $folder)
+    private function storeFile($file, $id, $folder)
     {
         // Get the file's extension
         $extension = $file->getClientOriginalExtension();
-        // dd($file);
         
         // Generate a unique file name using the userId, file type, and the current timestamp
         $fileName = $file->getClientOriginalName();
         
         // Store the file in the specified folder within the 'public' disk
-        $filePath = $file->storeAs("public/{$folder}", $fileName);
-
-
-        // Return the file path
+        $filePath = $file->storeAs("{$id}/{$folder}", $fileName, 'public');
+        // dd($filePath);
+        // // Return the file path
         return $filePath;
     }
 

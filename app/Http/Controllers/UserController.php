@@ -124,7 +124,7 @@ class UserController extends Controller
         \Log::info('addDocuments called', [
             'data' => $request->all(),
         ]);
-        
+
         try {
             $this->userService->addDocuments($request, Auth::user()->id);
             return response()->json(['message' => 'Documents added successfully!'], 200);
