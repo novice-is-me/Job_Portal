@@ -109,7 +109,7 @@ const toggleFullProfileView = () => {
                             <ApplicationsComponent />
                         </div>
                         <div v-if="isFullProfile">
-                            <FullProfileComponent />
+                            <FullProfileComponent :user="user" />
                         </div>
                     </div>
                 </div>

@@ -1,5 +1,12 @@
 <script setup>
+import EducationComponent from "./Partials/EducationComponent.vue";
 import WorkExperience from "./Partials/WorkExperience.vue";
+
+const props = defineProps({
+    user: Object,
+});
+
+console.log(props.user);
 </script>
 
 <template>
@@ -10,12 +17,7 @@ import WorkExperience from "./Partials/WorkExperience.vue";
                 Professional Summary
             </h1>
             <p>
-                Senior UX Designer with 7+ years of experience creating
-                user-centered digital experiences for products and services.
-                Passionate about solving complex problems through design
-                thinking and user research. Skilled in creating wireframes,
-                prototypes, and high-fidelity designs that balance business
-                goals with user needs.
+                {{ user.introduction }}
             </p>
         </div>
         <!-- Work Experience -->
@@ -23,40 +25,21 @@ import WorkExperience from "./Partials/WorkExperience.vue";
             <h1 class="font-[Poppins] text-xl font-semibold">
                 Work Experience
             </h1>
-            <div class="">
-                <WorkExperience />
+            <div
+                v-for="workExp in user.work_experiences"
+                :key="workExp.id"
+                class=""
+            >
+                <WorkExperience :workExp="workExp" />
             </div>
         </div>
         <!-- Education -->
-        <div class="bg-white p-6 rounded-lg space-y-4">
-            <h1 class="font-[Poppins] text-xl font-semibold">Education</h1>
-            <div class="flex gap-x-3 items-start">
-                <i
-                    class="pi pi-graduation-cap border p-2 rounded-lg bg-blue-100 text-blue-700"
-                    style="font-size: 1.25em"
-                ></i>
-                <div>
-                    <p class="text-lg font-semibold">
-                        Master of Fine Arts in Interaction Design
-                    </p>
-                    <p class="text-blue-700">California College of the Arts</p>
-                    <p>2015 - 2017</p>
-                </div>
-            </div>
-            <!-- ANther -->
-            <div class="flex gap-x-3 items-start">
-                <i
-                    class="pi pi-graduation-cap border p-2 rounded-lg bg-blue-100 text-blue-700"
-                    style="font-size: 1.25em"
-                ></i>
-                <div>
-                    <p class="text-lg font-semibold">
-                        Master of Fine Arts in Interaction Design
-                    </p>
-                    <p class="text-blue-700">California College of the Arts</p>
-                    <p>2015 - 2017</p>
-                </div>
-            </div>
+        <div
+            v-for="education in user.educations"
+            :key="education.id"
+            class="bg-white p-6 rounded-lg space-y-4"
+        >
+            <EducationComponent :education="education" />
         </div>
         <!-- Certifications -->
         <div class="bg-white p-6 rounded-lg space-y-4">
@@ -93,12 +76,17 @@ import WorkExperience from "./Partials/WorkExperience.vue";
                 Portfolio & Links
             </h1>
             <div class="space-y-4">
-                <div class="flex gap-x-3 items-center justify-between">
+                <div
+                    v-if="user.website"
+                    class="flex gap-x-3 items-center justify-between"
+                >
                     <div class="flex gap-x-2 items-center">
                         <i class="pi pi-globe"></i>
                         <p>Personal Website</p>
                     </div>
-                    <div
+                    <a
+                        :href="user.website"
+                        target="_blank"
                         class="flex gap-x-2 items-center border px-3 py-1 rounded-lg"
                     >
                         <i
@@ -106,14 +94,19 @@ import WorkExperience from "./Partials/WorkExperience.vue";
                             style="font-size: 0.8rem"
                         ></i>
                         <p>Visit</p>
-                    </div>
+                    </a>
                 </div>
-                <div class="flex gap-x-3 items-center justify-between">
+                <div
+                    v-if="user.github"
+                    class="flex gap-x-3 items-center justify-between"
+                >
                     <div class="flex gap-x-2 items-center">
                         <i class="pi pi-github"></i>
                         <p>Github</p>
                     </div>
-                    <div
+                    <a
+                        :href="user.github"
+                        target="_blank"
                         class="flex gap-x-2 items-center border px-3 py-1 rounded-lg"
                     >
                         <i
@@ -121,7 +114,47 @@ import WorkExperience from "./Partials/WorkExperience.vue";
                             style="font-size: 0.8rem"
                         ></i>
                         <p>Visit</p>
+                    </a>
+                </div>
+                <div
+                    v-if="user.linkedin"
+                    class="flex gap-x-3 items-center justify-between"
+                >
+                    <div class="flex gap-x-2 items-center">
+                        <i class="pi pi-linkedin"></i>
+                        <p>Linkedin</p>
                     </div>
+                    <a
+                        :href="user.linkedin"
+                        target="_blank"
+                        class="flex gap-x-2 items-center border px-3 py-1 rounded-lg"
+                    >
+                        <i
+                            class="pi pi-external-link"
+                            style="font-size: 0.8rem"
+                        ></i>
+                        <p>Visit</p>
+                    </a>
+                </div>
+                <div
+                    v-if="user.portfolio"
+                    class="flex gap-x-3 items-center justify-between"
+                >
+                    <div class="flex gap-x-2 items-center">
+                        <i class="pi pi-file"></i>
+                        <p>Portfolio</p>
+                    </div>
+                    <a
+                        :href="user.portfolio"
+                        target="_blank"
+                        class="flex gap-x-2 items-center border px-3 py-1 rounded-lg"
+                    >
+                        <i
+                            class="pi pi-external-link"
+                            style="font-size: 0.8rem"
+                        ></i>
+                        <p>Visit</p>
+                    </a>
                 </div>
             </div>
         </div>
