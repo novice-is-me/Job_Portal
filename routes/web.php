@@ -47,6 +47,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
     // Job Details
     Route::get('/dashboard/job/{job}', [JobController::class, 'index'])->name('job.index');
 
+    // Apply
+    Route::post('/dashboard/job/{job}/apply', [JobController::class, 'apply'])->name('job.apply');
+
     // Profile
     // Route::get(('/profile'), [UserController::class, 'index'])->name('profile.index');
 

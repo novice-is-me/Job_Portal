@@ -7,8 +7,8 @@ import JobSummaryDetails from "@/Components/Job/JobSummaryDetails.vue";
 import RecruiterDetails from "@/Components/Job/RecruiterDetails.vue";
 import SkillDetails from "@/Components/Job/SkillDetails.vue";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
-import { Head, Link } from "@inertiajs/vue3";
-import { Avatar, Button } from "primevue";
+import { Head, Link, useForm } from "@inertiajs/vue3";
+import { Avatar, Button, Toast, useToast } from "primevue";
 
 const props = defineProps({
     job: Object,
@@ -16,6 +16,7 @@ const props = defineProps({
 });
 
 console.log(props.job);
+const toast = useToast();
 
 const formatDate = (date) => {
     const today = new Date();
@@ -38,6 +39,38 @@ const formatDate = (date) => {
     } else {
         return `${diffInYears} year${diffInYears > 1 ? "s" : ""} ago`;
     }
+};
+
+const form = useForm({
+    job_id: props.job.id,
+});
+
+const applyNow = () => {
+    console.log(props.job);
+    console.log("Apply Now clicked");
+
+    form.post(route("job.apply", props.job.id), {
+        onSuccess: (response) => {
+            console.log(response);
+
+            toast.add({
+                severity: "success",
+                summary: "Application Successful",
+                detail: "You have successfully applied for the job.",
+                life: 3000,
+            });
+        },
+        onError: (error) => {
+            console.error(error);
+            // Handle error response here
+            toast.add({
+                severity: "error",
+                summary: "Application Failed",
+                detail: "There was an error applying for the job.",
+                life: 3000,
+            });
+        },
+    });
 };
 </script>
 
@@ -93,7 +126,10 @@ const formatDate = (date) => {
                                             <div
                                                 class="mt-3 flex items-center gap-x-4"
                                             >
-                                                <Button class="">
+                                                <Button
+                                                    class=""
+                                                    @click="applyNow"
+                                                >
                                                     <i
                                                         class="pi pi-check-circle"
                                                     ></i

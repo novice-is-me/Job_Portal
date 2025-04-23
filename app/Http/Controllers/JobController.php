@@ -3,12 +3,20 @@
 namespace App\Http\Controllers;
 
 use App\Models\Job;
+use App\Services\JobServices;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
 class JobController extends Controller
 {
-    //
+
+    public $jobService;
+    
+    public function __construct(JobServices $jobServices)
+    {
+        $this->jobService = $jobServices;
+
+    }
     public function index($id){
         
         $job = Job::with([
@@ -27,5 +35,17 @@ class JobController extends Controller
             'job' => $job,
             'related_jobs' => $related_jobs,
         ]);
+    }
+    
+    public function apply(Request $request){
+        // dd($request->all());
+        
+        try {
+            $this->jobService->apply($request);
+            return redirect()->back()->with('success', 'Application submitted successfully.');
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', 'Failed to submit application. Please try again.');
+        }
+
     }
 }
