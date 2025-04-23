@@ -11,6 +11,7 @@ import { ref } from "vue";
 
 const props = defineProps({
     user: Object,
+    job_applications: Object,
 });
 
 console.log(props.user);
@@ -106,7 +107,9 @@ const toggleFullProfileView = () => {
                             <DocumentsComponent :user="user" />
                         </div>
                         <div v-if="isApplications">
-                            <ApplicationsComponent />
+                            <ApplicationsComponent
+                                :job_applications="job_applications"
+                            />
                         </div>
                         <div v-if="isFullProfile">
                             <FullProfileComponent :user="user" />

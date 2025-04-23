@@ -4,6 +4,10 @@ import { Select, Button } from "primevue";
 import { ref } from "vue";
 import ApplicationSection from "./Partials/ApplicationSection.vue";
 
+const props = defineProps({
+    job_applications: Object,
+});
+
 const form = useForm({
     application: "",
 });
@@ -137,10 +141,12 @@ const applyFilter = () => {
         </div>
 
         <!-- Application Section -->
-        <div class="space-y-4">
-            <ApplicationSection />
-            <ApplicationSection />
-            <ApplicationSection />
+        <div
+            v-for="application in props.job_applications"
+            :key="application.isFiltered"
+            class="space-y-4"
+        >
+            <ApplicationSection :application="application" />
         </div>
     </div>
 </template>

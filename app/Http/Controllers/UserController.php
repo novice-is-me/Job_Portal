@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\ProfileUpdateRequest;
 use App\Models\Skill;
 use App\Models\User;
+use App\Models\UserApplication;
 use App\Services\UserServices;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Http\RedirectResponse;
@@ -36,8 +37,13 @@ class UserController extends Controller
             'skills.skill',
         ]);
 
+        $job_applications = UserApplication::where('user_id', Auth::user()->id)
+            ->with(['job.company'])
+            ->get();
+
         return Inertia::render('Profile/Index', [
             'user' => Auth::user(),
+            'job_applications' => $job_applications,
         ]);
     }
 

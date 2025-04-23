@@ -5,6 +5,12 @@ import CategoriesComponent from "@/Components/Dashboard/Partials/CategoriesCompo
 import { ProgressBar } from "primevue";
 import { ref } from "vue";
 
+const props = defineProps({
+    application: Object,
+});
+
+console.log(props.application);
+const job = ref(props.application.job);
 const statusApplication = ref("Interview");
 
 const borderStyle = () => {
@@ -14,6 +20,11 @@ const borderStyle = () => {
         "border-red-500": statusApplication.value === "Rejected",
         "border-yellow-500": statusApplication.value === "Pending",
     };
+};
+
+const formatDate = (date) => {
+    if (!date) return null;
+    return new Date(date).toISOString().split("T")[0]; // Format to YYYY-MM-DD
 };
 </script>
 
@@ -26,7 +37,7 @@ const borderStyle = () => {
                 <h2
                     class="font-[Poppins] font-semibold text-lg flex items-center gap-x-3"
                 >
-                    Senior UX Design
+                    {{ job.name }}
                     <span>
                         <ApplicationStatus :status="statusApplication" />
                     </span>
@@ -35,12 +46,12 @@ const borderStyle = () => {
                 <div class="space-y-3">
                     <div class="flex items-center gap-x-2">
                         <i class="pi pi-building"></i>
-                        <p>DesignHub Co</p>
+                        <p>{{ job.company.name }}</p>
                     </div>
                     <CategoriesComponent
-                        :job_type="'Full Time'"
-                        :location_type="'Remote'"
-                        :salary="140000"
+                        :job_type="job.type"
+                        :location_type="job.work_setup"
+                        :salary="job.salary"
                     />
                 </div>
             </div>
@@ -56,7 +67,7 @@ const borderStyle = () => {
             <ProgressBar class="text-sm" style="height: 15px" />
             <div class="flex items-center gap-x-2 text-secondary text-[11px]">
                 <i class="pi pi-calendar"></i>
-                <p>Applied on June 12, 2023</p>
+                <p>Applied on: {{ formatDate(job.created_at) }}</p>
             </div>
         </div>
     </div>
