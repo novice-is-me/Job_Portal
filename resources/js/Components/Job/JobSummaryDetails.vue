@@ -3,6 +3,7 @@ import { Button } from "primevue";
 
 const props = defineProps({
     job: Object,
+    job_application: Object,
 });
 
 const formatSalary = (salary) => {
@@ -45,6 +46,6 @@ const formatSalary = (salary) => {
                 <p class="font-semibold">{{ job.experience.name }}</p>
             </div>
         </div>
-        <Button>Apply Now</Button>
+        <Button :disabled="job_application">Apply Now</Button>
     </div>
 </template>

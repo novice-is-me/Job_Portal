@@ -30,10 +30,14 @@ class JobController extends Controller
         // Get all related jobs, but excluding the current job
         $related_jobs = $job->company->jobs->where('id', '!=', $job->id);
 
+        // Get the user_application status
+        $job_application = $job->applications->where('user_id', auth()->user()->id)->first();
+
         // dd($related_jobs);
         return Inertia::render('Job/Index', [
             'job' => $job,
             'related_jobs' => $related_jobs,
+            'job_application' => $job_application,
         ]);
     }
     

@@ -13,6 +13,7 @@ class UserApplication extends Model
     protected $fillable = [
         'job_id',
         'user_id',
+        'is_applied',
     ];
 
     public function user(){

@@ -13,6 +13,7 @@ import { Avatar, Button, Toast, useToast } from "primevue";
 const props = defineProps({
     job: Object,
     related_jobs: Object,
+    job_application: Object,
 });
 
 console.log(props.job);
@@ -127,6 +128,7 @@ const applyNow = () => {
                                                 class="mt-3 flex items-center gap-x-4"
                                             >
                                                 <Button
+                                                    :disabled="job_application"
                                                     class=""
                                                     @click="applyNow"
                                                 >
@@ -185,7 +187,10 @@ const applyNow = () => {
                             </div>
                         </div>
                         <div class="space-y-6">
-                            <JobSummaryDetails :job="job" />
+                            <JobSummaryDetails
+                                :job="job"
+                                :job_application="job_application"
+                            />
                             <RecruiterDetails :job="job" />
                             <SkillDetails :job="job" />
                         </div>
