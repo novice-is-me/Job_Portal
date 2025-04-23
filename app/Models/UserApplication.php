@@ -14,6 +14,7 @@ class UserApplication extends Model
         'job_id',
         'user_id',
         'is_applied',
+        'status',
     ];
 
     public function user(){
@@ -24,5 +25,11 @@ class UserApplication extends Model
     public function job(){
         // belongs to because user_application belongs to a job
         return $this->belongsTo(Job::class);
+    }
+
+    public function jobStatus()
+    {
+        // hasMany because job status can have many application status
+        return $this->belongsTo(JobStatus::class, 'status');
     }
 }

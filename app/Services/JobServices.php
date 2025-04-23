@@ -23,6 +23,7 @@ class JobServices {
                     'job_id' => $request->job_id,
                     'user_id' => $user_id,
                     'is_applied' => 1,
+                    'status' => 1,
                 ]);
             }
 

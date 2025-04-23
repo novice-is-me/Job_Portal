@@ -9,10 +9,10 @@ const props = defineProps({
     application: Object,
 });
 
-console.log(props.application);
+const application = ref(props.application);
 const job = ref(props.application.job);
-const statusApplication = ref("Interview");
-
+const statusApplication = ref(props.application.job_status.name);
+console.log(statusApplication.value);
 const borderStyle = () => {
     return {
         "border-blue-500": statusApplication.value === "Interview",

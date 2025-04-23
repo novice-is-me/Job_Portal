@@ -38,7 +38,7 @@ class UserController extends Controller
         ]);
 
         $job_applications = UserApplication::where('user_id', Auth::user()->id)
-            ->with(['job.company'])
+            ->with(['job.company', 'jobStatus'])
             ->get();
 
         return Inertia::render('Profile/Index', [

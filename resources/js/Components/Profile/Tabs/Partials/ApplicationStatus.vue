@@ -12,13 +12,13 @@ const props = defineProps({
             <p class="text-[11px] font-semibold">Interview</p>
         </div>
         <div v-if="status === 'Reviewed'">
-            <p class="text-[11px] font-semibold">Reviewed</p>
+            <p class="text-[11px] text-yellow-700 font-semibold">Reviewed</p>
         </div>
         <div v-if="status === 'Rejected'">
-            <p class="text-[11px] font-semibold">Rejected</p>
+            <p class="text-[11px] text-red-700 font-semibold">Rejected</p>
         </div>
         <div v-if="status === 'Pending'">
-            <p class="text-[11px] font-semibold">Pending</p>
+            <p class="text-[11px] text-green-700 font-semibold">Pending</p>
         </div>
     </div>
 </template>
