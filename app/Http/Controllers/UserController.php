@@ -44,6 +44,7 @@ class UserController extends Controller
         return Inertia::render('Profile/Index', [
             'user' => Auth::user(),
             'job_applications' => $job_applications,
+            'skills' => Skill::all(),
         ]);
     }
 
@@ -68,6 +69,11 @@ class UserController extends Controller
             'user' => $user,
             'skills' => Skill::all(),
         ]);
+    }
+
+    public function updateInformation(Request $request){
+
+        $this->userService->updateInformation($request, Auth::user()->id);
     }
 
     public function updateBasicInformation(ProfileUpdateRequest $request)

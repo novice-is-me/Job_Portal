@@ -11,7 +11,6 @@ use Illuminate\Support\Facades\Log;
 class UserServices {
 
     public function updateUser ($request, $id) {
-        
         try {
             // Find the user
             $user = User::find($id);
@@ -43,8 +42,26 @@ class UserServices {
         }
     }
 
+    public function updateInformation ($request, $id){
+
+        try {
+            $user = User::find($id);
+
+            if($user){
+                $user->update([
+                    'name' => $request['name'],
+                    'headline' => $request['title'],
+                    'address' => $request['location']
+                ]);
+            
+            } 
+        } catch (Exception $e) {
+            Log::error('Error updating user information: ' . $e->getMessage());
+            return response()->json(['error' => 'Something went wrong, please try again']);
+        }
+    }
+
     public function updateWorkExp ($request, $id) {
-        // dd($request->all());
 
         // Find the user
         $user = User::find($id);
@@ -67,7 +84,6 @@ class UserServices {
     }
 
     public function updateEducation ($request, $id){
-        // dd($request->all());
 
         $user = User::find($id);
 

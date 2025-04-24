@@ -12,9 +12,10 @@ import { ref } from "vue";
 const props = defineProps({
     user: Object,
     job_applications: Object,
+    skills: Object,
 });
 
-console.log(props.user);
+console.log(props.skills);
 // For tracking active tabs
 const isDocuments = ref(true);
 const isApplications = ref(false);
@@ -67,7 +68,10 @@ const toggleFullProfileView = () => {
                             <ContactInfoComponent :user="user" />
                         </div>
                         <div>
-                            <SkillDetailComponent :user="user" />
+                            <SkillDetailComponent
+                                :user="user"
+                                :skills="skills"
+                            />
                         </div>
                     </div>
                     <div class="space-y-6">

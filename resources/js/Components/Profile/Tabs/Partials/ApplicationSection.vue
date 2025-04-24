@@ -9,10 +9,11 @@ const props = defineProps({
     application: Object,
 });
 
-const application = ref(props.application);
 const job = ref(props.application.job);
 const statusApplication = ref(props.application.job_status.name);
-console.log(statusApplication.value);
+const progressStep = ref("0");
+const progressValue = ref(0);
+
 const borderStyle = () => {
     return {
         "border-blue-500": statusApplication.value === "Interview",
@@ -26,6 +27,19 @@ const formatDate = (date) => {
     if (!date) return null;
     return new Date(date).toISOString().split("T")[0]; // Format to YYYY-MM-DD
 };
+
+if (statusApplication.value === "Interview") {
+    progressStep.value = 3;
+    progressValue.value = 100;
+} else if (statusApplication.value === "Reviewed") {
+    progressStep.value = 2;
+    progressValue.value = 50;
+} else if (statusApplication.value === "Pending") {
+    progressStep.value = 1;
+    progressValue.value = 25;
+} else if (statusApplication.value === "Rejected") {
+    progressValue.value = 100;
+}
 </script>
 
 <template>
@@ -62,9 +76,13 @@ const formatDate = (date) => {
                 class="flex justify-between items-center gap-x-4 text-sm font-medium"
             >
                 <p>Application Progress</p>
-                <p>3 of 4 steps</p>
+                <p>{{ progressStep }} of 4 steps</p>
             </div>
-            <ProgressBar class="text-sm" style="height: 15px" />
+            <ProgressBar
+                class="text-sm"
+                style="height: 15px"
+                :value="progressValue"
+            />
             <div class="flex items-center gap-x-2 text-secondary text-[11px]">
                 <i class="pi pi-calendar"></i>
                 <p>Applied on: {{ formatDate(job.created_at) }}</p>

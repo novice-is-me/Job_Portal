@@ -190,6 +190,7 @@ const applyNow = () => {
                             <JobSummaryDetails
                                 :job="job"
                                 :job_application="job_application"
+                                :applyNow="applyNow"
                             />
                             <RecruiterDetails :job="job" />
                             <SkillDetails :job="job" />

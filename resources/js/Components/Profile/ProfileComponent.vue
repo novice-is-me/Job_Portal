@@ -23,6 +23,16 @@ const form = useForm({
 
 const updateProfile = () => {
     console.log("Updating profile...");
+
+    form.post(route("profile.updateInformation"), {
+        onSuccess: () => {
+            console.log("Profile updated successfully!");
+            // isEdit.value = false;
+        },
+        onError: (errors) => {
+            console.error("Error updating profile:", errors);
+        },
+    });
 };
 </script>
 

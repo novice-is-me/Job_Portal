@@ -34,6 +34,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/download/{id}/{type}/{filename}', [FileController::class, 'download'])->name('download');
     Route::delete('/profile/delete/documents/{id}', [FileController::class, 'delete'])->name('profile.deleteDocuments');
     Route::post('profile/edit/social', [UserController::class, 'updateSocial'])->name('profile.updateSocial');
+    Route::post('[profile/update/information]', [UserController::class, 'updateInformation'])->name('profile.updateInformation');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
     // dashboard
