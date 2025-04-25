@@ -71,7 +71,7 @@ class SearchServices {
         ->appends($filters);
     }
 
-    public function companySearch ($request, $paginate = 5){
+    public function companySearch ($request, $paginate = 3){
         // dd($request->all());
 
         $company = $request->input('company');

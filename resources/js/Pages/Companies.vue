@@ -11,6 +11,7 @@ const props = defineProps({
     categoryCompany: Object,
     companies: Object,
     results: Object,
+    featuredCompanies: Object,
 });
 
 const isGrid = ref(true);
@@ -18,6 +19,7 @@ const isRow = ref(false);
 
 const companies = ref(props.companies);
 const results = ref(props.results);
+const featuredCompanies = ref(props.featuredCompanies);
 
 const updateResults = (newResults) => {
     results.value = newResults;
@@ -56,14 +58,17 @@ const updateResults = (newResults) => {
                     <!-- Main content -->
                     <div class="space-y-10">
                         <!-- Featured -->
-                        <div class="space-y-4">
+                        <div v-if="!results" class="space-y-4">
                             <h1 class="text-xl font-semibold font-[Poppins]">
                                 Featured Companies
                             </h1>
                             <div class="grid gap-4 items-stretch grid-cols-3">
-                                <!-- <CompanyComponent />
-                                <CompanyComponent />
-                                <CompanyComponent /> -->
+                                <div
+                                    v-for="company in featuredCompanies"
+                                    :key="company.id"
+                                >
+                                    <CompanyComponent :company="company" />
+                                </div>
                             </div>
                         </div>
 

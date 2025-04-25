@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Category;
 use App\Models\Company;
 use App\Models\ExperienceLevel;
+use App\Models\Industry;
 use App\Models\Job;
 use App\Services\SearchServices;
 use Illuminate\Http\Request;
@@ -93,24 +94,16 @@ class SearchController extends Controller
         $companies = Company::with(['jobs'])
             ->paginate(3);
 
-        return Inertia::render('Companies', [
-            'categoryCompany' => Category::all(),
-            'companies' => $companies,
-            'results' => $result,
-        ]);
-    }
-
-    public function advancedSearchCompany (Request $request) {
-
-        $result = $this->searchService->searchIndustry($request);
-
-        $companies = Company::with(['jobs'])
-            ->paginate(3);
+        $featuredCompanies = Company::with(['jobs'])
+            ->inRandomOrder()
+            ->take(3)
+            ->get();
 
         return Inertia::render('Companies', [
-            'categoryCompany' => Category::all(),
+            'categoryCompany' => Industry::all(),
             'companies' => $companies,
             'results' => $result,
+            'featuredCompanies' => $featuredCompanies,
         ]);
     }
 }

@@ -59,7 +59,7 @@ const submitSearch = () => {
         }
 
         if (form.selectedIndustry && form.selectedIndustry !== "") {
-            url.searchParams.set("industry", form.selectedIndustry);
+            url.searchParams.set("industry", form.selectedIndustry.id);
         }
     }
 
@@ -123,6 +123,7 @@ const applyFilters = () => {
 
 const clearFilters = () => {
     data.reset();
+    form.reset();
 };
 
 const job_status = ref([
@@ -187,7 +188,6 @@ const salary_range = ref([
                     v-model="form.selectedIndustry"
                     :options="categoryCompany"
                     optionLabel="name"
-                    optionValue="name"
                     placeholder="All industries"
                 />
             </InputGroup>
@@ -198,6 +198,13 @@ const salary_range = ref([
                         ? 'Search Jobs'
                         : 'Search Companies'
                 "
+                class="whitespace-nowrap px-6 py-2"
+            />
+
+            <Button
+                v-if="props.value === 'companies'"
+                @click="clearFilters"
+                label="Clear"
                 class="whitespace-nowrap px-6 py-2"
             />
         </div>
