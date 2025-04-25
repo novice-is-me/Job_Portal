@@ -32,8 +32,12 @@ class DashboardController extends Controller
 
     public function companies () {
 
+        $companies = Company::with(['jobs'])
+            ->paginate(3);
+
         return Inertia::render('Companies', [
             'categoryCompany' => Category::all(),
+            'companies' => $companies,
         ]);
     }
 }

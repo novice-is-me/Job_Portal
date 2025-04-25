@@ -1,6 +1,16 @@
 <script setup>
 import { Avatar } from "primevue";
 import CategoriesComponent from "../Dashboard/Partials/CategoriesComponent.vue";
+import { ref } from "vue";
+
+const props = defineProps({
+    company: {
+        type: Object,
+        required: true,
+    },
+});
+
+console.log("Child received company:", props.company); // here is undefined
 </script>
 
 <template>
@@ -16,23 +26,26 @@ import CategoriesComponent from "../Dashboard/Partials/CategoriesComponent.vue";
                     class=""
                 />
                 <div>
-                    <p class="text-lg font-semibold">techCorp.inc</p>
-                    <p class="text-secondary text-sm">Batangas city</p>
+                    <p class="text-lg font-semibold">
+                        {{ company.name }}
+                    </p>
+                    <p class="text-secondary text-sm">
+                        {{ company.address }}
+                    </p>
                 </div>
             </div>
             <div>
                 <CategoriesComponent
-                    :people="5000"
-                    :category="'Engineering'"
+                    :people="company.no_employees"
+                    :category="company.category"
                     :value="'companies'"
-                    :location="'Manila'"
+                    :location="company.address"
                 />
             </div>
             <!-- sentence -->
             <div>
                 <p>
-                    Leading technology company specializing in cloud-based
-                    solutions for businesses of all sizes.
+                    {{ company.description }}
                 </p>
             </div>
             <!-- footer -->

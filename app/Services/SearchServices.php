@@ -1,6 +1,7 @@
 <?php
 namespace App\Services;
 
+use App\Models\Company;
 use App\Models\Job;
 
 class SearchServices {
@@ -69,4 +70,25 @@ class SearchServices {
         })->paginate($paginate)
         ->appends($filters);
     }
+
+    public function companySearch ($request, $paginate = 5){
+        // dd($request->all());
+
+        $company = $request->input('company');
+        $industry = $request->input('industry');
+
+        return Company::query()
+            ->when(!empty($company), function($q) use ($company){
+                $q->where('name', 'like', '%'.$company.'%');
+            })
+            ->when(!empty($industry), function($q) use ($industry){
+                $q->where('industry', 'like', '%'.$industry.'%');
+            })
+            ->paginate($paginate)
+            ->appends($request->only('company'));
+    }
+
+    // public function searchIndustry ( $request, $paginate = 5) {
+    //     dd($request->all());
+    // }
 }

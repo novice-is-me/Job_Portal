@@ -85,4 +85,32 @@ class SearchController extends Controller
             'results' => $result,
         ]);
     }
+
+    public function searchCompany (Request $request) {
+
+        $result = $this->searchService->companySearch($request);
+
+        $companies = Company::with(['jobs'])
+            ->paginate(3);
+
+        return Inertia::render('Companies', [
+            'categoryCompany' => Category::all(),
+            'companies' => $companies,
+            'results' => $result,
+        ]);
+    }
+
+    public function advancedSearchCompany (Request $request) {
+
+        $result = $this->searchService->searchIndustry($request);
+
+        $companies = Company::with(['jobs'])
+            ->paginate(3);
+
+        return Inertia::render('Companies', [
+            'categoryCompany' => Category::all(),
+            'companies' => $companies,
+            'results' => $result,
+        ]);
+    }
 }

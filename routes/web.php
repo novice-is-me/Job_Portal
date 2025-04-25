@@ -45,6 +45,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/dashboard/advanced-search', [SearchController::class, 'advancedSearch'])->name('dashboard.advanced-search');
     route::get('/dashboard/filter', [SearchController::class, 'filter'])->name('dashboard.filter');
 
+    // Search (Company page)
+    Route::get('/dashboard/search/company', [SearchController::class, 'searchCompany'])->name('dashboard.search.company');
+    Route::get('/dashboard/advanced-search/company', [SearchController::class, 'advancedSearchCompany'])->name('dashboard.advanced-search.company');
+
     // Job Details
     Route::get('/dashboard/job/{job}', [JobController::class, 'index'])->name('job.index');
 

@@ -5,13 +5,23 @@ import { ref } from "vue";
 import SearchComponent from "@/Components/Dashboard/SearchComponent.vue";
 import CompanyComponent from "@/Components/Company/CompanyComponent.vue";
 import Banner from "@/Components/Company/Banner.vue";
+import Pagination from "@/Components/Pagination.vue";
 
 const props = defineProps({
     categoryCompany: Object,
+    companies: Object,
+    results: Object,
 });
 
 const isGrid = ref(true);
 const isRow = ref(false);
+
+const companies = ref(props.companies);
+const results = ref(props.results);
+
+const updateResults = (newResults) => {
+    results.value = newResults;
+};
 </script>
 
 <template>
@@ -39,20 +49,21 @@ const isRow = ref(false);
                         <SearchComponent
                             :value="'companies'"
                             :categoryCompany="categoryCompany"
+                            @updateResults="updateResults"
                         />
                     </div>
 
                     <!-- Main content -->
-                    <div class="space-y-5">
+                    <div class="space-y-10">
                         <!-- Featured -->
                         <div class="space-y-4">
                             <h1 class="text-xl font-semibold font-[Poppins]">
                                 Featured Companies
                             </h1>
                             <div class="grid gap-4 items-stretch grid-cols-3">
+                                <!-- <CompanyComponent />
                                 <CompanyComponent />
-                                <CompanyComponent />
-                                <CompanyComponent />
+                                <CompanyComponent /> -->
                             </div>
                         </div>
 
@@ -92,24 +103,54 @@ const isRow = ref(false);
                                 </div>
                             </div>
 
-                            <!-- Companies Component -->
+                            <!-- Companies Component Default -->
                             <div
+                                v-if="!results"
                                 :class="[
                                     'grid gap-4 items-stretch',
                                     isGrid ? 'grid-cols-3' : 'grid-cols-1',
                                 ]"
                             >
-                                <CompanyComponent />
-                                <CompanyComponent />
-                                <CompanyComponent />
+                                <div
+                                    v-for="company in companies.data"
+                                    :key="company.id"
+                                >
+                                    <CompanyComponent :company="company" />
+                                </div>
                             </div>
 
-                            <!-- Pagination -->
-                            <div></div>
+                            <!-- Filtered Companies -->
+                            <div
+                                v-else-if="results.data"
+                                :class="[
+                                    'grid gap-4 items-stretch',
+                                    isGrid ? 'grid-cols-3' : 'grid-cols-1',
+                                ]"
+                            >
+                                <div
+                                    v-for="result in results.data"
+                                    :key="result.id"
+                                >
+                                    <CompanyComponent :company="result" />
+                                </div>
+                            </div>
 
-                            <!-- Banner subscription -->
-                            <Banner />
+                            <!-- No Results Message -->
+                            <div
+                                v-if="results && results.data.length === 0"
+                                class="flex items-center justify-center text-black font-semibold"
+                            >
+                                No Companies Found
+                            </div>
                         </div>
+                        <!-- Pagination -->
+                        <Pagination
+                            :data="!results ? companies : results"
+                            :links="!results ? companies.links : results.links"
+                        />
+
+                        <!-- Banner subscription -->
+                        <Banner />
                     </div>
                 </div>
             </div>

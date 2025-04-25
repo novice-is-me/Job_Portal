@@ -40,9 +40,10 @@ const form = useForm({
 const emit = defineEmits(["updateResults"]);
 
 const submitSearch = () => {
-    let url = new URL(route("dashboard.search"));
+    let url;
 
     if (props.value === "dashboard") {
+        url = new URL(route("dashboard.search"));
         if (data.job.length > 0) {
             url.searchParams.set("job", data.job);
         }
@@ -50,9 +51,15 @@ const submitSearch = () => {
         if (data.city.length > 0) {
             url.searchParams.set("city", data.city);
         }
-    } else {
+    } else if (props.value === "companies") {
+        url = new URL(route("dashboard.search.company"));
+
         if (form.company.length > 0) {
             url.searchParams.set("company", form.company);
+        }
+
+        if (form.selectedIndustry && form.selectedIndustry !== "") {
+            url.searchParams.set("industry", form.selectedIndustry);
         }
     }
 
@@ -62,7 +69,7 @@ const submitSearch = () => {
         preserveState: true,
         replace: true,
         onSuccess: (data) => {
-            console.log("Data from the search", data);
+            console.log("Data from the search", form);
             // Pass the data to the updateResults event to update the results in the parent component
             emit("updateResults", data.props.results);
         },
@@ -71,11 +78,11 @@ const submitSearch = () => {
 
 // For advanced filters
 const applyFilters = () => {
-    let url = new URL(route("dashboard.advanced-search"));
-
-    console.log("Data from the search", data);
+    let url;
 
     if (value === "dashboard") {
+        url = new URL(route("dashboard.advanced-search"));
+
         if (data.selectedCategories && data.selectedCategories !== "") {
             url.searchParams.set("category", data.selectedCategories.id);
         }
@@ -98,10 +105,6 @@ const applyFilters = () => {
 
         if (data.selectedSalary && data.selectedSalary !== "") {
             url.searchParams.set("salary", data.selectedSalary.value);
-        }
-    } else {
-        if (form.selectedIndustry && form.selectedIndustry !== "") {
-            url.searchParams.set("industry", form.selectedIndustry.id);
         }
     }
 
@@ -154,12 +157,17 @@ const salary_range = ref([
             <InputGroup class="flex-1">
                 <InputGroupAddon> <i class="pi pi-search"></i></InputGroupAddon>
                 <InputText
+                    v-if="props.value === 'dashboard'"
                     v-model="data.job"
-                    :placeholder="
-                        props.value === 'dashboard'
-                            ? 'Job title, keywords, or company'
-                            : 'Search companies by name'
+                    placeholder="Job title, keywords, or company
                     "
+                    class="w-full"
+                />
+
+                <InputText
+                    v-model="form.company"
+                    v-if="props.value === 'companies'"
+                    placeholder=" Search companies by name"
                     class="w-full"
                 />
             </InputGroup>
@@ -176,9 +184,10 @@ const salary_range = ref([
 
             <InputGroup v-if="props.value === 'companies'" class="flex-[0.5]">
                 <Select
-                    v-model="data.selectedJobStatus"
+                    v-model="form.selectedIndustry"
                     :options="categoryCompany"
                     optionLabel="name"
+                    optionValue="name"
                     placeholder="All industries"
                 />
             </InputGroup>
