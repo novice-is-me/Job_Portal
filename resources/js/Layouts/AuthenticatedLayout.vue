@@ -51,8 +51,8 @@ const showingNavigationDropdown = ref(false);
                                 Find Jobs
                             </NavLink>
                             <NavLink
-                                :href="route('dashboard')"
-                                :active="route().current('dashboard')"
+                                :href="route('companies')"
+                                :active="route().current('companies')"
                             >
                                 Companies
                             </NavLink>

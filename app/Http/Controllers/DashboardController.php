@@ -29,4 +29,11 @@ class DashboardController extends Controller
             'experiences' => ExperienceLevel::all(),
         ]);
     }
+
+    public function companies () {
+
+        return Inertia::render('Companies', [
+            'categoryCompany' => Category::all(),
+        ]);
+    }
 }

@@ -64,6 +64,7 @@ const formatDate = (date) => {
             :job_type="job.type"
             :location_type="job.work_setup"
             :salary="job.salary"
+            :value="'dashboard'"
         />
 
         <!-- Job Description (Flex-1 to grow) -->

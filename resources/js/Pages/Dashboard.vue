@@ -52,6 +52,7 @@ const updateResults = (newResults) => {
                         <SearchComponent
                             :categories="categories"
                             :companies="companies"
+                            :value="'dashboard'"
                             @updateResults="updateResults"
                         />
                     </div>
