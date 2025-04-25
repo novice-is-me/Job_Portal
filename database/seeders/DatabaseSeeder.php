@@ -39,9 +39,10 @@ class DatabaseSeeder extends Seeder
             UserTypeSeeder::class,
             RecruiterSeeder::class,
             ExprienceLevelSeeder::class,
+            IndustrySeeder::class,
             CompanySeeder::class,
             JobSeeder::class,
-            SkillSeeder::class
+            SkillSeeder::class,
         ]);
     }
 }

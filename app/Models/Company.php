@@ -26,4 +26,9 @@ class Company extends Model
         // hasMany because company can have many jobs
         return $this->hasMany(Job::class);
     }
+
+    public function industry()
+    {
+        return $this->belongsTo(Industry::class);
+    }
 }

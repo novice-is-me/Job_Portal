@@ -3,6 +3,7 @@
 namespace Database\Factories;
 
 use App\Models\Company;
+use App\Models\Industry;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -30,7 +31,7 @@ class CompanyFactory extends Factory
             'no_employees' => $this->faker->numberBetween(10, 1000),
             'benefits' => $this->faker->text,
             'founded_at' => $this->faker->date(),
-            'industry' => $this->faker->randomElement(['Technology', 'Finance', 'Healthcare', 'Education', 'Retail', 'Manufacturing', 'Construction', 'Hospitality', 'Transportation', 'Other']),
+            'industry' => Industry::inRandomOrder()->first()->id,
         ];
     }
 }
