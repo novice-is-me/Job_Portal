@@ -148,7 +148,13 @@ const updateResults = (newResults) => {
                                     v-for="result in results.data"
                                     :key="result.id"
                                 >
-                                    <CompanyComponent :company="result" />
+                                    <Link
+                                        :href="
+                                            route('company.index', result.id)
+                                        "
+                                    >
+                                        <CompanyComponent :company="result" />
+                                    </Link>
                                 </div>
                             </div>
 

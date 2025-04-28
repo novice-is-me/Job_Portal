@@ -42,7 +42,6 @@ class JobController extends Controller
     }
     
     public function apply(Request $request){
-        // dd($request->all());
         
         try {
             $this->jobService->apply($request);

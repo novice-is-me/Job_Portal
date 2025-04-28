@@ -6,7 +6,7 @@ use App\Models\UserApplication;
 class JobServices {
     
     public function apply($request){
-
+        // dd($request->all());
         $user_id = auth()->user()->id;
         
         if ($request){

@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\ExperienceLevel;
+use App\Models\JobStatus;
 use App\Models\User;
 use App\Models\UserType;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
@@ -43,6 +44,7 @@ class DatabaseSeeder extends Seeder
             CompanySeeder::class,
             JobSeeder::class,
             SkillSeeder::class,
+            JobStatusSeeder::class,
         ]);
     }
 }

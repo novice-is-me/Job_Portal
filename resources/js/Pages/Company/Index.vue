@@ -96,7 +96,7 @@ const similarCompanies = ref(props.similarCompanies);
                         class="grid grid-cols-1 md:grid-cols-[2fr,1fr] gap-x-6"
                     >
                         <!-- Left Section -->
-                        <div class="border border-gray-200">
+                        <div class="">
                             <CompanyDetails :company="company" />
                         </div>
                         <!-- Right Section -->
