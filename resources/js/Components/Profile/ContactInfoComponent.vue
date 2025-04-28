@@ -23,7 +23,7 @@ const user = ref(props.user);
                     <p>{{ user.email || "" }}</p>
                 </div>
             </div>
-            <div class="flex gap-x-4 items-center">
+            <div v-if="user.phone" class="flex gap-x-4 items-center">
                 <i class="pi pi-phone"></i>
                 <div>
                     <p>Phone</p>

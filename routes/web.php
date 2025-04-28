@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CompanyController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\FileController;
 use App\Http\Controllers\JobController;
@@ -56,6 +57,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     // Companies dahsboard
     Route::get('companies', [DashboardController::class, 'companies'])->name('companies');
+    Route::get('company/{id}', [CompanyController::class, 'index'])->name('company.index');
 
 });
 

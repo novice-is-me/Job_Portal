@@ -1,5 +1,5 @@
 <script setup>
-import { Head } from "@inertiajs/vue3";
+import { Head, Link } from "@inertiajs/vue3";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
 import { ref } from "vue";
 import SearchComponent from "@/Components/Dashboard/SearchComponent.vue";
@@ -67,7 +67,13 @@ const updateResults = (newResults) => {
                                     v-for="company in featuredCompanies"
                                     :key="company.id"
                                 >
-                                    <CompanyComponent :company="company" />
+                                    <Link
+                                        :href="
+                                            route('company.index', company.id)
+                                        "
+                                    >
+                                        <CompanyComponent :company="company" />
+                                    </Link>
                                 </div>
                             </div>
                         </div>
@@ -120,7 +126,13 @@ const updateResults = (newResults) => {
                                     v-for="company in companies.data"
                                     :key="company.id"
                                 >
-                                    <CompanyComponent :company="company" />
+                                    <Link
+                                        :href="
+                                            route('company.index', company.id)
+                                        "
+                                    >
+                                        <CompanyComponent :company="company" />
+                                    </Link>
                                 </div>
                             </div>
 
