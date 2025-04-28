@@ -17,7 +17,7 @@ console.log(props.companies);
         <div
             v-for="company in companies"
             :key="company.id"
-            class="flex justify-between items-center p-4 border-b border-gray-200"
+            class="flex justify-between items-center p-4 border border-gray-200 rounded-md"
         >
             <div class="flex items-center gap-x-4">
                 <Avatar
@@ -27,11 +27,13 @@ console.log(props.companies);
                     class="mx-auto"
                 />
                 <div>
-                    <p>DesignHub Co.</p>
-                    <p>Technology</p>
+                    <p>{{ company.name }}</p>
+                    <p>{{ company.industry.name }}</p>
                 </div>
             </div>
-            <Button :as="Link">View</Button>
+            <Button :as="Link" :href="route('company.index', company.id)"
+                >View</Button
+            >
         </div>
     </div>
 </template>

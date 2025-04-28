@@ -29,7 +29,7 @@ class Company extends Model
 
     public function industry()
     {
-        return $this->belongsTo(Industry::class);
+        return $this->belongsTo(Industry::class, 'industry');
     }
 
     public function values(){

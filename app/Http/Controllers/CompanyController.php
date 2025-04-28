@@ -13,13 +13,13 @@ class CompanyController extends Controller
     public function index($id)
     {
         // Get the company with its jobs
-        $company = Company::with(['jobs', 'industry'])
+        $company = Company::with(['jobs', 'industry', 'values', 'benefits'])
             ->where('id', $id)
             ->first();
 
         $industry = $company->industry;
 
-        $similarCompanies = Company::with(['jobs'])
+        $similarCompanies = Company::with(['jobs', 'industry', 'values', 'benefits'])
             ->where('industry', $industry)
             ->where('id', '!=', $id)
             ->inRandomOrder()

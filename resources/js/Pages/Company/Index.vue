@@ -16,7 +16,6 @@ const props = defineProps({
 
 const company = ref(props.company);
 const similarCompanies = ref(props.similarCompanies);
-console.log(similarCompanies.value);
 </script>
 
 <template>
@@ -50,20 +49,23 @@ console.log(similarCompanies.value);
                                 <p
                                     class="text-2xl font-semibold font-[Poppins]"
                                 >
-                                    TechCopr Inc
+                                    {{ company.name }}
+                                    {{ console.log(company) }}
                                 </p>
                                 <CategoriesComponent
-                                    :category="'Technology'"
+                                    :category="company.industry.name"
                                     :value="'companies'"
                                 />
                                 <div class="flex items-center gap-x-4">
                                     <div class="flex items-center gap-x-2">
                                         <i class="pi pi-map-marker"></i>
-                                        <p>San Francisco, CA</p>
+                                        <p>{{ company.address }}</p>
                                     </div>
                                     <div class="flex items-center gap-x-2">
                                         <i class="pi pi-users"></i>
-                                        <p>500-1000 employees</p>
+                                        <p>
+                                            {{ company.no_employees }} employees
+                                        </p>
                                     </div>
                                     <div class="flex items-center gap-x-2">
                                         <i class="pi pi-globe"></i>
@@ -98,9 +100,9 @@ console.log(similarCompanies.value);
                             <CompanyDetails :company="company" />
                         </div>
                         <!-- Right Section -->
-                        <div>
+                        <div class="space-y-6">
                             <!-- Company Overview -->
-                            <CompanyOverview />
+                            <CompanyOverview :company="company" />
                             <ContactInfoComponent :user="company" />
                             <SimilarCompanies
                                 v-if="similarCompanies.length > 0"

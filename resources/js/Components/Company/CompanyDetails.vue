@@ -29,7 +29,11 @@ const tabs = [
                     :key="tab.title"
                     :value="tab.value"
                 >
-                    <component :is="tab.component" :jobs="company.jobs" />
+                    <component
+                        :is="tab.component"
+                        :jobs="company.jobs"
+                        :company="company"
+                    />
                 </TabPanel>
             </TabPanels>
         </Tabs>
