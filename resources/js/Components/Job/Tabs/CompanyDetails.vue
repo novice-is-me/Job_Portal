@@ -45,7 +45,7 @@ const formatYear = (year) => {
                         Industry
                     </p>
                     <p class="text-sm">
-                        {{ job.company.industry }}
+                        {{ job.company.industry.name }}
                     </p>
                 </div>
                 <div class="p-4 border border-gray-200 rounded-lg space-y-2">

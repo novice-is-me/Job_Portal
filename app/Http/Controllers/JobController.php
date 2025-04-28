@@ -27,6 +27,7 @@ class JobController extends Controller
             'skills',
             'responsibilities',
             'requirements',
+            'company.industry',
         ])->find($id);
 
         // Get all related jobs, but excluding the current job
