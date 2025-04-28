@@ -31,4 +31,12 @@ class Company extends Model
     {
         return $this->belongsTo(Industry::class);
     }
+
+    public function values(){
+        return $this->hasMany(CompanyValue::class);
+    }
+
+    public function benefits(){
+        return $this->hasMany(CompanyBenefit::class);
+    }
 }
