@@ -1,11 +1,13 @@
 <script setup>
 import axios from "axios";
-import { Button, FileUpload } from "primevue";
+import { Button, FileUpload, useToast } from "primevue";
 import { ref } from "vue";
 
 const props = defineProps({
     user: Object,
 });
+
+const toast = useToast();
 
 const resumeFile = ref(
     props.user.resume ? props.user.resume.split("/").pop() : null
@@ -62,7 +64,12 @@ const deleteFile = async (data) => {
             coverLetter.value = null;
         }
 
-        console.log("File deleted successfully:", response.data);
+        toast.add({
+            severity: "success",
+            summary: "Success",
+            detail: "Document Deleted",
+            life: 3000,
+        });
     } catch (error) {
         console.error("Error deleting file:", error);
     }
@@ -120,6 +127,21 @@ const save = async () => {
             formData.append("coverLetter", fileObjectCoverLetter.value);
         }
 
+        if (!fileObjectResume.value && !fileObjectCoverLetter.value) {
+            toast.add({
+                severity: "error",
+                summary: "Error",
+                detail: "Upload a file first",
+                life: 3000,
+            });
+        } else {
+            toast.add({
+                severity: "success",
+                summary: "Success",
+                detail: "Documents Updated Succesfully",
+                life: 3000,
+            });
+        }
         const response = await axios.post("/profile/edit/documents", formData, {
             headers: {
                 "Content-Type": "multipart/form-data",

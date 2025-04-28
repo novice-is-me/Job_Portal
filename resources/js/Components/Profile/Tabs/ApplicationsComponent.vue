@@ -148,5 +148,14 @@ const applyFilter = () => {
         >
             <ApplicationSection :application="application" />
         </div>
+        {{ console.log(props.job_applications) }}
+        <div
+            v-if="props.job_applications.length === 0"
+            class="flex justify-center items-center h-full"
+        >
+            <p class="text-gray-500 text-lg font-[Poppins]">
+                No job applications found.
+            </p>
+        </div>
     </div>
 </template>

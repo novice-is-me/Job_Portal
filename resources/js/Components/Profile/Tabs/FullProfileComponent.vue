@@ -10,9 +10,20 @@ console.log(props.user);
 </script>
 
 <template>
-    <div class="space-y-6">
+    <div
+        v-if="
+            user.work_experiences.length > 0 ||
+            user.introduction ||
+            user.educations.length > 0 ||
+            user.website ||
+            user.github ||
+            user.linkedin ||
+            user.portfolio
+        "
+        class="space-y-6"
+    >
         <!-- Professional Summary -->
-        <div class="bg-white p-6 rounded-lg space-y-4">
+        <div v-if="user.introduction" class="bg-white p-6 rounded-lg space-y-4">
             <h1 class="font-[Poppins] text-xl font-semibold">
                 Professional Summary
             </h1>
@@ -21,7 +32,10 @@ console.log(props.user);
             </p>
         </div>
         <!-- Work Experience -->
-        <div class="bg-white p-6 rounded-lg space-y-4">
+        <div
+            v-if="user.work_experiences.length > 0"
+            class="bg-white p-6 rounded-lg space-y-4"
+        >
             <h1 class="font-[Poppins] text-xl font-semibold">
                 Work Experience
             </h1>
@@ -35,43 +49,20 @@ console.log(props.user);
         </div>
         <!-- Education -->
         <div
+            v-if="user.educations.length > 0"
             v-for="education in user.educations"
             :key="education.id"
             class="bg-white p-6 rounded-lg space-y-4"
         >
             <EducationComponent :education="education" />
         </div>
-        <!-- Certifications -->
-        <div class="bg-white p-6 rounded-lg space-y-4">
-            <h1 class="font-[Poppins] text-xl font-semibold">Certifications</h1>
-            <div class="flex gap-x-3 items-start">
-                <i
-                    class="fa-solid fa-award border p-2 rounded-lg bg-blue-100 text-blue-700"
-                    style="font-size: 1.25rem"
-                ></i>
-                <div>
-                    <p class="font-semibold font-[Poppins]">
-                        Google UX Design Professional Certificate
-                    </p>
-                    <p>Issued May 2020</p>
-                </div>
-            </div>
-            <!-- Another -->
-            <div class="flex gap-x-3 items-start">
-                <i
-                    class="fa-solid fa-award border p-2 rounded-lg bg-blue-100 text-blue-700"
-                    style="font-size: 1.25rem"
-                ></i>
-                <div>
-                    <p class="font-semibold font-[Poppins]">
-                        Certified Usability Analyst (CUA)
-                    </p>
-                    <p>Issued May 2020</p>
-                </div>
-            </div>
-        </div>
         <!-- Portfolio and Links -->
-        <div class="bg-white p-6 rounded-lg space-y-4">
+        <div
+            v-if="
+                user.website || user.github || user.linkedin || user.portfolio
+            "
+            class="bg-white p-6 rounded-lg space-y-4"
+        >
             <h1 class="font-[Poppins] text-xl font-semibold">
                 Portfolio & Links
             </h1>
@@ -158,5 +149,19 @@ console.log(props.user);
                 </div>
             </div>
         </div>
+    </div>
+    <div
+        v-else
+        class="bg-white p-4 rounded-lg space-y-4 flex justify-between items-center"
+    >
+        <h1 class="font-[Poppins] text-xl font-semibold">
+            No Information Available
+        </h1>
+        <a
+            :href="route('profile.edit')"
+            class="text-center border border-gray-200 px-3 py-2 rounded-md"
+        >
+            Edit Profile
+        </a>
     </div>
 </template>

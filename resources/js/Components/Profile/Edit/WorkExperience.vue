@@ -1,23 +1,27 @@
 <script setup>
 import { computed, ref, watch } from "vue";
 import WorkComponent from "./WorkComponent.vue";
-import { Button } from "primevue";
+import { Button, useToast } from "primevue";
 import { useForm } from "@inertiajs/vue3";
 
 const props = defineProps({
     user: Object,
 });
 
-console.log(props.user);
+const toast = useToast();
 // Save all work experiences (example)
 const saveWorkExperiences = () => {
     console.log("Saved Work Experiences:", form.work_experiences);
 
     form.post(route("profile.updateWorkExp"), {
         preserveScroll: false,
-        onSucess: (res) => {
-            console.log("Success");
-            console.log(workExperiences.value);
+        onSuccess: (res) => {
+            toast.add({
+                severity: "success",
+                summary: "Success",
+                detail: "Work Updated Succesfully",
+                life: 3000,
+            });
         },
     });
 };
@@ -56,6 +60,13 @@ const removeWork = (index) => {
     form.work_experiences = form.work_experiences.filter(
         (work, i) => i !== index
     );
+
+    toast.add({
+        severity: "success",
+        summary: "Success",
+        detail: "Work Removed Succesfully",
+        life: 3000,
+    });
 };
 
 watch(

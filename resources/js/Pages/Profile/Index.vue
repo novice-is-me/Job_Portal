@@ -67,7 +67,7 @@ const toggleFullProfileView = () => {
                         <div>
                             <ContactInfoComponent :user="user" />
                         </div>
-                        <div>
+                        <div v-if="user.skills.length > 0">
                             <SkillDetailComponent
                                 :user="user"
                                 :skills="skills"

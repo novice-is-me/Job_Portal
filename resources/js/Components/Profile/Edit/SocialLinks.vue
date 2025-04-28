@@ -1,6 +1,6 @@
 <script setup>
 import { useForm } from "@inertiajs/vue3";
-import { InputText, Button } from "primevue";
+import { InputText, Button, useToast } from "primevue";
 import { ref } from "vue";
 
 const props = defineProps({
@@ -8,6 +8,7 @@ const props = defineProps({
 });
 
 const user = ref(props.user);
+const toast = useToast();
 
 const form = useForm({
     personal_website: user.value.website || "",
@@ -20,7 +21,12 @@ const save = () => {
     form.post(route("profile.updateSocial"), {
         preserveScroll: false,
         onSuccess: (res) => {
-            console.log("Profile updated successfully");
+            toast.add({
+                severity: "success",
+                summary: "Success",
+                detail: "Links Updated Successfully",
+                life: 3000,
+            });
         },
         onError: (errors) => {
             console.error("Form submission failed", errors);
@@ -101,7 +107,16 @@ const save = () => {
         </div>
         <div class="flex gap-x-4 justify-end">
             <Button>Cancel</Button>
-            <Button @click="save">Save</Button>
+            <Button
+                @click="save"
+                :disabled="
+                    !form.personal_website &&
+                    !form.linkedin &&
+                    !form.github &&
+                    !form.portfolio
+                "
+                >Save</Button
+            >
         </div>
     </div>
 </template>

@@ -1,12 +1,14 @@
 <script setup>
 import { useForm } from "@inertiajs/vue3";
 import EducationComponent from "./EducationComponent.vue";
-import { Button } from "primevue";
+import { Button, useToast } from "primevue";
 import { ref } from "vue";
 
 const props = defineProps({
     user: Object,
 });
+
+const toast = useToast();
 
 const addEducation = () => {
     form.educations.push({
@@ -20,6 +22,12 @@ const addEducation = () => {
 };
 const removeEducation = (index) => {
     form.educations = form.educations.filter((educ, i) => i !== index);
+    toast.add({
+        severity: "success",
+        summary: "Success",
+        detail: "Education Removed Succesfully",
+        life: 3000,
+    });
 };
 
 // add a form
@@ -43,7 +51,12 @@ const saveEducations = () => {
     form.post(route("profile.updateEducation"), {
         preserveScroll: false,
         onSuccess: (res) => {
-            console.log("Success");
+            toast.add({
+                severity: "success",
+                summary: "Success",
+                detail: "Education Updated Succesfully",
+                life: 3000,
+            });
         },
     });
 };

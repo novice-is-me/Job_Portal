@@ -1,6 +1,6 @@
 <script setup>
 import { ref, computed } from "vue";
-import { Button, AutoComplete } from "primevue";
+import { Button, AutoComplete, useToast } from "primevue";
 import axios from "axios";
 
 const props = defineProps({
@@ -8,6 +8,7 @@ const props = defineProps({
     skills: Array, // Skills passed from the parent
 });
 
+const toast = useToast();
 const skills = ref([...props.skills]); // Create a local reactive copy of skills
 const selectedSkill = ref(""); // Holds the current input for AutoComplete
 const selectedSkills = ref(
@@ -117,9 +118,22 @@ const save = async () => {
                 skills: selectedSkills.value, // Pass the selected skill IDs to the request
             }
         );
+
+        toast.add({
+            severity: "success",
+            summary: "Success",
+            detail: "Skills Updated Succesfully",
+            life: 3000,
+        });
         console.log("Skills saved successfully:", selectedSkills.value);
     } catch (error) {
         console.error("Error saving skills:", error);
+        toast.add({
+            severity: "error",
+            summary: "Error",
+            detail: "Please input a valid skill",
+            life: 3000,
+        });
     }
 };
 

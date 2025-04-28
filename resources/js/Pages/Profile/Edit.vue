@@ -34,7 +34,7 @@ const defaultTab = ref("basic_information");
         <div class="border-t-2 border-gray-300 px-12 py-4 bg-white">
             <Link
                 class="mx-auto max-w-7xl sm:px-6 lg:px-8 flex items-center gap-2"
-                :href="route('dashboard')"
+                :href="route('profile.index')"
             >
                 <i class="pi pi-angle-left"></i>
                 <p>Back</p>

@@ -30,7 +30,7 @@ const user = ref(props.user);
                     <p>{{ user.phone || "" }}</p>
                 </div>
             </div>
-            <div class="flex gap-x-4 items-center">
+            <div v-if="user.address" class="flex gap-x-4 items-center">
                 <i class="pi pi-map-marker"></i>
                 <div>
                     <p>Address</p>
