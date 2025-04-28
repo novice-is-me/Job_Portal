@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\CompanyController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\EmailController;
 use App\Http\Controllers\FileController;
 use App\Http\Controllers\JobController;
 use App\Http\Controllers\ProfileController;
@@ -59,6 +60,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('companies', [DashboardController::class, 'companies'])->name('companies');
     Route::get('company/{id}', [CompanyController::class, 'index'])->name('company.index');
 
+    // Email
+    Route::post('/email/subscribe/{id}', [EmailController::class, 'subscribe'])->name('email.subscribe');
 });
 
 require __DIR__.'/auth.php';
