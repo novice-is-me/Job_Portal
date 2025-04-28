@@ -23,8 +23,6 @@ class Job extends Model
         'recruiter_id',
         'experience_id',
         'about_role',
-        'responsibilities',
-        'requirements',
     ];
 
     public function category(){
@@ -53,5 +51,12 @@ class Job extends Model
 
     public function experience(){
         return $this->belongsTo(ExperienceLevel::class);
+    }
+
+    public function responsibilities(){
+        return $this->hasMany(JobResponsibility::class);
+    }
+    public function requirements(){
+        return $this->hasMany(JobRequirement::class);
     }
 }

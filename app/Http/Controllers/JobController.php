@@ -20,11 +20,13 @@ class JobController extends Controller
     public function index($id){
         
         $job = Job::with([
-            'company.jobs.company',
+            'company.benefits',
             'category',
             'recruiter',
             'experience',
             'skills',
+            'responsibilities',
+            'requirements',
         ])->find($id);
 
         // Get all related jobs, but excluding the current job
@@ -38,6 +40,7 @@ class JobController extends Controller
             'job' => $job,
             'related_jobs' => $related_jobs,
             'job_application' => $job_application,
+            'no_of_applicants' => $job->applications->count(),
         ]);
     }
     

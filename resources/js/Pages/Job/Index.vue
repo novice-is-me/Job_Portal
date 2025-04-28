@@ -9,15 +9,27 @@ import SkillDetails from "@/Components/Job/SkillDetails.vue";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
 import { Head, Link, useForm } from "@inertiajs/vue3";
 import { Avatar, Button, Toast, useToast } from "primevue";
+import { onMounted, ref } from "vue";
 
 const props = defineProps({
     job: Object,
     related_jobs: Object,
     job_application: Object,
+    no_of_applicants: Number,
 });
 
-console.log(props.job);
 const toast = useToast();
+const applicants = ref("");
+
+onMounted(() => {
+    if (props.no_of_applicants > 1) {
+        applicants.value = `${props.no_of_applicants} applicants`;
+    } else if (props.no_of_applicants === 1) {
+        applicants.value = `${props.no_of_applicants} applicant`;
+    } else {
+        applicants.value = "No applicants yet";
+    }
+});
 
 const formatDate = (date) => {
     const today = new Date();
@@ -177,7 +189,7 @@ const applyNow = () => {
                                     </div>
                                     <div class="flex items-center gap-x-2">
                                         <i class="pi pi-users"></i>
-                                        <p>24 Applicants</p>
+                                        <p>{{ applicants }}</p>
                                     </div>
                                 </div>
                             </div>

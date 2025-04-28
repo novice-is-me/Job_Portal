@@ -33,9 +33,7 @@ class JobFactory extends Factory
             'category_id' => $this->faker->numberBetween(1, 22),
             'recruiter_id' => $this->faker->numberBetween(1, 5),
             'experience_id' => $this->faker->numberBetween(1, 6),
-            'about_role' => $this->faker->text,
-            'responsibilities' => $this->faker->text,
-            'requirements' => $this->faker->text,
+            'about_role' => $this->faker->text
         ];
     }
 }

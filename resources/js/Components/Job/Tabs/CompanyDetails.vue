@@ -4,6 +4,11 @@ import { Avatar } from "primevue";
 const props = defineProps({
     job: Object,
 });
+
+const formatYear = (year) => {
+    const date = new Date(year);
+    return date.getFullYear();
+};
 </script>
 
 <template>
@@ -55,7 +60,9 @@ const props = defineProps({
                     <p class="font-semibold font-[Poppins] text-black">
                         Founded
                     </p>
-                    <p class="text-sm">{{ job.company.founded_at }}</p>
+                    <p class="text-sm">
+                        {{ formatYear(job.company.founded_at) }}
+                    </p>
                 </div>
                 <div class="p-4 border border-gray-200 rounded-lg space-y-2">
                     <p class="font-semibold font-[Poppins] text-black">
