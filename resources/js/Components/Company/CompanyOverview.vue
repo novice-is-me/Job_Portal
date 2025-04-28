@@ -18,21 +18,21 @@ const formatYear = (date) => {
             <div class="flex items-center gap-2 justify-between">
                 <div class="flex items-center gap-2">
                     <i class="pi pi-building"></i>
-                    <p>Industry</p>
+                    <p class="font-semibold">Industry</p>
                 </div>
                 <p>{{ company.industry.name }}</p>
             </div>
             <div class="flex items-center gap-2 justify-between">
                 <div class="flex items-center gap-2">
                     <i class="pi pi-users"></i>
-                    <p>Company Size</p>
+                    <p class="font-semibold">Company Size</p>
                 </div>
                 <p>{{ company.no_employees }}</p>
             </div>
             <div class="flex items-center gap-2 justify-between">
                 <div class="flex items-center gap-2">
                     <i class="pi pi-calendar"></i>
-                    <p>Founded</p>
+                    <p class="font-semibold">Founded</p>
                 </div>
                 <p>{{ formatYear(company.founded_at) }}</p>
             </div>

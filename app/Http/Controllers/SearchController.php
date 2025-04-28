@@ -40,6 +40,7 @@ class SearchController extends Controller
             'companies' => Company::all(),
             'experiences' => ExperienceLevel::all(),
             'results' => $result,
+            'no_of_jobs' => $result->count(),
         ]);
         
     }
@@ -62,6 +63,7 @@ class SearchController extends Controller
             'companies' => Company::all(),
             'experiences' => ExperienceLevel::all(),
             'results' => $result,
+            'no_of_jobs' => $result->count(),
         ]);
     }
 
@@ -84,6 +86,7 @@ class SearchController extends Controller
             'companies' => Company::all(),
             'experiences' => ExperienceLevel::all(),
             'results' => $result,
+            'no_of_jobs' => $result->count(),
         ]);
     }
 

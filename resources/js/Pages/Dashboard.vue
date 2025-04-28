@@ -13,6 +13,7 @@ const props = defineProps({
     companies: Object,
     experiences: Object,
     results: Object,
+    no_of_jobs: Number,
 });
 
 const isGrid = ref(true);
@@ -53,6 +54,7 @@ const updateResults = (newResults) => {
                             :categories="categories"
                             :companies="companies"
                             :value="'dashboard'"
+                            :no_of_jobs="no_of_jobs"
                             @updateResults="updateResults"
                         />
                     </div>

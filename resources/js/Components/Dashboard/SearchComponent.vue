@@ -14,6 +14,7 @@ const props = defineProps({
     companies: Object,
     value: String,
     categoryCompany: Object,
+    no_of_jobs: Number,
 });
 
 const isAdvanced = ref(false);
@@ -224,7 +225,9 @@ const salary_range = ref([
                     ]"
                 ></i>
             </div>
-            <p><span class="font-semibold">2,345</span> jobs found</p>
+            <p>
+                <span class="font-semibold">{{ no_of_jobs }}</span> jobs found
+            </p>
         </div>
         <!-- Advanced Filters -->
         <div v-if="isAdvanced" class="border-t border-gray-200">

@@ -4,6 +4,8 @@ import { Avatar } from "primevue";
 const props = defineProps({
     job: Object,
 });
+
+console.log(props.job);
 </script>
 
 <template>
@@ -21,7 +23,7 @@ const props = defineProps({
             or the application process.
         </p>
         <a
-            href="#"
+            :href="`mailto:${job.recruiter.email}`"
             class="border border-gray-200 px-3 py-2 rounded-md text-center"
             >Contact Recruiter</a
         >

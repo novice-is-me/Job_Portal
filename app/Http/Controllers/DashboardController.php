@@ -28,6 +28,7 @@ class DashboardController extends Controller
             'categories' => Category::all(),
             'companies' => Company::all(),
             'experiences' => ExperienceLevel::all(),
+            'no_of_jobs' => Job::count(),
         ]);
     }
 

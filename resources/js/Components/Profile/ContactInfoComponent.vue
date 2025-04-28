@@ -19,21 +19,21 @@ const user = ref(props.user);
             <div class="flex gap-x-4 items-center">
                 <i class="pi pi-envelope"></i>
                 <div>
-                    <p>Email</p>
+                    <p class="font-semibold">Email</p>
                     <p>{{ user.email || "" }}</p>
                 </div>
             </div>
             <div v-if="user.phone" class="flex gap-x-4 items-center">
                 <i class="pi pi-phone"></i>
                 <div>
-                    <p>Phone</p>
+                    <p class="font-semibold">Phone</p>
                     <p>{{ user.phone || "" }}</p>
                 </div>
             </div>
             <div v-if="user.address" class="flex gap-x-4 items-center">
                 <i class="pi pi-map-marker"></i>
                 <div>
-                    <p>Address</p>
+                    <p class="font-semibold">Address</p>
                     <p>{{ user.address }}</p>
                 </div>
             </div>

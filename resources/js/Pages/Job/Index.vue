@@ -217,7 +217,12 @@ const applyNow = () => {
                             <div
                                 class="flex items-center gap-x-2 border border-gray-200 rounded-md p-2"
                             >
-                                <a href="#">View all</a>
+                                <Link
+                                    :href="
+                                        route('company.index', job.company.id)
+                                    "
+                                    >View all</Link
+                                >
                                 <i class="pi pi-angle-right"></i>
                             </div>
                         </div>
