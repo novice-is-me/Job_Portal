@@ -8,6 +8,7 @@ import FullProfileComponent from "@/Components/Profile/Tabs/FullProfileComponent
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
 import { Link, Head } from "@inertiajs/vue3";
 import { ref } from "vue";
+import { Button } from "primevue";
 
 const props = defineProps({
     user: Object,
@@ -46,13 +47,18 @@ const toggleFullProfileView = () => {
 
     <AuthenticatedLayout>
         <div class="border-t-2 border-gray-300 px-12 py-4 bg-white">
-            <Link
-                class="mx-auto max-w-7xl sm:px-6 lg:px-8 flex items-center gap-2"
-                :href="route('dashboard')"
-            >
-                <i class="pi pi-angle-left"></i>
-                <p>Back</p>
-            </Link>
+            <div class="flex justify-between">
+                <Link
+                    class="max-w-7xl sm:px-6 lg:px-8 flex items-center gap-2"
+                    :href="route('dashboard')"
+                >
+                    <i class="pi pi-angle-left"></i>
+                    <p>Back</p>
+                </Link>
+                <Button :as="Link" :href="route('profile.edit')"
+                    >Edit Profile</Button
+                >
+            </div>
         </div>
 
         <div class="py-12">
