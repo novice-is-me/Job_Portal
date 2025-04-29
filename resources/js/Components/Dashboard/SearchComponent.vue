@@ -81,7 +81,7 @@ const submitSearch = () => {
 const applyFilters = () => {
     let url;
 
-    if (value === "dashboard") {
+    if (props.value === "dashboard") {
         url = new URL(route("dashboard.advanced-search"));
 
         if (data.selectedCategories && data.selectedCategories !== "") {

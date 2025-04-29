@@ -38,6 +38,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::post('profile/edit/social', [UserController::class, 'updateSocial'])->name('profile.updateSocial');
     Route::post('[profile/update/information]', [UserController::class, 'updateInformation'])->name('profile.updateInformation');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+    Route::get('/profile/application/filter', [SearchController::class, 'applicationFilter'])->name('profile.application.filter');
 
     // dashboard
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');

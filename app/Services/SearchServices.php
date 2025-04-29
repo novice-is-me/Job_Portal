@@ -3,6 +3,7 @@ namespace App\Services;
 
 use App\Models\Company;
 use App\Models\Job;
+use App\Models\UserApplication;
 
 class SearchServices {
 
@@ -88,7 +89,35 @@ class SearchServices {
             ->appends($request->only('company'));
     }
 
-    // public function searchIndustry ( $request, $paginate = 5) {
-    //     dd($request->all());
-    // }
+    public function filterApplication($request){
+        // dd($request->all());
+
+        $date = $request->input('date');
+        $job_type = $request->input('jobType');
+        $job_status = $request->input('jobStatus');
+
+        return UserApplication::query()
+        ->with(['job.company', 'jobStatus'])
+        ->when(!empty($date), function($q) use ($date){
+            if( $date === 'Today'){
+                $q->where('created_at', '>=', now()->startOfDay());
+            } elseif ( $date === 'Past Week'){
+                $q->where('created_at', '>=', now()->startOfWeek());
+            } elseif ( $date === 'Past Month'){
+                $q->where('created_at', '>=', now()->startOfMonth());
+            }
+        })
+        ->when(!empty($job_type), function ($q) use ($job_type){
+            $q->whereHas('job', function($q) use ($job_type){
+                $q->where('type', $job_type);
+            });
+        })
+        ->when(!empty($job_status), function ($q) use ($job_status){
+            $q->whereHas('job', function($q) use ($job_status){
+                $q->where('status', $job_status);
+            });
+        })
+        ->get();
+        
+    }
 }

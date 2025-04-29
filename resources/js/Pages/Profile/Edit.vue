@@ -44,9 +44,7 @@ const defaultTab = ref("basic_information");
             <div class="mx-auto max-w-7xl sm:px-6 lg:px-8">
                 <div class="grid grid-cols-[1fr_3fr] gap-x-4">
                     <!-- Left side -->
-                    <div
-                        class="border border-red-800 bg-white p-4 space-y-3 rounded-lg h-fit"
-                    >
+                    <div class="bg-white p-4 space-y-3 rounded-lg h-fit">
                         <div
                             v-for="(tab, index) in tabs"
                             :key="index"
@@ -63,7 +61,7 @@ const defaultTab = ref("basic_information");
                         </div>
                     </div>
                     <!-- Right side -->
-                    <div class="border border-blue-800">
+                    <div class="">
                         <BasicInformation
                             :user="user[0]"
                             v-if="defaultTab === 'basic_information'"

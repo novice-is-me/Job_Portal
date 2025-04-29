@@ -13,9 +13,10 @@ const props = defineProps({
     user: Object,
     job_applications: Object,
     skills: Object,
+    results: Object,
 });
 
-console.log(props.skills);
+console.log(props.results);
 // For tracking active tabs
 const isDocuments = ref(true);
 const isApplications = ref(false);
@@ -113,6 +114,7 @@ const toggleFullProfileView = () => {
                         <div v-if="isApplications">
                             <ApplicationsComponent
                                 :job_applications="job_applications"
+                                :results="results"
                             />
                         </div>
                         <div v-if="isFullProfile">

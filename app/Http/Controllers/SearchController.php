@@ -7,8 +7,11 @@ use App\Models\Company;
 use App\Models\ExperienceLevel;
 use App\Models\Industry;
 use App\Models\Job;
+use App\Models\Skill;
+use App\Models\UserApplication;
 use App\Services\SearchServices;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
 
 class SearchController extends Controller
@@ -109,4 +112,28 @@ class SearchController extends Controller
             'featuredCompanies' => $featuredCompanies,
         ]);
     }
+
+    public function applicationFilter(Request $request)
+    {
+        $result = $this->searchService->filterApplication($request);
+
+        $user = Auth::user();
+        $user->load([
+            'workExperiences',
+            'educations',
+            'skills.skill',
+        ]);
+
+        $job_applications = UserApplication::where('user_id', $user->id)
+            ->with(['job.company', 'jobStatus'])
+            ->get();
+            
+        return Inertia::render('Profile/Index', [
+            'user' => $user,
+            'results' => $result,
+            'job_applications' => $job_applications,
+            'skills' => Skill::all(),
+        ]);
+    }
+
 }
