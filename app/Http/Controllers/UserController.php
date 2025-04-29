@@ -37,6 +37,10 @@ class UserController extends Controller
             'skills.skill',
         ]);
 
+        $user->profile_picture = $user->profile_picture
+        ? asset('storage/' . $user->profile_picture)
+        : null;
+
         $job_applications = UserApplication::where('user_id', Auth::user()->id)
             ->with(['job.company', 'jobStatus'])
             ->get();
@@ -60,11 +64,12 @@ class UserController extends Controller
             'skills'
         ])
         ->where('id', Auth::id())
-        ->get();
+        ->first();
 
-        // $skills = Skill::all();
-        // dd($skills);
-        // dd($user);
+        $user->profile_picture = $user->profile_picture
+        ? asset('storage/' . $user->profile_picture)
+        : null;
+
         return Inertia::render('Profile/Edit', [
             'user' => $user,
             'skills' => Skill::all(),

@@ -14,7 +14,14 @@ class UserServices {
         try {
             // Find the user
             $user = User::find($id);
+
+            $user_profile = null;
             
+            if($request['profile_icon']){
+
+                $user_profile = $this->storeImageIcon($request['profile_icon'], $id, 'profile');
+            }
+
             // Update the user
             if($user){
                  $send = $user->update([
@@ -24,7 +31,8 @@ class UserServices {
                     'phone' => $request['phone'],
                     'introduction' => $request['summary'],
                     'headline' => $request['profession'],
-                    'address' => $request['location']
+                    'address' => $request['location'],
+                    'profile_picture' => $user_profile ?? $user->profile_picture,
                 ]);
 
                 if(!$send){
@@ -183,6 +191,21 @@ class UserServices {
         // dd($filePath);
         // // Return the file path
         return $filePath;
+    }
+
+    public function storeImageIcon($file, $id, $folder){
+            
+            // Get the file's extension
+            $extension = $file->getClientOriginalExtension();
+            
+            // Generate a unique file name using the userId, file type, and the current timestamp
+            $fileName = $file->getClientOriginalName();
+            
+            // Store the file in the specified folder within the 'public' disk
+            $filePath = $file->storeAs("{$id}/{$folder}", $fileName, 'public');
+            
+            // Return the file path
+            return $filePath;
     }
 
     public function updateSocial($request, $id){

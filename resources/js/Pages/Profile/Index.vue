@@ -7,7 +7,7 @@ import DocumentsComponent from "@/Components/Profile/Tabs/DocumentsComponent.vue
 import FullProfileComponent from "@/Components/Profile/Tabs/FullProfileComponent.vue";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
 import { Link, Head } from "@inertiajs/vue3";
-import { ref } from "vue";
+import { computed, ref } from "vue";
 import { Button } from "primevue";
 
 const props = defineProps({
@@ -17,11 +17,12 @@ const props = defineProps({
     results: Object,
 });
 
-console.log(props.results);
+console.log(props.user);
 // For tracking active tabs
 const isDocuments = ref(true);
 const isApplications = ref(false);
 const isFullProfile = ref(false);
+const userPercentage = ref(0);
 
 const toggleDocumentsView = () => {
     isDocuments.value = true;
@@ -40,6 +41,30 @@ const toggleFullProfileView = () => {
     isApplications.value = false;
     isFullProfile.value = true;
 };
+
+const calculatePercentage = computed(() => {
+    let percentage = 0;
+
+    const basicInfo = props.user.name && props.user.email; // 15
+    const contactInfo =
+        props.user.email && props.user.phone && props.user.address; // 20
+    const documentsInfo = props.user.resume || props.user.cover_letter; // 15
+    const linkedInfo =
+        props.user.github && props.user.linkedin && props.user.portfolio; // 10
+    const workExperience = props.user.experience?.length > 0; // 15
+    const educationInfo = props.user.education?.length > 0; // 15
+    const skillsInfo = props.user.skills?.length > 0; // 10
+
+    if (basicInfo) percentage += 15;
+    if (contactInfo) percentage += 20;
+    if (documentsInfo) percentage += 15;
+    if (linkedInfo) percentage += 10;
+    if (workExperience) percentage += 15;
+    if (educationInfo) percentage += 15;
+    if (skillsInfo) percentage += 10;
+
+    return percentage;
+});
 </script>
 
 <template>
@@ -68,7 +93,10 @@ const toggleFullProfileView = () => {
                     <div class="border space-y-6">
                         <!-- Profile Section -->
                         <div>
-                            <ProfileComponent :user="user" />
+                            <ProfileComponent
+                                :user="user"
+                                :user_percentage="calculatePercentage"
+                            />
                         </div>
                         <!-- Contact Information -->
                         <div>

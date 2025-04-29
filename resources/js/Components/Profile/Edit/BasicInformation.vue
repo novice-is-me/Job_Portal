@@ -2,6 +2,7 @@
 import InputError from "@/Components/InputError.vue";
 import { useForm } from "@inertiajs/vue3";
 import { Textarea, InputText, Button, useToast } from "primevue";
+import { ref } from "vue";
 
 const prop = defineProps({
     user: Object,
@@ -9,6 +10,10 @@ const prop = defineProps({
 
 const user = prop.user;
 const toast = useToast();
+const fileInput = ref(null);
+const selectedFile = ref(null);
+const previewUrl = ref(null);
+console.log(user);
 
 const form = useForm({
     full_name: user.name || "",
@@ -18,7 +23,23 @@ const form = useForm({
     age: user.age || "",
     phone: user.phone || "",
     email: user.email || "",
+    profile_icon: user.profile_icon || null,
 });
+
+console.log(fileInput.value);
+const uploadProfileIcon = () => {
+    fileInput.value.click();
+};
+
+const handleFileChange = (e) => {
+    const file = e.target.files[0];
+
+    if (file) {
+        selectedFile.value = file;
+        previewUrl.value = URL.createObjectURL(file);
+        form.profile_icon = file;
+    }
+};
 
 const cancel = () => {
     form.reset();
@@ -56,7 +77,16 @@ const submit = () => {
             </div>
             <div class="flex gap-x-3">
                 <div class="relative">
-                    <div class="bg-gray-400 rounded-full h-24 w-24"></div>
+                    <div
+                        class="bg-gray-400 rounded-full overflow-hidden w-24 h-24"
+                    >
+                        <img
+                            :src="
+                                previewUrl ? previewUrl : user.profile_picture
+                            "
+                            alt=""
+                        />
+                    </div>
                     <i
                         class="pi pi-camera absolute p-2 rounded-full bg-gray-100 right-[10px] bottom-0"
                     ></i>
@@ -67,10 +97,20 @@ const submit = () => {
                         Upload a clear, professional photo to help employers
                         recognize you.
                     </p>
-                    <a
-                        class="border border-gray-200 mt-2 inline-block px-3 py-1 rounded-md font-medium hover:cursor-pointer hover:bg-gray-200"
-                        >Upload a new photo</a
-                    >
+                    <div>
+                        <input
+                            type="file"
+                            accept="image/*"
+                            class="hidden"
+                            ref="fileInput"
+                            @change="(e) => handleFileChange(e)"
+                        />
+                        <label
+                            class="border border-gray-200 mt-2 inline-block px-3 py-1 rounded-md font-medium hover:cursor-pointer hover:bg-gray-200"
+                            @click="uploadProfileIcon"
+                            >Upload Image</label
+                        >
+                    </div>
                 </div>
             </div>
         </div>

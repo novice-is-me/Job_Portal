@@ -63,28 +63,28 @@ const defaultTab = ref("basic_information");
                     <!-- Right side -->
                     <div class="">
                         <BasicInformation
-                            :user="user[0]"
+                            :user="user"
                             v-if="defaultTab === 'basic_information'"
                         />
                         <WorkExperience
-                            :user="user[0]"
+                            :user="user"
                             v-if="defaultTab === 'work_experience'"
                         />
                         <Education
-                            :user="user[0]"
+                            :user="user"
                             v-if="defaultTab === 'education'"
                         />
                         <Skills
-                            :user="user[0]"
+                            :user="user"
                             :skills="skills"
                             v-if="defaultTab === 'skills'"
                         />
                         <Documents
-                            :user="user[0]"
+                            :user="user"
                             v-if="defaultTab === 'documents'"
                         />
                         <SocialLinks
-                            :user="user[0]"
+                            :user="user"
                             v-if="defaultTab === 'social_links'"
                         />
                     </div>

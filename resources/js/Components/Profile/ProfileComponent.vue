@@ -5,11 +5,11 @@ import { ref } from "vue";
 
 const props = defineProps({
     user: Object,
+    user_percentage: Number,
 });
 
 const isEdit = ref(false);
 const user = ref(props.user);
-console.log(user.value);
 
 const toggleEditProfile = () => {
     isEdit.value = !isEdit.value;
@@ -27,7 +27,7 @@ const updateProfile = () => {
     form.post(route("profile.updateInformation"), {
         onSuccess: () => {
             console.log("Profile updated successfully!");
-            // isEdit.value = false;
+            isEdit.value = false;
         },
         onError: (errors) => {
             console.error("Error updating profile:", errors);
@@ -47,7 +47,18 @@ const updateProfile = () => {
         </div>
         <div v-if="isEdit">
             <div class="flex flex-col justify-center items-center gap-y-4">
-                <Avatar size="xlarge" shape="circle" icon="pi pi-user" />
+                <Avatar
+                    v-if="!user.profile_picture"
+                    size="xlarge"
+                    shape="circle"
+                    icon="pi pi-user"
+                />
+                <div
+                    v-if="user.profile_picture"
+                    class="bg-gray-400 rounded-full overflow-hidden w-24 h-24"
+                >
+                    <img :src="user.profile_picture" alt="" />
+                </div>
                 <div class="flex flex-col gap-y-3 items-start w-full">
                     <div class="flex flex-col gap-y-1 w-full">
                         <label for="full_name" class="font-medium"
@@ -80,7 +91,18 @@ const updateProfile = () => {
             <div
                 class="flex flex-col justify-center items-center gap-y-4 border-b border-gray-200 pb-4"
             >
-                <Avatar size="xlarge" shape="circle" icon="pi pi-user" />
+                <Avatar
+                    v-if="!user.profile_picture"
+                    size="xlarge"
+                    shape="circle"
+                    icon="pi pi-user"
+                />
+                <div
+                    v-if="user.profile_picture"
+                    class="bg-gray-400 rounded-full overflow-hidden w-24 h-24"
+                >
+                    <img :src="user.profile_picture" alt="" />
+                </div>
                 <div class="text-center space-y-2">
                     <p class="font-semibold text-xl font-[Poppins]">
                         {{ user.name }}
@@ -95,9 +117,13 @@ const updateProfile = () => {
             <div class="flex flex-col gap-y-2 pb-2 pt-4">
                 <div class="flex justify-between items-center">
                     <p>Profile Completion</p>
-                    <p class="font-semibold">85%</p>
+                    <p class="font-semibold">{{ user_percentage }} %</p>
                 </div>
-                <ProgressBar class="text-sm" style="height: 15px" :value="85" />
+                <ProgressBar
+                    class="text-sm"
+                    style="height: 15px"
+                    :value="user_percentage"
+                />
             </div>
         </div>
     </div>
