@@ -32,7 +32,7 @@ const updateResults = (newResults) => {
     <Head title="Dashboard" />
 
     <AuthenticatedLayout>
-        <div class="py-12 bg-base">
+        <div class="p-12 bg-base">
             <div class="mx-auto max-w-7xl sm:px-6 lg:px-8">
                 <div class="flex flex-col overflow-auto">
                     <!-- Header Section -->
@@ -60,9 +60,13 @@ const updateResults = (newResults) => {
                     </div>
 
                     <!-- Main Content -->
-                    <div class="grid grid-cols-[1fr_4fr] gap-x-6 mt-6">
+                    <div
+                        class="grid grid-cols-1 md:grid-cols-[1fr_4fr] gap-x-6 mt-6"
+                    >
                         <!-- Sidebar Filter -->
-                        <div class="rounded-md shadow-md bg-white h-fit p-4">
+                        <div
+                            class="rounded-md hidden md:block shadow-md bg-white h-fit p-4"
+                        >
                             <FilterSidebar
                                 :experiences="experiences"
                                 @updateResults="updateResults"
@@ -107,8 +111,10 @@ const updateResults = (newResults) => {
                             <!-- Job Components -->
                             <div
                                 :class="[
-                                    'grid gap-4 items-stretch',
-                                    isGrid ? 'grid-cols-2' : 'grid-cols-1',
+                                    'grid grid-cols-1 gap-4 items-stretch',
+                                    isGrid
+                                        ? 'md:grid-cols-2'
+                                        : 'md:grid-cols-1',
                                 ]"
                             >
                                 <!-- Default Job Listings -->

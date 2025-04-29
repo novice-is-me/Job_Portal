@@ -116,6 +116,7 @@ const applyFilters = () => {
         replace: true,
         onSuccess: (data) => {
             console.log("Data from the advanced", data);
+            isAdvanced.value = false; // Close the advanced filters after applying
             // Pass the data to the updateResults event to update the results in the parent component
             emit("updateResults", data.props.results);
         },
@@ -192,21 +193,35 @@ const salary_range = ref([
                     placeholder="All industries"
                 />
             </InputGroup>
-            <Button
-                @click="submitSearch"
-                :label="
-                    props.value === 'dashboard'
-                        ? 'Search Jobs'
-                        : 'Search Companies'
-                "
-                class="whitespace-nowrap px-6 py-2"
-            />
+            <div class="hidden md:flex items-center gap-x-4">
+                <Button
+                    @click="submitSearch"
+                    :label="
+                        props.value === 'dashboard'
+                            ? 'Search Jobs'
+                            : 'Search Companies'
+                    "
+                    class="whitespace-nowrap px-6 py-2"
+                />
+            </div>
 
             <Button
                 v-if="props.value === 'companies'"
                 @click="clearFilters"
                 label="Clear"
                 class="whitespace-nowrap px-6 py-2"
+            />
+        </div>
+        <div class="md:hidden flex items-center gap-x-4">
+            <Button
+                v-if="props.value === 'dashboard'"
+                @click="submitSearch"
+                :label="
+                    props.value === 'dashboard'
+                        ? 'Search Jobs'
+                        : 'Search Companies'
+                "
+                class="whitespace-nowrap px-6 py-2 w-full"
             />
         </div>
         <div
