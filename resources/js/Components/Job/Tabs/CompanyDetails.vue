@@ -20,7 +20,7 @@ const formatYear = (year) => {
                     {{ job.company.name }}
                 </h1>
                 <p class="text-secondary">
-                    {{ job.company.industry }} ·
+                    {{ job.company.industry.name }} ·
                     {{ job.company.no_employees }} employees · Founded
                     {{ job.company.founded_at }}
                 </p>

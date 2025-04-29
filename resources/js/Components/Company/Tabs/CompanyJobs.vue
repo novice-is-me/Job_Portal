@@ -1,5 +1,6 @@
 <script setup>
 import JobComponent from "@/Components/Dashboard/JobComponent.vue";
+import { Link } from "@inertiajs/vue3";
 
 const props = defineProps({
     jobs: Object,
@@ -14,7 +15,9 @@ console.log(props.jobs);
             Open Positions at TechCorp Inc
         </p>
         <div v-for="job in jobs" :key="job.id" class="mb-4">
-            <JobComponent :job="job" />
+            <Link :href="route('job.index', job.id)">
+                <JobComponent :job="job" />
+            </Link>
         </div>
     </div>
     <div v-else class="space-y-4 p-4">
