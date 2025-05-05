@@ -7,6 +7,7 @@ import RecruiterForm from "@/Components/Recruiter/RecruiterForm.vue";
 const props = defineProps({
     companies: Object,
     user: Object,
+    recruiterCompany: Object,
 });
 </script>
 
@@ -40,6 +41,7 @@ const props = defineProps({
                             <RecruiterForm
                                 :companies="companies"
                                 :user="user"
+                                :recruiterCompany="recruiterCompany"
                             />
                         </div>
                     </div>

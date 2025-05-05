@@ -92,7 +92,7 @@ class User extends Authenticatable
         return $this->hasMany(UserSkill::class);
     }
 
-    public function companies(){
-        return $this->belongsToMany(Company::class, 'company_recruiter', 'company_id', 'recruiter_id');
-    }
+    public function companiesRecruiter(){
+        return $this->belongsToMany(Company::class, 'company_recruiters', 'recruiter_id', 'company_id');
+    }    
 }

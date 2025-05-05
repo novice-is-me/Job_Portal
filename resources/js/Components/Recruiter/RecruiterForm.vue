@@ -6,16 +6,18 @@ import { watch, ref } from "vue";
 const props = defineProps({
     companies: Object,
     user: Object,
+    recruiterCompany: Object,
 });
 
 const user = props.user;
 const toast = useToast();
+const isAlreadyRecruiter = ref(props.recruiterCompany);
 
 const form = useForm({
     full_name: user.name ?? "",
     phone: user.phone ?? "",
     email: user.email ?? "",
-    selectedCompany: null,
+    selectedCompany: props.recruiterCompany ?? "",
 });
 
 const selectedIndustry = ref("");
@@ -35,6 +37,17 @@ watch(
     }
 );
 
+// Setting the selected company of user recruiter if they have one
+form.selectedCompany =
+    props.companies.find(
+        (company) => company.id === props.recruiterCompany.company_id
+    ) ?? "";
+
+if (form.selectedCompany) {
+    selectedIndustry.value = form.selectedCompany.industry?.name ?? "";
+    selectedSize.value = form.selectedCompany.no_employees ?? "";
+}
+
 const submit = () => {
     console.log("kkk");
 
@@ -49,7 +62,12 @@ const submit = () => {
     }
     form.post(route("recruiter.submit"), {
         onSuccess: () => {
-            form.reset();
+            toast.add({
+                severity: "success",
+                summary: "Success",
+                detail: "Application submitted successfully",
+                life: 3000,
+            });
         },
         onError: (errors) => {
             console.log(errors);
@@ -130,7 +148,12 @@ const submit = () => {
                     </div>
                 </div>
             </div>
-            <Button class="w-full" @click="submit">Submit Application</Button>
+            <Button
+                class="w-full"
+                @click="submit"
+                :disabled="isAlreadyRecruiter"
+                >Submit Application</Button
+            >
         </div>
     </div>
 </template>

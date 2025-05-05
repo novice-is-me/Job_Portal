@@ -41,6 +41,6 @@ class Company extends Model
     }
 
     public function recruiter (){
-        return $this->belongsToMany(User::class, 'company_recruiter', 'company_id', 'recruiter_id' );
+        return $this->belongsToMany(User::class, 'company_recruiters', 'recruiter_id', 'company_id' );
     }
 }
