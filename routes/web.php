@@ -6,6 +6,7 @@ use App\Http\Controllers\EmailController;
 use App\Http\Controllers\FileController;
 use App\Http\Controllers\JobController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\RecruiterController;
 use App\Http\Controllers\SearchController;
 use App\Http\Controllers\SocialAuthController;
 use App\Http\Controllers\UserController;
@@ -63,6 +64,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     // Email
     Route::post('/email/subscribe/{id}', [EmailController::class, 'subscribe'])->name('email.subscribe');
+
+    // Recruiter
+    Route::get('/recruiter', [RecruiterController::class, 'index'])->name('recruiter.index');
+    Route::post('/recruiter/submit', [RecruiterController::class, 'submit'])->name('recruiter.submit');
 });
 
 require __DIR__.'/auth.php';

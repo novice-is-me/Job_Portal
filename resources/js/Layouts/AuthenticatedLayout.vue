@@ -63,7 +63,7 @@ const showingNavigationDropdown = ref(false);
                             <!-- Applying as Recruiter -->
                             <div class="">
                                 <Link
-                                    href="#"
+                                    :href="route('recruiter.index')"
                                     class="bg-primary text-white px-4 py-2 rounded-md"
                                 >
                                     Apply as Recruiter

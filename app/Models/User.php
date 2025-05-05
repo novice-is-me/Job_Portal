@@ -91,4 +91,8 @@ class User extends Authenticatable
     public function skills(){
         return $this->hasMany(UserSkill::class);
     }
+
+    public function companies(){
+        return $this->belongsToMany(Company::class, 'company_recruiter', 'company_id', 'recruiter_id');
+    }
 }

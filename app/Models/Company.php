@@ -39,4 +39,8 @@ class Company extends Model
     public function benefits(){
         return $this->hasMany(CompanyBenefit::class);
     }
+
+    public function recruiter (){
+        return $this->belongsToMany(User::class, 'company_recruiter', 'company_id', 'recruiter_id' );
+    }
 }
