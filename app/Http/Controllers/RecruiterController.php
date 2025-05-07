@@ -35,15 +35,24 @@ class RecruiterController extends Controller
         $this->recruiterService->updateRecruiter($request);
     }
 
-    public function show($id){
+    public function show(){
 
-        $company = Company::with(['industry', 'benefits', 'values'])->where('id', $id)->first();
-        
+        $user = auth()->user();
+        $recruiterCompany = CompanyRecruiter::where('recruiter_id', $user->id)->first();
+
+        if (!$recruiterCompany) {
+            abort(404, 'Recruiter company not found');
+        }
+    
+        $company = Company::with(['industry', 'benefits', 'values', 'jobs'])
+            ->where('id', $recruiterCompany->company_id)
+            ->first();
+    
         $active_jobs = $company->jobs()->count();
         $total_applicants = UserApplication::whereIn('job_id', $company->jobs->pluck('id'))->count();
-
+    
         return Inertia::render('Recruiter/Company', [
-            'user' => auth()->user(),
+            'user' => $user,
             'company' => $company,
             'active_jobs' => $active_jobs,
             'total_applicants' => $total_applicants,

@@ -166,11 +166,7 @@ const submit = () => {
             <Button
                 :as="Link"
                 class="w-full"
-                :href="
-                    route('dashboard.recruiter.company', {
-                        id: form.selectedCompany.id,
-                    })
-                "
+                :href="route('dashboard.recruiter.company')"
                 >Go to Company Page</Button
             >
         </Dialog>

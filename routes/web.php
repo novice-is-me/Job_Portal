@@ -72,7 +72,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     // Recruiter Dashboard Tabs
     Route::prefix('dashboard/recruiter')->name('dashboard.recruiter.')->group(function () {
-        Route::get('/{id}', [RecruiterController::class, 'show'])->name('company');
+        Route::get('/', [RecruiterController::class, 'show'])->name('company');
         Route::get('/jobs', [RecruiterController::class, 'jobs'])->name('jobs');
         Route::get('/candidates', [RecruiterController::class, 'candidates'])->name('candidates');
         Route::get('/analytics', [RecruiterController::class, 'analytics'])->name('analytics');

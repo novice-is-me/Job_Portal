@@ -13,7 +13,7 @@ const showingNavigationDropdown = ref(false);
 const tabs = [
     {
         name: "Company",
-        href: "/dashboard/recruiter", // matches route('/')
+        href: "/dashboard/recruiter/", // matches route('/')
         icon: "fa-solid fa-building",
     },
     {
