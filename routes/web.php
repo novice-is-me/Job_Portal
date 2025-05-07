@@ -78,6 +78,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::get('/analytics', [RecruiterController::class, 'analytics'])->name('analytics');
         Route::post('values', [RecruiterController::class, 'submitValues'])->name('submit.values');
         Route::post('benefits', [RecruiterController::class, 'submitBenefits'])->name('submit.benefits');
+        Route::get('/jobs/search', [RecruiterController::class, 'searchJobs'])->name('jobs.search');
     });
 
 });

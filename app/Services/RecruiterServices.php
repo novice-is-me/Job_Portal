@@ -58,4 +58,23 @@ class RecruiterServices{
             ]);
         }
     }
+
+    public function jobSearch($request, $jobs)
+    {
+        $job = $request->input('jobs');
+        $status = $request->input('status');
+
+        return $jobs
+            ->when(!empty($job), function($q) use ($job){
+                $q->where('name', 'like', '%'.$job.'%');
+            })
+            ->when(!empty($status), function($q) use ($status){
+                if($status === 'Active'){
+                    $q->where('status', 'Active');
+                } elseif ($status === 'Urgent'){
+                    $q->where('status', 'Urgent');
+                }
+            })
+            ->get(); 
+    }
 }

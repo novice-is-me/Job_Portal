@@ -60,8 +60,17 @@ class RecruiterController extends Controller
     }
 
     public function jobs(){
+
+        $user = auth()->user(); 
+        $recruiterCompany = CompanyRecruiter::where('recruiter_id', $user->id)->first();
+
+        $company = Company::with(['industry', 'benefits', 'values', 'jobs'])
+            ->where('id', $recruiterCompany->company_id)
+            ->first();
+        $jobs = $company->jobs()->get();
         return Inertia::render('Recruiter/Jobs', [
-            'user' => auth()->user(),
+            'company' => $company,
+            'jobs' => $jobs,
         ]);
     }
 
@@ -80,5 +89,25 @@ class RecruiterController extends Controller
         } catch(\Exception $e){
             return response()->json(['error' => 'Something went wrong please try again']);
         }
+    }
+
+    public function searchJobs(Request $request){
+
+        $user = auth()->user(); 
+        $recruiterCompany = CompanyRecruiter::where('recruiter_id', $user->id)->first();
+
+        $company = Company::with(['industry', 'benefits', 'values', 'jobs'])
+            ->where('id', $recruiterCompany->company_id)
+            ->first();
+        $jobs = $company->jobs()->get();
+        $jobQuery = $company->jobs();
+
+        $result = $this->recruiterService->jobSearch($request, $jobQuery);
+        return Inertia::render('Recruiter/Jobs', [
+            'company' => $company,
+            'jobs' => $jobs,
+            'results' => $result,
+        ]);
+
     }
 }
