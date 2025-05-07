@@ -65,9 +65,21 @@ Route::middleware(['auth', 'verified'])->group(function () {
     // Email
     Route::post('/email/subscribe/{id}', [EmailController::class, 'subscribe'])->name('email.subscribe');
 
-    // Recruiter
+    // Recruiter routes
     Route::get('/recruiter', [RecruiterController::class, 'index'])->name('recruiter.index');
     Route::post('/recruiter/submit', [RecruiterController::class, 'submit'])->name('recruiter.submit');
+    Route::get('dashboard/recuiter', [RecruiterController::class, 'show'])->name('dashboard.recruiter');
+
+    // Recruiter Dashboard Tabs
+    Route::prefix('dashboard/recruiter')->name('dashboard.recruiter.')->group(function () {
+        Route::get('/{id}', [RecruiterController::class, 'show'])->name('company');
+        Route::get('/jobs', [RecruiterController::class, 'jobs'])->name('jobs');
+        Route::get('/candidates', [RecruiterController::class, 'candidates'])->name('candidates');
+        Route::get('/analytics', [RecruiterController::class, 'analytics'])->name('analytics');
+        Route::post('values', [RecruiterController::class, 'submitValues'])->name('submit.values');
+        Route::post('benefits', [RecruiterController::class, 'submitBenefits'])->name('submit.benefits');
+    });
+
 });
 
 require __DIR__.'/auth.php';

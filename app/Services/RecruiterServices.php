@@ -2,6 +2,8 @@
 
 namespace App\Services;
 
+use App\Models\Company;
+use App\Models\CompanyValue;
 
 class RecruiterServices{
 
@@ -23,5 +25,37 @@ class RecruiterServices{
             // We only sync the selected company id, becs in the relationship in the model, we have the company_id as the foreign key and the recruiter_id as the local key
             $request->selectedCompany['id']
         ]);
+    }
+
+    public function updateValues($request){
+
+        $company = Company::find($request['company_id']);
+
+        // Delete old values
+        $company->values()->delete();
+        // Create new values
+        foreach($request['company_values'] as $value){
+            $company->values()->create([
+                'company_id' => $company->id,
+                'name' => $value['name'],
+                'description' => $value['description'],
+            ]);
+        }
+    }
+
+    public function updateBenefits($request){
+
+        $company = Company::find($request['company_id']);
+
+        // Delete old values
+        $company->benefits()->delete();
+        // Create new values
+        foreach($request['company_benefits'] as $benefit){
+            $company->benefits()->create([
+                'company_id' => $company->id,
+                'name' => $benefit['name'],
+                'description' => $benefit['description'],
+            ]);
+        }
     }
 }

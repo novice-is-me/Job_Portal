@@ -1,6 +1,6 @@
 <script setup>
-import { useForm } from "@inertiajs/vue3";
-import { InputText, Select, Button, useToast } from "primevue";
+import { Link, useForm } from "@inertiajs/vue3";
+import { InputText, Select, Button, useToast, Dialog } from "primevue";
 import { watch, ref } from "vue";
 
 const props = defineProps({
@@ -12,6 +12,7 @@ const props = defineProps({
 const user = props.user;
 const toast = useToast();
 const isAlreadyRecruiter = ref(props.recruiterCompany);
+const isDialogVisible = ref(false);
 
 const form = useForm({
     full_name: user.name ?? "",
@@ -68,6 +69,8 @@ const submit = () => {
                 detail: "Application submitted successfully",
                 life: 3000,
             });
+
+            isDialogVisible.value = true;
         },
         onError: (errors) => {
             console.log(errors);
@@ -148,12 +151,28 @@ const submit = () => {
                     </div>
                 </div>
             </div>
-            <Button
-                class="w-full"
-                @click="submit"
-                :disabled="isAlreadyRecruiter"
-                >Submit Application</Button
-            >
+            <Button class="w-full" @click="submit">Submit Application</Button>
         </div>
+
+        <Dialog
+            v-model:visible="isDialogVisible"
+            modal
+            header="Congratulations!"
+            :style="{ width: '25rem' }"
+        >
+            <span class="text-surface-500 dark:text-surface-400 block mb-4"
+                >You may now access your company</span
+            >
+            <Button
+                :as="Link"
+                class="w-full"
+                :href="
+                    route('dashboard.recruiter.company', {
+                        id: form.selectedCompany.id,
+                    })
+                "
+                >Go to Company Page</Button
+            >
+        </Dialog>
     </div>
 </template>
