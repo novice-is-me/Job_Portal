@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Models\Company;
 use App\Models\CompanyValue;
+use App\Models\Job;
 
 class RecruiterServices{
 
@@ -76,5 +77,27 @@ class RecruiterServices{
                 }
             })
             ->get(); 
+    }
+
+    public function addJobs($request){
+
+        $companyId = $request->input('company_id');
+
+        $company = Company::find($companyId);
+
+        $company->jobs()->create([
+            'name' => $request->input('job_title'),
+            'content' => $request->input('description'),
+            'category_id' => $request->input('category')['id'],
+            'address' => $request->input('address'),
+            'status' => $request->input('status')['name'],
+            'salary' => $request->input('salary'),
+            'type' => $request->input('type')['name'],
+        ]);
+    }
+
+    public function deleteJob($request){
+        $job = Job::find($request->input('job_id'));
+        $job->delete();
     }
 }

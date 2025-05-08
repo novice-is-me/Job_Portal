@@ -6,7 +6,7 @@ import DropdownLink from "@/Components/DropdownLink.vue";
 import NavLink from "@/Components/NavLink.vue";
 import ResponsiveNavLink from "@/Components/ResponsiveNavLink.vue";
 import { Link } from "@inertiajs/vue3";
-import { Avatar } from "primevue";
+import { Avatar, ConfirmDialog } from "primevue";
 
 const showingNavigationDropdown = ref(false);
 
@@ -265,6 +265,7 @@ const tabs = [
 
             <!-- Components -->
             <Toast />
+            <ConfirmDialog></ConfirmDialog>
         </div>
     </div>
 </template>

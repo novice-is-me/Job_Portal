@@ -10,7 +10,7 @@ import Aura from "@primeuix/themes/aura";
 import "primeicons/primeicons.css";
 import "@fortawesome/fontawesome-free/css/all.css";
 import { definePreset } from "@primeuix/themes";
-import { Toast, ToastService } from "primevue";
+import { ConfirmationService, Toast, ToastService } from "primevue";
 // If we want to use PrimeVue components
 // import { Toast, ConfirmDialog } from "primevue";
 
@@ -52,6 +52,7 @@ createInertiaApp({
                 },
             })
             .use(ToastService)
+            .use(ConfirmationService)
             .component("Toast", Toast)
             .mount(el);
     },

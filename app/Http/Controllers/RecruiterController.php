@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Category;
 use App\Models\Company;
 use App\Models\CompanyRecruiter;
 use App\Models\UserApplication;
@@ -68,9 +69,11 @@ class RecruiterController extends Controller
             ->where('id', $recruiterCompany->company_id)
             ->first();
         $jobs = $company->jobs()->get();
+
         return Inertia::render('Recruiter/Jobs', [
             'company' => $company,
             'jobs' => $jobs,
+            'categories' => Category::all(),
         ]);
     }
 
@@ -103,11 +106,29 @@ class RecruiterController extends Controller
         $jobQuery = $company->jobs();
 
         $result = $this->recruiterService->jobSearch($request, $jobQuery);
+
         return Inertia::render('Recruiter/Jobs', [
             'company' => $company,
             'jobs' => $jobs,
             'results' => $result,
+            'categories' => Category::all(),
         ]);
+    }
 
+    public function addJobs(Request $request){
+        try{
+            $this->recruiterService->addJobs($request);
+        } catch(\Exception $e){
+
+            return response()->json(['error' => $e->getMessage()]);
+        }
+    }
+
+    public function deleteJob(Request $request){
+        try{
+            $this->recruiterService->deleteJob($request);
+        } catch(\Exception $e){
+            return response()->json(['error' => 'Something went wrong please try again']);
+        }
     }
 }
