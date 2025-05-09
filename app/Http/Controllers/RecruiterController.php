@@ -68,7 +68,8 @@ class RecruiterController extends Controller
         $company = Company::with(['industry', 'benefits', 'values', 'jobs'])
             ->where('id', $recruiterCompany->company_id)
             ->first();
-        $jobs = $company->jobs()->get();
+        $jobs = $company->jobs()->with(['category', 'applications', 'experience', 'recruiter'])
+        ->get();
 
         return Inertia::render('Recruiter/Jobs', [
             'company' => $company,
@@ -127,6 +128,14 @@ class RecruiterController extends Controller
     public function deleteJob(Request $request){
         try{
             $this->recruiterService->deleteJob($request);
+        } catch(\Exception $e){
+            return response()->json(['error' => 'Something went wrong please try again']);
+        }
+    }
+
+    public function updateJob(Request $request){
+        try{
+            $this->recruiterService->updateJob($request);
         } catch(\Exception $e){
             return response()->json(['error' => 'Something went wrong please try again']);
         }

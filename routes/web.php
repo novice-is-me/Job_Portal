@@ -83,6 +83,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::post('benefits', [RecruiterController::class, 'submitBenefits'])->name('submit.benefits');
         Route::post('add-jobs', [RecruiterController::class, 'addJobs'])->name('submit.add-jobs');
         Route::delete('delete-job/', [RecruiterController::class, 'deleteJob'])->name('delete.job');
+        Route::post('update-job', [RecruiterController::class, 'updateJob'])->name('update.job');
     });
 
 });

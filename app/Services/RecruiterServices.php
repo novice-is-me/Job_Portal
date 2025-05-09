@@ -100,4 +100,18 @@ class RecruiterServices{
         $job = Job::find($request->input('job_id'));
         $job->delete();
     }
+
+    public function updateJob($request){
+        $job = Job::find($request->input('job_id'));
+        
+        $job->update([
+            'name' => $request->input('job_title'),
+            'content' => $request->input('description'),
+            'category_id' => $request->input('category')['id'],
+            'address' => $request->input('address'),
+            'status' => $request->input('status')['name'],
+            'salary' => $request->input('salary'),
+            'type' => $request->input('type')['name'],
+        ]);
+    }
 }
