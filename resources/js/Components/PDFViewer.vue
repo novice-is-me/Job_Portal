@@ -49,3 +49,19 @@ onMounted(() => {
     loadPdf();
 });
 </script>
+
+<template>
+    <div class="w-full h-full overflow-auto">
+        <canvas ref="canvas" class="max-w-full h-auto"></canvas>
+
+        <div class="mt-2 flex justify-between">
+            <button @click="prevPage" class="px-3 py-1 bg-gray-300 rounded">
+                Prev
+            </button>
+            <span>Page {{ pageNum }} / {{ totalPages }}</span>
+            <button @click="nextPage" class="px-3 py-1 bg-gray-300 rounded">
+                Next
+            </button>
+        </div>
+    </div>
+</template>

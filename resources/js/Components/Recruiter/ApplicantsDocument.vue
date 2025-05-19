@@ -8,8 +8,12 @@ const props = defineProps({
 
 const isCoverLetterView = ref(false);
 const isResumeView = ref(false);
-const isImage = ref(false);
-const isPDF = ref(false);
+
+// Store type per document (pdf, image, null)
+const documentType = ref({
+    resume: null,
+    cover_letter: null,
+});
 
 const baseURL = "http://127.0.0.1:8000"; // or your API base URL
 
@@ -20,37 +24,42 @@ const getFullURL = (path) => {
     return path;
 };
 
-const fileExtension = (fileName) => {
-    if (
-        ["jpg", "jpeg", "png"].includes(fileName.split(".").pop().toLowerCase())
-    ) {
-        isImage.value = true;
-    } else if (
-        ["pdf", "docx", "doc"].includes(fileName.split(".").pop().toLowerCase())
-    ) {
-        isPDF.value = true;
+// Determine file type and store per document
+const fileExtension = (fileName, type) => {
+    const ext = fileName.split(".").pop().toLowerCase();
+    if (["jpg", "jpeg", "png"].includes(ext)) {
+        documentType.value[type] = "image";
+    } else if (["pdf", "docx", "doc"].includes(ext)) {
+        documentType.value[type] = "pdf";
+    } else {
+        documentType.value[type] = null;
     }
-    console.log("File extension check:", {
-        isImage: isImage.value,
-        isPDF: isPDF.value,
-    });
+
+    console.log("File extension check:", documentType.value);
 };
 
+// View document
 const viewDocument = (document) => {
-    // Logic to view the document
     console.log("Viewing document:", document);
+
     if (document.includes("cover_letter")) {
         isCoverLetterView.value = !isCoverLetterView.value;
-        fileExtension(document);
+        fileExtension(document, "cover_letter");
     } else if (document.includes("resume")) {
         isResumeView.value = !isResumeView.value;
-        fileExtension(document);
+        fileExtension(document, "resume");
     }
 };
 
-const downloadDocument = (document) => {
-    // Logic to download the document
-    console.log("Downloading document:", document);
+// Download document
+const downloadDocument = (filePath) => {
+    const link = document.createElement("a");
+    link.href = getFullURL(`/storage/${filePath}`);
+    link.download = filePath.split("/").pop(); // Optional: suggests filename
+    link.target = "_blank"; // Optional: opens in new tab
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
 };
 </script>
 
@@ -58,7 +67,7 @@ const downloadDocument = (document) => {
     <div>
         <!-- Resume -->
         <div>
-            <div v-if="applicant.resume" class="pb-4">
+            <div v-if="applicant.resume">
                 <div class="flex justify-between items-center">
                     <div class="flex items-center gap-x-2">
                         <i class="pi pi-file text-blue-500"></i>
@@ -75,24 +84,25 @@ const downloadDocument = (document) => {
                         ></i>
                     </div>
                 </div>
-                <!-- Actual document -->
-                <div>
-                    <div v-if="isResumeView">
-                        <p v-if="isImage" class="text-secondary text-sm">
-                            This is an image file.
-                        </p>
-                        <p v-else-if="isPDF" class="text-secondary text-sm">
-                            This is a PDF file.
-                        </p>
+
+                <!-- Actual Resume -->
+                <div v-if="isResumeView">
+                    <div
+                        v-if="documentType.resume === 'image'"
+                        class="flex justify-center p-2"
+                    >
                         <img
-                            v-if="isImage"
                             :src="`/storage/${applicant.resume}`"
                             alt="Resume"
                             class="w-full h-auto"
                         />
+                    </div>
+                    <div
+                        v-else-if="documentType.resume === 'pdf'"
+                        class="w-full max-w-[600px] h-[600px] overflow-auto mx-auto p-4 md:p-0"
+                    >
                         <PDFViewer
                             :src="`http://127.0.0.1:8000/storage/${applicant.resume}`"
-                            v-else-if="isPDF"
                         />
                     </div>
                 </div>
@@ -100,12 +110,11 @@ const downloadDocument = (document) => {
             <div v-else>
                 <p class="text-secondary text-sm">No documents uploaded yet.</p>
             </div>
-            <div></div>
         </div>
 
         <!-- Cover Letter -->
-        <div>
-            <div v-if="applicant.cover_letter" class="pb-4">
+        <div class="mt-6">
+            <div v-if="applicant.cover_letter">
                 <div class="flex justify-between items-center">
                     <div class="flex items-center gap-x-2">
                         <i class="pi pi-file text-blue-500"></i>
@@ -122,24 +131,25 @@ const downloadDocument = (document) => {
                         ></i>
                     </div>
                 </div>
-                <!-- Actual document -->
-                <div>
-                    <div v-if="isCoverLetterView">
-                        <p v-if="isImage" class="text-secondary text-sm">
-                            This is an image file.
-                        </p>
-                        <p v-else-if="isPDF" class="text-secondary text-sm">
-                            This is a PDF file.
-                        </p>
+
+                <!-- Actual Cover Letter -->
+                <div v-if="isCoverLetterView">
+                    <div
+                        v-if="documentType.cover_letter === 'image'"
+                        class="flex justify-center p-2"
+                    >
                         <img
-                            v-if="isImage"
                             :src="`/storage/${applicant.cover_letter}`"
-                            alt="Resume"
-                            class="w-full h-auto"
+                            alt="Cover Letter"
+                            class="w-[50%] h-auto"
                         />
+                    </div>
+                    <div
+                        v-else-if="documentType.cover_letter === 'pdf'"
+                        class="w-full max-w-[600px] h-[600px] overflow-auto mx-auto p-4 md:p-0"
+                    >
                         <PDFViewer
                             :src="`http://127.0.0.1:8000/storage/${applicant.cover_letter}`"
-                            v-else-if="isPDF"
                         />
                     </div>
                 </div>
