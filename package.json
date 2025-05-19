@@ -24,6 +24,7 @@
         "@primeuix/themes": "^1.0.1",
         "lightningcss": "^1.29.3",
         "lodash": "^4.17.21",
+        "pdfjs-dist": "^5.2.133",
         "primeicons": "^7.0.0",
         "primevue": "^4.3.3"
     }

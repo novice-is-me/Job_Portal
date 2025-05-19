@@ -4,6 +4,7 @@ import ApplicantsBasicInformation from "./ApplicantsBasicInformation.vue";
 import WorkExperience from "../Profile/Tabs/Partials/WorkExperience.vue";
 import EducationComponent from "../Profile/Tabs/Partials/EducationComponent.vue";
 import SkillsComponent from "../Job/SkillsComponent.vue";
+import ApplicantsDocument from "./ApplicantsDocument.vue";
 
 const props = defineProps({
     applicant: Object,
@@ -76,6 +77,8 @@ const changeActiveTab = (tab) => {
                 <p class="font-[Poppins] text-xl font-bold">Documents</p>
             </div>
         </div>
+
+        <!-- For profile tab -->
         <div v-if="isActiveTab === 'profile'">
             <ApplicantsBasicInformation :applicant="applicant" />
             <div class="bg-white p-4 rounded-lg shadow-md mt-4 space-y-4">
@@ -113,6 +116,15 @@ const changeActiveTab = (tab) => {
                 <div v-else class="text-center">
                     <p class="text-secondary text-sm">No skills added yet.</p>
                 </div>
+            </div>
+        </div>
+
+        <!-- For document Tab -->
+        <div v-if="isActiveTab === 'documents'">
+            <div class="bg-white p-4 rounded-lg shadow-md mt-4 space-y-4">
+                <p class="font-[Poppins] text-xl font-bold">Documents</p>
+                <!-- Resume -->
+                <ApplicantsDocument :applicant="applicant.user" />
             </div>
         </div>
     </div>

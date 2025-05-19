@@ -40,9 +40,11 @@ watch(
 
 // Setting the selected company of user recruiter if they have one
 form.selectedCompany =
-    props.companies.find(
-        (company) => company.id === props.recruiterCompany.company_id
-    ) ?? "";
+    props.recruiterCompany && props.companies
+        ? props.companies.find(
+              (company) => company.id === props.recruiterCompany.company_id
+          ) ?? ""
+        : "";
 
 if (form.selectedCompany) {
     selectedIndustry.value = form.selectedCompany.industry?.name ?? "";

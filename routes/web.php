@@ -13,6 +13,8 @@ use App\Http\Controllers\UserController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Response;
 
 Route::get('/', function () {
     return Inertia::render('Welcome', [
