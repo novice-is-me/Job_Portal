@@ -5,6 +5,8 @@ const props = defineProps({
     education: Object,
 });
 
+console.log(props.education);
+
 const education = ref(props.education);
 </script>
 <template>

@@ -139,5 +139,23 @@ class RecruiterController extends Controller
         } catch(\Exception $e){
             return response()->json(['error' => 'Something went wrong please try again']);
         }
+    } 
+
+    public function candidates(){
+
+        $user = auth()->user(); 
+        $recruiterCompany = CompanyRecruiter::where('recruiter_id', $user->id)->first();
+
+        $company = Company::with(['industry', 'benefits', 'values', 'jobs'])
+            ->where('id', $recruiterCompany->company_id)
+            ->first();
+
+        $applicants = UserApplication::with(['user.workExperiences.user', 'job', 'jobStatus', 'user.educations', 'user.skills'])
+            ->whereIn('job_id', $company->jobs->pluck('id'))
+            ->get();
+
+        return Inertia::render('Recruiter/Candidates', [
+            'applicants' => $applicants,
+        ]);
     }
 }

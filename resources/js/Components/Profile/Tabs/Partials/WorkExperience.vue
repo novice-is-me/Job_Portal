@@ -6,6 +6,7 @@ const props = defineProps({
 });
 
 const work = ref(props.workExp);
+console.log(props.workExp);
 
 const dateFormat = (date) => {
     const options = { year: "numeric", month: "long" };
@@ -26,7 +27,7 @@ const dateFormat = (date) => {
                 Present
             </p>
         </div>
-        <p class="text-secondary text-sm">
+        <p v-if="work.end_date" class="text-secondary text-sm">
             {{ dateFormat(work.start_date) }} - {{ dateFormat(work.end_date) }}
         </p>
         <!-- <ul class="list-disc list-inside space-y-2 mt-4 ms-2">
