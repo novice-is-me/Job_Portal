@@ -5,6 +5,7 @@ import SearchApplicant from "@/Components/Recruiter/SearchApplicant.vue";
 import { DataTable, Column, Button } from "primevue";
 import { ref } from "vue";
 import ApplicantsInformation from "@/Components/Recruiter/ApplicantsInformation.vue";
+import SideViewInformation from "@/Components/Recruiter/SideViewInformation.vue";
 
 const props = defineProps({
     applicants: Array,
@@ -92,11 +93,15 @@ const viewApplicant = (data) => {
         </div>
 
         <!-- Applicants info -->
-        <div v-if="isViewApplicant" class="bg-gray-100 p-4">
+        <div
+            v-if="isViewApplicant"
+            class="bg-gray-100 p-4 border-red-500 border grid grid-cols-1 md:grid-cols-[2fr,1fr] gap-x-4 gap-y-4"
+        >
             <ApplicantsInformation
                 :applicant="selectedApplicant"
                 @close="isViewApplicant = false"
             />
+            <SideViewInformation :applicant="selectedApplicant" />
         </div>
     </AdminLayout>
 </template>
