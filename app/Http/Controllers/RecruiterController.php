@@ -179,4 +179,11 @@ class RecruiterController extends Controller
         }
 
     }
+
+    public function analytics (){
+
+        return Inertia::render('Recruiter/Analytics', [
+            'user' => auth()->user(),
+        ]);
+    }
 }
