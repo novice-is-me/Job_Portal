@@ -51,12 +51,16 @@ class RecruiterController extends Controller
     
         $active_jobs = $company->jobs()->count();
         $total_applicants = UserApplication::whereIn('job_id', $company->jobs->pluck('id'))->count();
+        $total_interviews = UserApplication::whereIn('job_id', $company->jobs->pluck('id'))
+            ->where('status', 4)
+            ->count();
     
         return Inertia::render('Recruiter/Company', [
             'user' => $user,
             'company' => $company,
             'active_jobs' => $active_jobs,
             'total_applicants' => $total_applicants,
+            'total_interviews' => $total_interviews,
         ]);
     }
 

@@ -12,11 +12,12 @@ const props = defineProps({
     company: Object,
     active_jobs: Number,
     total_applicants: Number,
+    total_interviews: Number,
 });
 
 const company = ref(props.company);
+console.log(props.total_interviews);
 
-console.log(company.value);
 const statusData = [
     {
         title: "Active Jobs",
@@ -34,7 +35,7 @@ const statusData = [
     },
     {
         title: "Interview Scheduled",
-        count: 5,
+        count: props.total_interviews,
         icon: "pi pi-check",
         color: "bg-yellow-100",
         text: "text-yellow-500",

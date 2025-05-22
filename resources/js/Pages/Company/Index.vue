@@ -50,7 +50,6 @@ const similarCompanies = ref(props.similarCompanies);
                                     class="text-2xl font-semibold font-[Poppins]"
                                 >
                                     {{ company.name }}
-                                    {{ console.log(company) }}
                                 </p>
                                 <CategoriesComponent
                                     :category="company.industry.name"

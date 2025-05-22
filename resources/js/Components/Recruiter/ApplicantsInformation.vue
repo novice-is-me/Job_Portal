@@ -43,7 +43,7 @@ const formatInterviewSchedule = (date) => {
         <!-- Header -->
         <div
             class="flex items-center gap-x-4 hover:cursor-pointer"
-            @click="isViewApplicant = false"
+            @click="$emit('close')"
         >
             <i class="pi pi-angle-left tex-2xl font-semibold"></i>
             <p>Back</p>
