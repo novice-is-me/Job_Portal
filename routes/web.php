@@ -87,6 +87,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::delete('delete-job/', [RecruiterController::class, 'deleteJob'])->name('delete.job');
         Route::post('update-job', [RecruiterController::class, 'updateJob'])->name('update.job');
         Route::post('set-interview', [RecruiterController::class, 'submitInterview'])->name('submit.interview');
+        Route::post('reject-candidate', [RecruiterController::class, 'rejectCandidate'])->name('reject.candidate');
     });
 
 });

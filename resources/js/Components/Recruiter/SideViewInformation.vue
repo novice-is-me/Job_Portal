@@ -1,6 +1,6 @@
 <script setup>
 import { useForm } from "@inertiajs/vue3";
-import { Button, DatePicker, Dialog, useToast } from "primevue";
+import { Button, DatePicker, Dialog, useConfirm, useToast } from "primevue";
 import { ref } from "vue";
 
 const props = defineProps({
@@ -8,7 +8,9 @@ const props = defineProps({
 });
 
 const toast = useToast();
+const confirm = useConfirm();
 const isDatePicker = ref(false);
+const isRejectionModal = ref(false);
 
 const formatDate = (date) => {
     if (!date) return null;
@@ -34,10 +36,6 @@ const form = useForm({
 const scheduleInterview = () => {
     console.log("Schedule Interview clicked");
     isDatePicker.value = !isDatePicker.value;
-};
-
-const rejectApplicant = () => {
-    console.log("Reject Applicant clicked");
 };
 
 const saveSchedInterview = () => {
@@ -68,6 +66,42 @@ const saveSchedInterview = () => {
             },
         }
     );
+};
+
+const rejectApplicant = () => {
+    confirm.require({
+        message: "Are you sure you want to reject this applicant?",
+        header: "Reject Applicant",
+        icon: "pi pi-exclamation-triangle",
+        acceptLabel: "Yes",
+        rejectLabel: "No",
+        acceptClass: "p-button-danger",
+        accept: () => {
+            form.post(
+                route("dashboard.recruiter.reject.candidate", {
+                    applicant_id: props.applicant.user.id,
+                    job_id: props.applicant.job.id,
+                }),
+                {
+                    onSuccess: () => {
+                        console.log("Applicant rejected successfully");
+                        toast.add({
+                            severity: "success",
+                            summary: "Success",
+                            detail: "Applicant rejected successfully!",
+                            life: 3000,
+                        });
+
+                        props.applicant.status = "Rejected";
+                    },
+
+                    onError: () => {
+                        console.log("Error rejecting applicant");
+                    },
+                }
+            );
+        },
+    });
 };
 </script>
 

@@ -166,4 +166,13 @@ class RecruiterController extends Controller
             return response()->json(['error' => 'Something went wrong please try again']);
         }
     }
+
+    public function rejectCandidate(Request $request){
+        try{
+            $this->recruiterService->rejectCandidate($request);
+        } catch(\Exception $e){
+            return response()->json(['error' => 'Something went wrong please try again']);
+        }
+
+    }
 }

@@ -66,6 +66,13 @@ const formatInterviewSchedule = (date) => {
                     <i class="pi pi-calendar"></i>
                     <p>{{ formatInterviewSchedule(applicant.interview_at) }}</p>
                 </div>
+                <div
+                    v-if="applicant.status === 3"
+                    class="flex items-center gap-x-2 text-red-500"
+                >
+                    <i class="pi pi-calendar"></i>
+                    <p>Rejected</p>
+                </div>
             </div>
             <div>
                 <i></i>

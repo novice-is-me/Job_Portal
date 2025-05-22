@@ -130,6 +130,25 @@ class RecruiterServices{
         try {
             $job->update([
                 'interview_at' => Carbon::parse($request->input('dateTime24h')),
+                'status' => 4,
+            ]);
+        } catch (\Exception $e) {
+            return response()->json(['error' => 'Something went wrong please try again']);
+        }
+    }
+
+    public function rejectCandidate ($request){
+        $applicant = $request->input('applicant_id');
+        $job = $request->input('job_id');
+        // dd($applicant);
+
+        $job = UserApplication::where('user_id', $applicant)
+            ->where('job_id', $job)
+            ->first();
+           
+        try {
+            $job->update([
+                'status' => 3,
             ]);
         } catch (\Exception $e) {
             return response()->json(['error' => 'Something went wrong please try again']);
