@@ -150,12 +150,20 @@ class RecruiterController extends Controller
             ->where('id', $recruiterCompany->company_id)
             ->first();
 
-        $applicants = UserApplication::with(['user.workExperiences.user', 'job', 'jobStatus', 'user.educations', 'user.skills'])
+        $applicants = UserApplication::with(['user.workExperiences.user', 'job', 'jobStatus', 'user.educations', 'user.skills.skill'])
             ->whereIn('job_id', $company->jobs->pluck('id'))
             ->get();
 
         return Inertia::render('Recruiter/Candidates', [
             'applicants' => $applicants,
         ]);
+    }
+
+    public function submitInterview(Request $request){
+        try{
+            $this->recruiterService->setInterview($request);
+        } catch(\Exception $e){
+            return response()->json(['error' => 'Something went wrong please try again']);
+        }
     }
 }

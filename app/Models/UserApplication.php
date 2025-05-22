@@ -15,6 +15,7 @@ class UserApplication extends Model
         'user_id',
         'is_applied',
         'status',
+        'interview_at',
     ];
 
     public function user(){

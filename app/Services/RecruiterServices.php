@@ -5,6 +5,8 @@ namespace App\Services;
 use App\Models\Company;
 use App\Models\CompanyValue;
 use App\Models\Job;
+use App\Models\UserApplication;
+use Carbon\Carbon;
 
 class RecruiterServices{
 
@@ -113,5 +115,24 @@ class RecruiterServices{
             'salary' => $request->input('salary'),
             'type' => $request->input('type')['name'],
         ]);
+    }
+
+    public function setInterview($request){
+
+        $applicant = $request->input('applicant_id');
+        $job = $request->input('job_id');
+        // dd($applicant);
+
+        $job = UserApplication::where('user_id', $applicant)
+            ->where('job_id', $job)
+            ->first();
+           
+        try {
+            $job->update([
+                'interview_at' => Carbon::parse($request->input('dateTime24h')),
+            ]);
+        } catch (\Exception $e) {
+            return response()->json(['error' => 'Something went wrong please try again']);
+        }
     }
 }

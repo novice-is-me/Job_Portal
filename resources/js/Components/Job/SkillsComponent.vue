@@ -2,6 +2,7 @@
 const props = defineProps({
     skill: Object,
 });
+console.log(props.skill);
 </script>
 
 <template>
