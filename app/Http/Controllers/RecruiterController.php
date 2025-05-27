@@ -8,6 +8,7 @@ use App\Models\CompanyRecruiter;
 use App\Models\UserApplication;
 use App\Services\RecruiterServices;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Inertia\Inertia;
 
 class RecruiterController extends Controller
@@ -182,8 +183,33 @@ class RecruiterController extends Controller
 
     public function analytics (){
 
+        $user = auth()->user(); 
+        $recruiterCompany = CompanyRecruiter::where('recruiter_id', $user->id)->first();
+        // Need the job name for the company
+        $company = Company::with(['jobs'])
+            ->where('id', $recruiterCompany->company_id)
+            ->first(); 
+        
+        // Need the total number of applicants per job in company
+        $applicants = UserApplication::with(['user.workExperiences.user', 'job', 'jobStatus', 'user.educations', 'user.skills.skill'])
+            ->whereIn('job_id', $company->jobs->pluck('id'))
+            ->get();
+
+        // Optional: count applicants per job
+        $applicantsPerJob = $applicants->groupBy('job_id')->map->count();
+
+        $applicantsPerJobMonthly = UserApplication::selectRaw('job_id, MONTHNAME(created_at) as month, COUNT(*) as total')
+            ->whereIn('job_id', $company->jobs->pluck('id'))
+            ->groupBy('job_id', DB::raw('MONTHNAME(created_at)'))
+            ->orderByRaw('MONTH(created_at)')
+            ->get();
+
+
         return Inertia::render('Recruiter/Analytics', [
             'user' => auth()->user(),
+            'jobs' => $company->jobs,
+            'applicantsPerJob' => $applicantsPerJob,
+            'applicantsPerJobMonthly' => $applicantsPerJobMonthly,
         ]);
     }
 }
