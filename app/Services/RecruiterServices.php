@@ -173,4 +173,26 @@ class RecruiterServices{
             return response()->json(['error' => 'Something went wrong please try again']);
         }
     }
+
+   // RecruiterService.php or wherever your service is defined
+    public function updateJobStatus($request)
+    {
+        $data = $request->input('data');
+
+        $job = UserApplication::find($data['id']); 
+
+        if (!$job) {
+            return response()->json(['error' => 'Job application not found'], 404);
+        }
+
+        $job->update([
+            'status' => $job->status == 1 ? 2 : $job->status,
+        ]);
+
+        return response()->json([
+            'message' => 'Status updated successfully',
+            'status' => $job->status
+        ]);
+    }
+
 }

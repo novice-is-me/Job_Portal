@@ -146,6 +146,14 @@ class RecruiterController extends Controller
         }
     } 
 
+    public function updateJobStatus(Request $request){
+        try{
+            $this->recruiterService->updateJobStatus($request);
+        } catch(\Exception $e){
+            return response()->json(['error' => 'Something went wrong please try again']);
+        }
+    }
+
     public function candidates(){
 
         $user = auth()->user(); 

@@ -16,9 +16,21 @@ const selectedApplicant = ref(null);
 
 console.log(props.applicants);
 
-const viewApplicant = (data) => {
+const viewApplicant = async (data) => {
     isViewApplicant.value = true;
     selectedApplicant.value = data;
+
+    // Add a method that will change the status from pending to reviewed
+    try {
+        const result = await axios.post(
+            route("dashboard.recruiter.update.status"),
+            {
+                data: data,
+            }
+        );
+    } catch (error) {
+        console.error("Error updating applicant status:", error);
+    }
 };
 </script>
 

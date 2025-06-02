@@ -16,6 +16,8 @@ const applicantEducation = ref(props.applicant.user.educations);
 const applicantSkill = ref(props.applicant.user.skills);
 const isActiveTab = ref("profile");
 
+const emit = defineEmits(["close"]);
+
 const formatDate = (date) => {
     return new Date(date).toLocaleDateString();
 };
@@ -36,6 +38,12 @@ const formatInterviewSchedule = (date) => {
         hour12: true,
     });
 };
+
+const back = () => {
+    emit("close");
+    // Make a refresh
+    window.location.reload();
+};
 </script>
 
 <template>
@@ -43,7 +51,7 @@ const formatInterviewSchedule = (date) => {
         <!-- Header -->
         <div
             class="flex items-center gap-x-4 hover:cursor-pointer"
-            @click="$emit('close')"
+            @click="back"
         >
             <i class="pi pi-angle-left tex-2xl font-semibold"></i>
             <p>Back</p>
