@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Mail\InterviewEmail;
+use App\Mail\RejectionEmail;
 use App\Models\Company;
 use App\Models\CompanyValue;
 use App\Models\Job;
@@ -169,6 +170,23 @@ class RecruiterServices{
             $job->update([
                 'status' => 3,
             ]);
+
+             // First get the email of the applicant
+            $applicantEmail = $job->user->email;
+
+            // Get the name of applicant
+            $applicantName = $job->user->name;
+            // Get the date of interview
+            $interviewDate = Carbon::parse($request->input('dateTime24h'))->format('d M Y');
+            // Get the name of the job
+            $jobName = $job->job->name;
+            // Then send an email to the applicant about the interview
+           Mail::to($applicantEmail)->send(new RejectionEmail(
+                $applicantName,
+                $interviewDate,
+                $jobName
+            ));
+
         } catch (\Exception $e) {
             return response()->json(['error' => 'Something went wrong please try again']);
         }
