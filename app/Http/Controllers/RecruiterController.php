@@ -204,12 +204,18 @@ class RecruiterController extends Controller
             ->orderByRaw('MONTH(created_at)')
             ->get();
 
+        $applicantsPerStatus = UserApplication::selectRaw('job_id, status, COUNT(*) as total')
+            ->whereIn('job_id', $company->jobs->pluck('id'))
+            ->groupBy('job_id', 'status')
+            ->get();
+
 
         return Inertia::render('Recruiter/Analytics', [
             'user' => auth()->user(),
             'jobs' => $company->jobs,
             'applicantsPerJob' => $applicantsPerJob,
             'applicantsPerJobMonthly' => $applicantsPerJobMonthly,
+            'applicantsPerStatus' => $applicantsPerStatus,
         ]);
     }
 }
