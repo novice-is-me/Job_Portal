@@ -112,7 +112,7 @@ const facebookLogin = () => {
                             id="user_type"
                             v-model="form.user_type"
                             label="Remember me"
-                            value="2"
+                            value="3"
                         />
                         <label for="recruiter" class="font-semibold"
                             >Recruiter</label

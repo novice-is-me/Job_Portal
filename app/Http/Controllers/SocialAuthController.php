@@ -19,7 +19,7 @@ class SocialAuthController extends Controller
     public function register(RegisterService $registerService){
         // Validate the request first
         $validatedData = $registerService->validated();
-
+        
         // Create a new user
         if($validatedData){
             $user = User::create([
@@ -32,7 +32,14 @@ class SocialAuthController extends Controller
             if($user){
                 // Login the user first to authenticate and redirect to dashboard
                 Auth::login($user);
-                return redirect()->route('dashboard');
+
+                if ($user->user_type == 1) {
+                    // Redirect to recruiter dashboard
+                    return redirect()->route('dashboard');
+                } elseif ($user->user_type == 3) {
+                    // Redirect to user dashboard
+                    return redirect()->route('recruiter.index');
+                }
             }else{
                 return redirect()->back()->with('error', 'Something went wrong');
             }
@@ -40,10 +47,19 @@ class SocialAuthController extends Controller
     }
 
     public function login(LoginRequest $request){
+
         $request->authenticate();
 
-        $request->session()->regenerate();
+        $user = Auth::user();
 
-        return redirect()->intended(route('dashboard', absolute: false));
+        if ($user->user_type == 1) {
+            // Redirect to recruiter dashboard
+            return redirect()->route('dashboard');
+            
+        } elseif ($user->user_type == 3) {
+            // Redirect to user dashboard
+            return redirect()->route('dashboard.recruiter.company');
+        } 
+        $request->session()->regenerate();
     }
 }

@@ -66,12 +66,12 @@ Route::middleware(['auth', 'verified', 'checkUserType:1'])->group(function () {
 
     // Email
     Route::post('/email/subscribe/{id}', [EmailController::class, 'subscribe'])->name('email.subscribe');
+});
 
     // Recruiter routes
     Route::get('/recruiter', [RecruiterController::class, 'index'])->name('recruiter.index');
     Route::post('/recruiter/submit', [RecruiterController::class, 'submit'])->name('recruiter.submit');
     Route::get('dashboard/recuiter', [RecruiterController::class, 'show'])->name('dashboard.recruiter');
-});
 
 // Recruiter Dashboard Tabs
     Route::middleware(['auth', 'verified', 'checkUserType:3'])
