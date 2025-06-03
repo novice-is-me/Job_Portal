@@ -232,9 +232,14 @@ const tabs = [
 
             <!-- Page Content -->
             <main class="pt-16">
-                <div class="grid grid-cols-1 md:grid-cols-[1fr_4fr]">
+                <div
+                    class="h-[calc(100vh-4rem)] grid grid-cols-1 md:grid-cols-[1fr_4fr]"
+                >
                     <!-- Sidebar -->
-                    <div class="bg-white border">
+                    <!-- Sidebar -->
+                    <div
+                        class="bg-white border sticky top-16 h-[calc(100vh-4rem)] overflow-y-auto"
+                    >
                         <div class="p-4 font-bold text-center border">
                             Recruiter Dashboard
                         </div>
@@ -257,7 +262,8 @@ const tabs = [
                             </Link>
                         </div>
                     </div>
-                    <div class="h-full overflow-y-auto">
+                    <!-- Right side main content -->
+                    <div class="h-full overflow-y-auto p-4">
                         <slot />
                     </div>
                 </div>
