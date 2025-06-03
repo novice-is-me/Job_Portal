@@ -25,7 +25,7 @@ Route::get('/', function () {
     ]);
 });
 
-Route::middleware(['auth', 'verified'])->group(function () {
+Route::middleware(['auth', 'verified', 'checkUserType:1'])->group(function () {
     // Profile
     Route::get('/profile', [UserController::class, 'index'])->name('profile.index');
     Route::get('/profile/edit', [UserController::class, 'edit'])->name('profile.edit');
@@ -71,26 +71,30 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/recruiter', [RecruiterController::class, 'index'])->name('recruiter.index');
     Route::post('/recruiter/submit', [RecruiterController::class, 'submit'])->name('recruiter.submit');
     Route::get('dashboard/recuiter', [RecruiterController::class, 'show'])->name('dashboard.recruiter');
-
-    // Recruiter Dashboard Tabs
-    Route::prefix('dashboard/recruiter')->name('dashboard.recruiter.')->group(function () {
-        Route::get('/', [RecruiterController::class, 'show'])->name('company');
-        Route::get('/jobs', [RecruiterController::class, 'jobs'])->name('jobs');
-        Route::get('/candidates', [RecruiterController::class, 'candidates'])->name('candidates');
-        Route::get('/analytics', [RecruiterController::class, 'analytics'])->name('analytics');
-        Route::get('/jobs/search', [RecruiterController::class, 'searchJobs'])->name('jobs.search');
-
-        // Post routed
-        Route::post('values', [RecruiterController::class, 'submitValues'])->name('submit.values');
-        Route::post('benefits', [RecruiterController::class, 'submitBenefits'])->name('submit.benefits');
-        Route::post('add-jobs', [RecruiterController::class, 'addJobs'])->name('submit.add-jobs');
-        Route::delete('delete-job/', [RecruiterController::class, 'deleteJob'])->name('delete.job');
-        Route::post('update-job', [RecruiterController::class, 'updateJob'])->name('update.job');
-        Route::post('update-status', [RecruiterController::class, 'updateJobStatus'])->name('update.status');
-        Route::post('set-interview', [RecruiterController::class, 'submitInterview'])->name('submit.interview');
-        Route::post('reject-candidate', [RecruiterController::class, 'rejectCandidate'])->name('reject.candidate');
-    });
-
 });
 
+// Recruiter Dashboard Tabs
+    Route::middleware(['auth', 'verified', 'checkUserType:3'])
+        ->prefix('dashboard/recruiter')
+        ->name('dashboard.recruiter.')
+        ->group(function () {
+            Route::get('/', [RecruiterController::class, 'show'])->name('company');
+            Route::get('/jobs', [RecruiterController::class, 'jobs'])->name('jobs');
+            Route::get('/candidates', [RecruiterController::class, 'candidates'])->name('candidates');
+            Route::get('/analytics', [RecruiterController::class, 'analytics'])->name('analytics');
+            Route::get('/jobs/search', [RecruiterController::class, 'searchJobs'])->name('jobs.search');
+
+            // Post routed
+            Route::post('values', [RecruiterController::class, 'submitValues'])->name('submit.values');
+            Route::post('benefits', [RecruiterController::class, 'submitBenefits'])->name('submit.benefits');
+            Route::post('add-jobs', [RecruiterController::class, 'addJobs'])->name('submit.add-jobs');
+            Route::delete('delete-job/', [RecruiterController::class, 'deleteJob'])->name('delete.job');
+            Route::post('update-job', [RecruiterController::class, 'updateJob'])->name('update.job');
+            Route::post('update-status', [RecruiterController::class, 'updateJobStatus'])->name('update.status');
+            Route::post('set-interview', [RecruiterController::class, 'submitInterview'])->name('submit.interview');
+            Route::post('reject-candidate', [RecruiterController::class, 'rejectCandidate'])->name('reject.candidate');
+    });
+
+
 require __DIR__.'/auth.php';
+ 
