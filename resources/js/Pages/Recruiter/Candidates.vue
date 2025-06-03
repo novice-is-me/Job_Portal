@@ -107,7 +107,7 @@ const viewApplicant = async (data) => {
         <!-- Applicants info -->
         <div
             v-if="isViewApplicant"
-            class="bg-gray-100 p-4 border-red-500 border grid grid-cols-1 md:grid-cols-[2fr,1fr] gap-x-4 gap-y-4"
+            class="bg-gray-100 p-4 grid grid-cols-1 md:grid-cols-[2fr,1fr] gap-x-4 gap-y-4"
         >
             <ApplicantsInformation
                 :applicant="selectedApplicant"

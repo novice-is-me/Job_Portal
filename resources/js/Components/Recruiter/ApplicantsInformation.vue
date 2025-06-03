@@ -5,6 +5,7 @@ import WorkExperience from "../Profile/Tabs/Partials/WorkExperience.vue";
 import EducationComponent from "../Profile/Tabs/Partials/EducationComponent.vue";
 import SkillsComponent from "../Job/SkillsComponent.vue";
 import ApplicantsDocument from "./ApplicantsDocument.vue";
+import { Avatar } from "primevue";
 
 const props = defineProps({
     applicant: Object,
@@ -60,13 +61,32 @@ const back = () => {
         <div
             class="bg-white p-4 rounded-lg shadow-md mt-4 flex justify-between items-center"
         >
-            <div>
-                <p class="font-[Poppins] text-xl font-bold">
-                    {{ applicant.user.name }}
-                </p>
-                <p class="text-secondary">
-                    {{ applicant.user.headline }}
-                </p>
+            <div class="space-y-4">
+                <div class="flex items-center gap-x-4">
+                    <div
+                        v-if="applicant.user.profile_picture"
+                        class="bg-gray-400 rounded-full overflow-hidden w-20 h-20"
+                    >
+                        <img
+                            :src="`/storage/${applicant.user.profile_picture}`"
+                            alt=""
+                        />
+                    </div>
+                    <Avatar
+                        v-if="!applicant.user.profile_picture"
+                        size="large"
+                        shape="circle"
+                        icon="pi pi-user"
+                    />
+                    <div>
+                        <p class="font-[Poppins] text-xl font-bold">
+                            {{ applicant.user.name }}
+                        </p>
+                        <p class="text-secondary">
+                            {{ applicant.user.headline }}
+                        </p>
+                    </div>
+                </div>
                 <div
                     v-if="applicant.interview_at"
                     class="flex items-center gap-x-2 text-red-500"
